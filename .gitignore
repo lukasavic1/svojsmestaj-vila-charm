@@ -1,0 +1,17 @@
+﻿node_modules/
+.next/
+out/
+build/
+.DS_Store
+*.pem
+.env
+.env*.local
+.vercel
+.staro/
+.claude/
+*.tsbuildinfo
+next-env.d.ts
+
+# Source/duplicate raw videos (site uses public/videos/*)
+images/*.mp4
+images/*.MP4
