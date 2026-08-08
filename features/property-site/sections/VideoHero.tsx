@@ -12,6 +12,7 @@ export function VideoHero() {
   const { unit, locale, ui, bookUnit } = useDemo();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [failed, setFailed] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const el = videoRef.current;
@@ -20,21 +21,54 @@ export function VideoHero() {
     el.muted = true;
     el.defaultMuted = true;
     el.playsInline = true;
+    el.setAttribute("playsinline", "");
+    el.setAttribute("webkit-playsinline", "");
     el.playbackRate = 0.75;
 
     const tryPlay = () => {
-      void el.play().catch(() => {});
+      const p = el.play();
+      if (p !== undefined) {
+        void p
+          .then(() => setPlaying(true))
+          .catch(() => setPlaying(false));
+      }
     };
+
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(!el.paused);
+    const onPlaying = () => setPlaying(true);
 
     tryPlay();
     el.addEventListener("loadeddata", tryPlay);
     el.addEventListener("canplay", tryPlay);
+    el.addEventListener("play", onPlay);
+    el.addEventListener("playing", onPlaying);
+    el.addEventListener("pause", onPause);
+
+    /* Retry after tab focus / Low Power Mode gesture window */
+    const onVis = () => {
+      if (document.visibilityState === "visible") tryPlay();
+    };
+    document.addEventListener("visibilitychange", onVis);
 
     return () => {
       el.removeEventListener("loadeddata", tryPlay);
       el.removeEventListener("canplay", tryPlay);
+      el.removeEventListener("play", onPlay);
+      el.removeEventListener("playing", onPlaying);
+      el.removeEventListener("pause", onPause);
+      document.removeEventListener("visibilitychange", onVis);
     };
   }, [failed]);
+
+  const startFromGesture = () => {
+    const el = videoRef.current;
+    if (!el || failed) return;
+    el.muted = true;
+    void el.play()
+      .then(() => setPlaying(true))
+      .catch(() => setPlaying(false));
+  };
 
   return (
     <section className="vh-hero" aria-label={tx(unit.name, locale)}>
@@ -49,11 +83,18 @@ export function VideoHero() {
             playsInline
             preload="auto"
             poster={heroVideo.poster}
+            disablePictureInPicture
+            disableRemotePlayback
+            controls={false}
+            controlsList="nodownload nofullscreen noremoteplayback"
             onError={() => setFailed(true)}
           >
             <source src={heroVideo.src} type="video/mp4" />
           </video>
-        ) : (
+        ) : null}
+
+        {/* Poster covers native iOS play glyph when autoplay is blocked */}
+        {(failed || !playing) && (
           <Image
             src={heroVideo.poster}
             alt=""
@@ -64,6 +105,16 @@ export function VideoHero() {
             className="vh-hero-fallback"
           />
         )}
+
+        {!failed && !playing ? (
+          <button
+            type="button"
+            className="vh-hero-tap"
+            onClick={startFromGesture}
+            aria-label={locale === "sr" ? "Pokreni video" : "Play video"}
+          />
+        ) : null}
+
         <div className="vh-hero-veil" />
       </div>
 
