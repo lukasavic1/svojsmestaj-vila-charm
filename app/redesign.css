@@ -1092,125 +1092,64 @@
   display: none;
 }
 
-/* ——— Mobile + tablet: Atmosphere Deck ——— */
-.vh-exp-deck {
-  display: grid;
-  gap: 0.85rem;
-}
-
-.vh-exp-deck-stage {
-  position: relative;
-  padding: 0;
-  overflow: visible;
-  background: transparent;
-}
-
-.vh-exp-watermark {
-  display: none;
-}
-
-.vh-exp-stack {
-  position: relative;
-  z-index: 1;
-  aspect-ratio: 3 / 4;
-  min-height: 24rem;
-  touch-action: pan-y;
-  cursor: grab;
-  user-select: none;
-  background: transparent;
-}
-
-.vh-exp-stack:active {
-  cursor: grabbing;
-}
-
-/* One-time swipe tutorial nudge */
-.vh-exp-stack.is-hinting .vh-exp-layer--front {
-  animation: vh-exp-swipe-hint 2.6s cubic-bezier(0.22, 1.15, 0.36, 1) both;
-}
-
-@keyframes vh-exp-swipe-hint {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  12% {
-    transform: translate3d(-22px, 0, 0) rotate(-2.6deg);
-  }
-  24% {
-    transform: translate3d(16px, 0, 0) rotate(1.8deg);
-  }
-  38% {
-    transform: translate3d(-14px, 0, 0) rotate(-1.6deg);
-  }
-  52% {
-    transform: translate3d(12px, 0, 0) rotate(1.2deg);
-  }
-  66% {
-    transform: translate3d(-9px, 0, 0) rotate(-0.9deg);
-  }
-  80% {
-    transform: translate3d(6px, 0, 0) rotate(0.5deg);
-  }
-  90% {
-    transform: translate3d(-3px, 0, 0) rotate(-0.25deg);
-  }
-}
-
 .vh-exp-card {
   position: relative;
 }
 
-.vh-exp-layer {
-  position: absolute;
-  inset: 0;
+/* ——— Mobile + tablet: tap-to-expand filmstrip ——— */
+.vh-exp-film {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.vh-exp-film-stage {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  min-height: 22.5rem;
+  max-height: min(72svh, 36rem);
   overflow: hidden;
-  border-radius: 1.5rem;
+  border-radius: var(--r-lg);
   color: var(--on-dark);
   isolation: isolate;
-  box-shadow: 0 18px 40px rgba(12, 36, 33, 0.16);
   background: #121916;
+  box-shadow: 0 18px 40px rgba(12, 36, 33, 0.14);
 }
 
-.vh-exp-layer--peek {
-  z-index: 1;
-  /* Same bounds as front — revealed only while swiping, no back-shelf frame */
-  inset: 0;
-  transform: none;
-  opacity: 1;
-  pointer-events: none;
-  box-shadow: none;
-}
-
-.vh-exp-layer--front {
-  z-index: 2;
-  will-change: transform, opacity;
-}
-
-.vh-exp-layer-media {
+.vh-exp-film-slide {
   position: absolute;
   inset: 0;
-  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.55s var(--ease),
+    visibility 0.55s var(--ease);
+  z-index: 0;
 }
 
-.vh-exp-kenburns {
+.vh-exp-film-slide.is-on {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+.vh-exp-film-img {
   object-fit: cover;
-  transform-origin: 55% 40%;
-  animation: vh-exp-kenburns 14s ease-in-out infinite alternate;
+  object-position: center;
+  transform: scale(1.04);
+  transition: transform 0.9s var(--ease);
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
 }
 
-@keyframes vh-exp-kenburns {
-  from { transform: scale(1.04) translate3d(0, 0, 0); }
-  to { transform: scale(1.14) translate3d(-2.5%, -1.5%, 0); }
+.vh-exp-film-slide.is-on .vh-exp-film-img {
+  transform: scale(1);
 }
 
 .vh-exp-veil {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   background: linear-gradient(
     to top,
     rgba(8, 18, 16, 0.88) 0%,
@@ -1229,12 +1168,13 @@
   );
 }
 
-/* Desktop accordion still uses badge overlays */
+/* Badge: film copy + desktop accordion overlays */
 .vh-exp-badge {
   position: absolute;
   top: 1rem;
   left: 1rem;
   z-index: 2;
+  margin: 0;
   padding: 0.42rem 0.75rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 248, 241, 0.3);
@@ -1250,17 +1190,17 @@
   pointer-events: none;
 }
 
-.vh-exp-layer-copy {
+.vh-exp-film-copy {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
-  padding: 1.45rem 1.25rem 1.2rem;
-  animation: vh-exp-copy-in 0.55s cubic-bezier(0.22, 1.2, 0.36, 1);
+  z-index: 3;
+  padding: 1.4rem 1.2rem 1.25rem;
+  animation: vh-exp-film-copy-in 0.55s var(--ease) both;
 }
 
-@keyframes vh-exp-copy-in {
+@keyframes vh-exp-film-copy-in {
   from {
     opacity: 0;
     transform: translateY(14px);
@@ -1271,55 +1211,116 @@
   }
 }
 
-.vh-exp-layer-index {
-  margin: 0 0 0.45rem;
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255, 248, 241, 0.55);
+.vh-exp-film-copy .vh-exp-badge {
+  position: static;
+  display: inline-flex;
+  margin: 0 0 0.7rem;
 }
 
-.vh-exp-layer-copy h3 {
+.vh-exp-film-copy h3 {
   margin: 0;
   font-family: var(--font-heading), Georgia, serif;
-  font-size: clamp(1.55rem, 5.6vw, 2.15rem);
+  font-size: clamp(1.5rem, 5.4vw, 2.2rem);
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--on-dark);
   text-wrap: balance;
-  max-width: 14ch;
+  max-width: 15ch;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
 }
 
-.vh-exp-layer-copy > p:not(.vh-exp-layer-index) {
-  margin: 0.7rem 0 0;
-  max-width: 32ch;
-  font-size: clamp(0.9rem, 2.8vw, 1.02rem);
+.vh-exp-film-copy > p:not(.vh-exp-badge) {
+  margin: 0.65rem 0 0;
+  max-width: 34ch;
+  font-size: clamp(0.9rem, 2.8vw, 1.04rem);
   line-height: 1.55;
   color: var(--on-dark-muted);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
 }
 
-.vh-exp-dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.95rem;
+.vh-exp-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.45rem;
 }
 
-.vh-exp-dot {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 999px;
-  background: rgba(20, 40, 36, 0.18);
-  transition: width 0.35s var(--ease), background 0.35s var(--ease);
+.vh-exp-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  min-height: 4.25rem;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  border-radius: var(--r-sm);
+  background: #121916;
+  cursor: pointer;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(20, 40, 36, 0.1);
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    filter 0.35s var(--ease);
 }
 
-.vh-exp-dot.is-on {
-  width: 1.15rem;
-  background: var(--accent);
+.vh-exp-thumb .vh-photo {
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.45s var(--ease);
+  pointer-events: none;
+}
+
+.vh-exp-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(4, 10, 12, 0.72) 0%,
+    rgba(4, 10, 12, 0.15) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.vh-exp-thumb-label {
+  position: absolute;
+  left: 0.35rem;
+  right: 0.35rem;
+  bottom: 0.35rem;
+  z-index: 2;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+  text-align: left;
+  line-height: 1.2;
+  pointer-events: none;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.vh-exp-thumb:not(.is-on) {
+  filter: saturate(0.88) brightness(0.92);
+}
+
+.vh-exp-thumb.is-on {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 2px var(--accent),
+    0 10px 22px rgba(12, 36, 33, 0.16);
+}
+
+.vh-exp-thumb.is-on .vh-photo {
+  transform: scale(1.08);
+}
+
+.vh-exp-thumb:focus-visible {
+  box-shadow: 0 0 0 3px rgba(15, 76, 69, 0.4);
 }
 
 @media (max-width: 480px) {
@@ -1327,27 +1328,44 @@
     max-width: 14ch;
   }
 
-  .vh-exp-stack {
-    min-height: 22.5rem;
+  .vh-exp-film-stage {
+    min-height: 21rem;
+  }
+
+  .vh-exp-thumb-label {
+    font-size: 0.48rem;
+    letter-spacing: 0.06em;
   }
 }
 
 @media (min-width: 700px) and (max-width: 1024px) {
-  .vh-exp-stack {
-    aspect-ratio: 5 / 4;
-    min-height: 28rem;
+  .vh-exp-film {
     max-width: 42rem;
     margin-inline: auto;
   }
 
-  .vh-exp-layer-copy h3 {
+  .vh-exp-film-stage {
+    aspect-ratio: 5 / 4;
+    min-height: 26rem;
+    max-height: min(62svh, 34rem);
+  }
+
+  .vh-exp-film-copy h3 {
     max-width: 18ch;
+  }
+
+  .vh-exp-strip {
+    gap: 0.55rem;
+  }
+
+  .vh-exp-thumb {
+    min-height: 5rem;
   }
 }
 
 /* ——— Desktop (1025+): horizontal hover accordion ——— */
 @media (min-width: 1025px) {
-  .vh-exp-deck {
+  .vh-exp-film {
     display: none;
   }
 
@@ -3618,13 +3636,19 @@
   .vh-exp-card,
   .vh-exp-card .vh-photo,
   .vh-exp-card .vh-exp-copy p,
-  .vh-exp-layer--peek,
-  .vh-exp-dot {
+  .vh-exp-film-slide,
+  .vh-exp-film-img,
+  .vh-exp-thumb,
+  .vh-exp-thumb .vh-photo {
     transition: none !important;
   }
-  .vh-exp-kenburns,
-  .vh-exp-layer-copy,
-  .vh-exp-stack.is-hinting .vh-exp-layer--front {
+  .vh-exp-film-copy {
     animation: none !important;
+  }
+  .vh-exp-film-img,
+  .vh-exp-film-slide.is-on .vh-exp-film-img,
+  .vh-exp-thumb .vh-photo,
+  .vh-exp-thumb.is-on .vh-photo {
+    transform: none !important;
   }
 }
