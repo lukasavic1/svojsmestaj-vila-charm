@@ -8,7 +8,6 @@ import { IMAGE_QUALITY } from "@/lib/images";
 import { tx } from "@/lib/i18n";
 
 const SLIDE_MS = 2800;
-/** Fail over to stills quickly — success path exits boot on first `playing`. */
 const STILLS_FALLBACK_MS = 380;
 
 const FALLBACK_SLIDES = [
@@ -29,24 +28,71 @@ function stopVideoLoad(el: HTMLVideoElement) {
 }
 
 /**
- * boot  → dark hold (no photos)
- * video → clip playing (no slideshow flash before it)
- * stills → photo slideshow only after autoplay is confirmed blocked
+ * boot  → short loader
+ * video → clip (paused when hero leaves viewport — smoother scroll)
+ * stills → slideshow only if autoplay blocked
  */
 export function VideoHero() {
   const { unit, locale, ui, bookUnit } = useDemo();
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const phaseRef = useRef<Phase>("boot");
   const [phase, setPhase] = useState<Phase>("boot");
   const [slide, setSlide] = useState(0);
   const [mountVideo, setMountVideo] = useState(true);
+  const [inView, setInView] = useState(true);
+
+  const setPhaseSafe = (next: Phase) => {
+    phaseRef.current = next;
+    setPhase(next);
+  };
+
+  /* Pause media via IO — avoid React re-renders / CSS thrash mid-scroll */
+  useEffect(() => {
+    const root = sectionRef.current;
+    if (!root) return;
+
+    let visible = true;
+    const syncMedia = (next: boolean) => {
+      if (next === visible) return;
+      visible = next;
+      root.classList.toggle("is-away", !next);
+
+      const el = videoRef.current;
+      if (el && phaseRef.current === "video") {
+        if (next) {
+          el.playbackRate = 0.75;
+          void el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      }
+
+      setInView(next);
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        /* Hysteresis: pause early, resume only when clearly back */
+        if (visible) {
+          syncMedia(entry.intersectionRatio > 0.08);
+        } else {
+          syncMedia(entry.isIntersecting && entry.intersectionRatio > 0.22);
+        }
+      },
+      { threshold: [0, 0.08, 0.22, 0.4] }
+    );
+    io.observe(root);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
-    if (phase !== "stills") return;
+    if (phase !== "stills" || !inView) return;
     const id = window.setInterval(() => {
       setSlide((i) => (i + 1) % FALLBACK_SLIDES.length);
     }, SLIDE_MS);
     return () => window.clearInterval(id);
-  }, [phase]);
+  }, [phase, inView]);
 
   useEffect(() => {
     if (!mountVideo) return;
@@ -68,7 +114,7 @@ export function VideoHero() {
       if (settled) return;
       settled = true;
       window.clearTimeout(timer);
-      setPhase("video");
+      setPhaseSafe("video");
     };
 
     const toStills = () => {
@@ -77,7 +123,7 @@ export function VideoHero() {
       window.clearTimeout(timer);
       stopVideoLoad(el);
       setMountVideo(false);
-      setPhase("stills");
+      setPhaseSafe("stills");
     };
 
     const tryPlay = () => {
@@ -105,7 +151,10 @@ export function VideoHero() {
 
   return (
     <section
-      className={`vh-hero${phase === "stills" ? " vh-hero--stills" : " vh-hero--boot"}`}
+      ref={sectionRef}
+      className={`vh-hero${
+        phase === "stills" ? " vh-hero--stills" : phase === "boot" ? " vh-hero--boot" : ""
+      }`}
       aria-label={tx(unit.name, locale)}
     >
       <div className="vh-hero-media" aria-hidden="true">
