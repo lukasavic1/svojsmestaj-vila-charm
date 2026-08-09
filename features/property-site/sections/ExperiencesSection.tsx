@@ -42,10 +42,13 @@ export function ExperiencesSection() {
   const [exitDir, setExitDir] = useState<0 | 1 | -1>(0);
   const [active, setActive] = useState(0);
   const [desktopHover, setDesktopHover] = useState(false);
+  const [hintShake, setHintShake] = useState(false);
   const pointerRef = useRef<{ id: number; x: number; armed: boolean } | null>(
     null
   );
   const lockRef = useRef(false);
+  const deckRef = useRef<HTMLDivElement>(null);
+  const hintedRef = useRef(false);
 
   const atmospheres: Atmosphere[] =
     locale === "sr"
@@ -195,10 +198,40 @@ export function ExperiencesSection() {
     return () => hoverMq.removeEventListener("change", sync);
   }, []);
 
+  /* Brief swipe nudge once the deck is in view — replaces the old tab menu cue */
+  useEffect(() => {
+    if (desktopHover || hintedRef.current) return;
+    const root = deckRef.current;
+    if (!root) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      hintedRef.current = true;
+      return;
+    }
+
+    let stopTimer = 0;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || hintedRef.current) return;
+        hintedRef.current = true;
+        window.setTimeout(() => setHintShake(true), 280);
+        stopTimer = window.setTimeout(() => setHintShake(false), 3100);
+        io.disconnect();
+      },
+      { threshold: 0.42 }
+    );
+    io.observe(root);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(stopTimer);
+    };
+  }, [desktopHover]);
+
   const goTo = (next: number, dir: 1 | -1 = 1) => {
     if (lockRef.current) return;
     const wrapped = ((next % count) + count) % count;
     if (wrapped === deckIndex) return;
+    hintedRef.current = true;
+    setHintShake(false);
     lockRef.current = true;
     setExitDir(dir);
     window.setTimeout(() => {
@@ -214,6 +247,8 @@ export function ExperiencesSection() {
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (lockRef.current || e.button !== 0) return;
+    hintedRef.current = true;
+    setHintShake(false);
     pointerRef.current = { id: e.pointerId, x: e.clientX, armed: true };
     setDragging(true);
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -249,13 +284,15 @@ export function ExperiencesSection() {
             opacity: 0,
             transition: `transform 0.38s ${SPRING}, opacity 0.32s ease`,
           }
-        : {
-            transform: `translate3d(${dragX}px, 0, 0) rotate(${dragX * 0.03}deg)`,
-            opacity: 1 - Math.min(Math.abs(dragX) / 420, 0.35),
-            transition: dragging
-              ? "none"
-              : `transform 0.5s ${SPRING}, opacity 0.35s ease`,
-          };
+        : hintShake && !dragging
+          ? undefined /* let CSS swipe-hint animation own transform */
+          : {
+              transform: `translate3d(${dragX}px, 0, 0) rotate(${dragX * 0.03}deg)`,
+              opacity: 1 - Math.min(Math.abs(dragX) / 420, 0.35),
+              transition: dragging
+                ? "none"
+                : `transform 0.5s ${SPRING}, opacity 0.35s ease`,
+            };
 
   return (
     <section className="vh-exp" id="iskustva" aria-labelledby="exp-title">
@@ -276,41 +313,25 @@ export function ExperiencesSection() {
           </p>
         </Reveal>
 
-        {/* Mobile + tablet: Atmosphere Deck */}
+        {/* Mobile + tablet: Atmosphere Deck — no tab strip; one shake cue for swipe */}
         <Reveal className="vh-exp-deck" delay={40}>
-          <nav
-            className="vh-exp-strip"
-            aria-label={
-              locale === "sr" ? "Atmosfere na imanju" : "Estate atmospheres"
-            }
-          >
-            {atmospheres.map((a, i) => (
-              <button
-                key={a.id}
-                type="button"
-                className={`vh-exp-strip-item${i === deckIndex ? " is-on" : ""}`}
-                aria-current={i === deckIndex ? "true" : undefined}
-                onClick={() => goTo(i, i > deckIndex ? 1 : -1)}
-              >
-                <span className="vh-exp-strip-num">{a.index}</span>
-                <span className="vh-exp-strip-label">{a.label}</span>
-              </button>
-            ))}
-          </nav>
-
-          <div className="vh-exp-deck-stage">
+          <div className="vh-exp-deck-stage" ref={deckRef}>
             <p className="vh-exp-watermark" aria-hidden="true">
               {locale === "sr" ? "Atmosfera" : "Atmosphere"}
             </p>
 
             <div
-              className="vh-exp-stack"
+              className={`vh-exp-stack${hintShake ? " is-hinting" : ""}`}
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
               onPointerCancel={onPointerUp}
+              role="region"
+              aria-roledescription="carousel"
+              aria-label={
+                locale === "sr" ? "Atmosfere na imanju" : "Estate atmospheres"
+              }
             >
-              {/* Centered depth peek */}
               <article className="vh-exp-layer vh-exp-layer--peek" aria-hidden="true">
                 <Image
                   src={peek.image}
@@ -323,7 +344,6 @@ export function ExperiencesSection() {
                 <span className="vh-exp-veil" />
               </article>
 
-              {/* Active front card */}
               <article
                 className="vh-exp-layer vh-exp-layer--front"
                 style={frontStyle}
@@ -344,24 +364,22 @@ export function ExperiencesSection() {
                 </div>
                 <span className="vh-exp-veil vh-exp-veil--heavy" aria-hidden="true" />
                 <div className="vh-exp-layer-copy">
+                  <p className="vh-exp-layer-index" aria-hidden="true">
+                    {front.index}
+                  </p>
                   <h3>{front.title}</h3>
                   <p>{front.body}</p>
-                  <button
-                    type="button"
-                    className="vh-exp-prompt"
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      advance();
-                    }}
-                  >
-                    {locale === "sr"
-                      ? "Prevuci za sledeći trenutak"
-                      : "Swipe for the next moment"}
-                    <span aria-hidden="true"> →</span>
-                  </button>
                 </div>
               </article>
+            </div>
+
+            <div className="vh-exp-dots" aria-hidden="true">
+              {atmospheres.map((a, i) => (
+                <span
+                  key={a.id}
+                  className={`vh-exp-dot${i === deckIndex ? " is-on" : ""}`}
+                />
+              ))}
             </div>
           </div>
         </Reveal>
