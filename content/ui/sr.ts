@@ -86,7 +86,7 @@ export const uiSr: UiDictionary = {
     progressLabel: "Korak rezervacije",
     back: "Nazad",
     continue: "Nastavi",
-    confirm: "Potvrdi rezervaciju",
+    confirm: "Potvrdi",
     selectUnit: "Izaberite",
     selected: "Izabrano",
     viewPhotos: "Pogledaj fotografije",

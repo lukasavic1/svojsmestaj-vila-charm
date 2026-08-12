@@ -6,7 +6,7 @@ import { t3 } from "@/lib/i18n";
 
 /** Catchy rate story — equal cards, strong type, clear CTA only below. */
 export function PricingSection() {
-  const { locale, bookUnit, unit, ui } = useDemo();
+  const { locale } = useDemo();
 
   const perNight = t3(locale, "€ / noć", "€ / night", "€ / ночь");
 
@@ -110,13 +110,6 @@ export function PricingSection() {
               </li>
             ))}
           </ul>
-          <button
-            type="button"
-            className="vh-btn vh-btn--bronze"
-            onClick={() => bookUnit(unit.id)}
-          >
-            {ui.booking.checkAvailability}
-          </button>
         </Reveal>
 
         <p className="vh-pricing-fine">

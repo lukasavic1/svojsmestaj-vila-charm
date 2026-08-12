@@ -2772,13 +2772,21 @@ body:has(.modal-root) .discovery-card {
   animation: rise 0.32s ease;
 }
 .wiz-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
   gap: 12px;
   margin-top: 28px;
   padding-top: 20px;
   border-top: 1px solid var(--line);
+  width: 100%;
+}
+.wiz-nav--split {
+  grid-template-columns: 1fr 1fr;
+}
+.wiz-nav .btn {
+  width: 100%;
+  justify-content: center;
 }
 .wiz-nav .btn:disabled {
   opacity: 0.45;
@@ -3183,6 +3191,140 @@ body:has(.modal-root) .discovery-card {
 .modal-panel--wide {
   width: min(560px, 100%);
   padding: 22px 20px 18px;
+}
+
+.modal-panel--booking {
+  width: min(960px, 100%);
+  max-height: min(90svh, 980px);
+}
+
+.modal-panel--booking .modal-body {
+  padding-top: 0.25rem;
+}
+
+.modal-panel--booking .booking-wizard {
+  max-width: none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.modal-panel--booking .booking-wizard-head {
+  padding-right: 2.5rem;
+}
+
+/* Mobile / tablet: floating card, never flush to screen edges */
+@media (max-width: 900px) {
+  .modal-root:has(.modal-panel--booking) {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    place-items: center;
+    padding:
+      max(1rem, env(safe-area-inset-top, 0px))
+      0.85rem
+      max(1.25rem, env(safe-area-inset-bottom, 0px));
+    background: rgba(12, 22, 20, 0.58);
+    backdrop-filter: blur(12px) saturate(115%);
+    -webkit-backdrop-filter: blur(12px) saturate(115%);
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .modal-panel--booking {
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 34rem);
+    max-width: 100%;
+    height: auto;
+    max-height: calc(
+      100svh - max(1rem, env(safe-area-inset-top, 0px)) -
+        max(1.25rem, env(safe-area-inset-bottom, 0px)) - 1.5rem
+    );
+    margin: 0;
+    padding: 0.25rem 1rem 1.15rem;
+    border-radius: 20px !important;
+    border: 1px solid rgba(20, 40, 36, 0.08);
+    box-shadow:
+      0 22px 56px rgba(8, 16, 14, 0.38),
+      0 0 0 1px rgba(255, 248, 241, 0.06) inset;
+    overflow: hidden;
+    touch-action: pan-y;
+    animation: vh-book-sheet-up 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .modal-panel--booking .modal-sheet-handle {
+    display: block;
+    flex: none;
+    margin: 0.45rem auto 0.55rem;
+    background: rgba(20, 40, 36, 0.2);
+  }
+
+  .modal-panel--booking .modal-close {
+    top: 0.55rem;
+    right: 0.55rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    z-index: 2;
+  }
+
+  .modal-panel--booking .modal-body {
+    overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 0 0.5rem;
+  }
+
+  .modal-panel--booking .booking-wizard-head .sec-lead {
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-panel--booking .wiz-nav {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    justify-content: stretch;
+    gap: 0.65rem;
+    width: 100%;
+    margin-top: 1.15rem;
+    padding: 1rem 0 0.35rem;
+    border-top: 1px solid rgba(20, 40, 36, 0.1);
+    background: transparent;
+  }
+
+  .modal-panel--booking .wiz-nav--split {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modal-panel--booking .wiz-nav .btn,
+  .modal-panel--booking .wiz-nav .btn-solid,
+  .modal-panel--booking .wiz-nav .btn-ghost-dark,
+  .modal-panel--booking .wiz-nav .btn-ghost {
+    width: 100% !important;
+    min-width: 0;
+    justify-content: center;
+  }
+}
+
+@keyframes vh-book-sheet-up {
+  from {
+    opacity: 0.5;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-panel--booking {
+    animation: none !important;
+  }
 }
 
 .wiz-dates-layout,

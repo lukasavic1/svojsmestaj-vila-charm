@@ -8,7 +8,7 @@ import { IMAGE_QUALITY } from "@/lib/images";
 import { tx } from "@/lib/i18n";
 
 export function ClosingSection() {
-  const { unit, locale, ui, bookUnit } = useDemo();
+  const { unit, locale } = useDemo();
 
   return (
     <section className="vh-closing" aria-labelledby="closing-title">
@@ -29,13 +29,6 @@ export function ClosingSection() {
             {tx(unit.name, locale)}
           </h2>
           <p className="vh-closing-meta">{tx(unit.region, locale)}</p>
-          <button
-            type="button"
-            className="vh-btn vh-btn--ghost"
-            onClick={() => bookUnit(unit.id)}
-          >
-            {ui.booking.checkAvailability}
-          </button>
         </Reveal>
       </div>
     </section>

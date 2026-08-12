@@ -31,10 +31,14 @@ type DemoContextValue = {
   unit: Unit;
   units: Unit[];
   bookingPrefillUnitId: string | null;
+  bookingOpen: boolean;
   setPackageId: (id: PackageId) => void;
   setLocale: (locale: Locale) => void;
   setUnitId: (id: string) => void;
-  /** Select unit and jump to booking wizard with it pre-filled. */
+  /** Open booking sheet (optionally pre-select a unit). */
+  openBooking: (id?: string) => void;
+  closeBooking: () => void;
+  /** Select unit and open booking sheet. */
   bookUnit: (id: string) => void;
 };
 
@@ -65,6 +69,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [bookingPrefillUnitId, setBookingPrefillUnitId] = useState<string | null>(
     null
   );
+  const [bookingOpen, setBookingOpen] = useState(false);
 
   const experience = getExperience(packageId);
 
@@ -100,14 +105,44 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     [packageId, syncUrl]
   );
 
-  const bookUnit = useCallback((id: string) => {
-    setUnitId(id);
-    setBookingPrefillUnitId(id);
-    window.requestAnimationFrame(() => {
-      document
-        .getElementById("termini")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+  const openBooking = useCallback((id?: string) => {
+    if (id) {
+      setUnitId(id);
+      setBookingPrefillUnitId(id);
+    }
+    setBookingOpen(true);
+    if (typeof window !== "undefined" && window.location.hash !== "#termini") {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#termini`);
+    }
+  }, []);
+
+  const closeBooking = useCallback(() => {
+    setBookingOpen(false);
+    if (typeof window !== "undefined" && window.location.hash === "#termini") {
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${window.location.search}`
+      );
+    }
+  }, []);
+
+  const bookUnit = useCallback(
+    (id: string) => {
+      openBooking(id);
+    },
+    [openBooking]
+  );
+
+  useEffect(() => {
+    const syncFromHash = () => {
+      if (window.location.hash === "#termini") {
+        setBookingOpen(true);
+      }
+    };
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
   }, []);
 
   const allUnits = property.units;
@@ -145,9 +180,12 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       unit,
       units: visibleUnits,
       bookingPrefillUnitId,
+      bookingOpen,
       setPackageId,
       setLocale,
       setUnitId,
+      openBooking,
+      closeBooking,
       bookUnit,
     }),
     [
@@ -159,8 +197,11 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       unit,
       visibleUnits,
       bookingPrefillUnitId,
+      bookingOpen,
       setPackageId,
       setLocale,
+      openBooking,
+      closeBooking,
       bookUnit,
     ]
   );

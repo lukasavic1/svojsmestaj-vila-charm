@@ -22,7 +22,7 @@ const NUMBER_LOCALE: Record<Locale, string> = {
  * Specs live in the intro; booking details stay in the float card on large screens.
  */
 export function ImmersiveHero() {
-  const { units, locale, ui, bookUnit } = useDemo();
+  const { units, locale, ui } = useDemo();
   const slides =
     units.length === 1
       ? heroSlides.length
@@ -177,14 +177,6 @@ export function ImmersiveHero() {
                 : ""}
             </span>
           </p>
-
-          <button
-            type="button"
-            className="btn btn-solid btn-glow hero-mobile-cta"
-            onClick={() => bookUnit(activeUnit.id)}
-          >
-            {ui.booking.checkAvailability}
-          </button>
         </div>
 
         <aside className="hero-float-card" key={`card-${activeUnit.id}`}>
@@ -227,14 +219,6 @@ export function ImmersiveHero() {
               </span>
             </li>
           </ul>
-
-          <button
-            type="button"
-            className="btn btn-solid btn-block btn-glow"
-            onClick={() => bookUnit(activeUnit.id)}
-          >
-            {ui.booking.checkAvailability}
-          </button>
         </aside>
       </div>
     </section>

@@ -17,13 +17,11 @@ function WizardBody() {
 
   useEffect(() => {
     if (stepScrollNonce === 0) return;
-    const target =
-      document.getElementById("termini-naslov") ??
-      document.getElementById("termini") ??
-      bodyRef.current;
+    const target = bodyRef.current;
     if (!target) return;
     const id = window.requestAnimationFrame(() => {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      target.closest(".modal-body")?.scrollTo({ top: 0, behavior: "smooth" });
     });
     return () => window.cancelAnimationFrame(id);
   }, [stepScrollNonce]);

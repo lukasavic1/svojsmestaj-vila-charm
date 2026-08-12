@@ -96,7 +96,7 @@ export function Modal({
       if (!target) return;
       if (
         target.closest(
-          ".qv-scroll, .modal-body, .modal-panel, .head-drawer, input, textarea"
+          ".qv-scroll, .modal-body, .modal-panel, .head-drawer, .vh-book-dock, .booking-wizard, .cal-grid, input, textarea"
         )
       ) {
         return;

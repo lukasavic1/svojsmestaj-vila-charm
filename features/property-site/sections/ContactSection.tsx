@@ -5,7 +5,7 @@ import { useDemo } from "@/features/demo/DemoProvider";
 import { t3, tx } from "@/lib/i18n";
 
 export function ContactSection() {
-  const { locale, ui, bookUnit, unit } = useDemo();
+  const { locale, ui } = useDemo();
   const c = property.contact;
 
   return (
@@ -19,21 +19,14 @@ export function ContactSection() {
             <h2 id="kontakt-naslov" className="vh-contact-title">
               {t3(
                 locale,
-                "Spremni za rezervaciju?",
-                "Ready to reserve?",
-                "Готовы забронировать?"
+                "Tu smo za sva pitanja.",
+                "We’re here for every question.",
+                "Мы на связи по любым вопросам."
               )}
             </h2>
             <p className="vh-contact-lead">
               {tx(c.lead, locale)}
             </p>
-            <button
-              type="button"
-              className="vh-btn vh-btn--bronze"
-              onClick={() => bookUnit(unit.id)}
-            >
-              {ui.booking.checkAvailability}
-            </button>
           </div>
 
           <ul className="vh-contact-cards">

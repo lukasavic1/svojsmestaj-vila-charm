@@ -6,7 +6,7 @@ import { useDemo } from "@/features/demo/DemoProvider";
 import { tx, txList } from "@/lib/i18n";
 
 export function ClassicHero() {
-  const { unit, locale, ui, bookHref } = useDemo();
+  const { unit, locale, ui } = useDemo();
   const badges = txList(unit.badges, locale);
 
   return (
@@ -39,9 +39,6 @@ export function ClassicHero() {
                 <b>{tx(unit.price.amount, locale)}</b>
                 <span>{tx(unit.price.note, locale)}</span>
               </div>
-              <a className="btn btn-solid btn-glow" href={bookHref}>
-                {ui.booking.sendInquiry}
-              </a>
             </div>
           </div>
         </div>

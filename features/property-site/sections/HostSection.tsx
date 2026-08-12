@@ -6,7 +6,7 @@ import { useDemo } from "@/features/demo/DemoProvider";
 import { tx, txList } from "@/lib/i18n";
 
 export function HostSection() {
-  const { locale, ui, bookHref } = useDemo();
+  const { locale, ui } = useDemo();
   const host = property.host;
   const booking = property.booking;
 
@@ -38,9 +38,6 @@ export function HostSection() {
                 <p key={i}>{par}</p>
               ))}
             </div>
-            <a className="btn btn-light btn-glow" href={bookHref}>
-              {ui.booking.sendInquiry}
-            </a>
           </div>
         </Reveal>
       </div>

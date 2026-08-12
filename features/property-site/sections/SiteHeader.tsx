@@ -40,7 +40,7 @@ function LangSwitch({
 }
 
 export function SiteHeader() {
-  const { locale, ui, bookHref, setLocale } = useDemo();
+  const { locale, ui, setLocale } = useDemo();
   const brand = property.units[0];
   const [stuck, setStuck] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -120,11 +120,11 @@ export function SiteHeader() {
       ? document.getElementById("top") ?? document.body
       : null;
 
-  const bookLabel = t3(
+  const contactLabel = t3(
     locale,
-    "Proveri termine",
-    "Check dates",
-    "Смотреть даты"
+    "Kontakt",
+    "Contact",
+    "Контакты"
   );
 
   const drawer =
@@ -160,17 +160,17 @@ export function SiteHeader() {
                 <a href="#cene" onClick={closeMenu}>
                   {t3(locale, "Cene", "Rates", "Цены")}
                 </a>
-                <a href="#termini" onClick={closeMenu}>
-                  {ui.nav.book}
+                <a href="#kontakt" onClick={closeMenu}>
+                  {ui.nav.contact}
                 </a>
               </nav>
               <div className="vh-menu-foot">
                 <a
                   className="vh-btn vh-btn--bronze vh-menu-cta"
-                  href={bookHref}
+                  href="#kontakt"
                   onClick={closeMenu}
                 >
-                  {bookLabel}
+                  {contactLabel}
                 </a>
               </div>
             </div>
@@ -197,9 +197,6 @@ export function SiteHeader() {
         <div className="vh-nav-end">
           <HeroVariantSwitcher />
           <LangSwitch locale={locale} setLocale={setLocale} className="vh-lang--nav" />
-          <a className="vh-nav-cta vh-btn vh-btn--bronze vh-btn--nav" href={bookHref}>
-            {bookLabel}
-          </a>
           <button
             type="button"
             className="vh-icon-btn vh-nav-burger"

@@ -86,7 +86,7 @@ export const uiRu: UiDictionary = {
     progressLabel: "Шаги бронирования",
     back: "Назад",
     continue: "Далее",
-    confirm: "Подтвердить бронирование",
+    confirm: "Подтвердить",
     selectUnit: "Выбрать",
     selected: "Выбрано",
     viewPhotos: "Смотреть фото",

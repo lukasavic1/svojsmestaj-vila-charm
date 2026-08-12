@@ -5,7 +5,7 @@ import { useDemo } from "@/features/demo/DemoProvider";
 import { t3, tx } from "@/lib/i18n";
 
 export function SiteFooter() {
-  const { ui, locale, bookHref } = useDemo();
+  const { ui, locale } = useDemo();
   const brand = property.units[0];
   const phone = property.contact.phone;
 
@@ -24,14 +24,6 @@ export function SiteFooter() {
               )}
             </p>
           </div>
-          <a className="vh-btn vh-btn--bronze vh-btn--nav" href={bookHref}>
-            {t3(
-              locale,
-              "Rezerviši boravak",
-              "Reserve your stay",
-              "Забронировать проживание"
-            )}
-          </a>
         </div>
 
         <div className="vh-footer-main">
@@ -56,7 +48,6 @@ export function SiteFooter() {
             <a href={`mailto:${property.contact.email}`}>
               {property.contact.email}
             </a>
-            <a href="#termini">{ui.nav.book}</a>
             <a href="#kontakt">{ui.nav.contact}</a>
           </nav>
 

@@ -33,7 +33,7 @@ function stopVideoLoad(el: HTMLVideoElement) {
  * stills → slideshow only if autoplay blocked
  */
 export function VideoHero() {
-  const { unit, locale, ui, bookUnit } = useDemo();
+  const { unit, locale } = useDemo();
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const phaseRef = useRef<Phase>("boot");
@@ -231,18 +231,6 @@ export function VideoHero() {
             "Сад, бассейн с подогревом и тишина — всего 25 минут от Белграда."
           )}
         </p>
-        <div className="vh-hero-actions">
-          <button
-            type="button"
-            className="vh-btn vh-btn--bronze"
-            onClick={() => bookUnit(unit.id)}
-          >
-            {ui.booking.checkAvailability}
-          </button>
-          <a className="vh-btn vh-btn--ghost vh-hero-secondary" href="#galerija">
-            {t3(locale, "Galerija", "Gallery", "Галерея")}
-          </a>
-        </div>
       </div>
     </section>
   );

@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { MetricIcon, type MetricIconId } from "@/components/ui/MetricIcon";
 import { Reveal } from "@/components/ui/Reveal";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
-import { t3, tx } from "@/lib/i18n";
+import { t3 } from "@/lib/i18n";
 
 /**
  * Single estate overview.
@@ -13,54 +12,48 @@ import { t3, tx } from "@/lib/i18n";
  * Desktop: catchy dual media + copy.
  */
 export function StatementSection() {
-  const { unit, locale, bookHref, ui } = useDemo();
+  const { unit, locale } = useDemo();
 
-  const metrics: { k: string; v: string; icon: MetricIconId }[] = [
+  const metrics: { k: string; v: string }[] = [
     {
       k: t3(locale, "2.000 m²", "2,000 m²", "2 000 м²"),
-      v: t3(locale, "Imanje", "Estate", "Усадьба"),
-      icon: "area",
+      v: t3(locale, "Parcela", "Grounds", "Участок"),
     },
     {
       k: t3(locale, "~25 min", "~25 min", "~25 мин"),
       v: t3(locale, "Do Beograda", "To Belgrade", "До Белграда"),
-      icon: "pin",
     },
     {
       k: t3(locale, "8×4 m", "8×4 m", "8×4 м"),
-      v: t3(locale, "Grejani bazen", "Heated pool", "Бассейн с подогревом"),
-      icon: "pool",
+      v: t3(locale, "Bazen", "Pool", "Бассейн"),
     },
     {
       k: String(unit.specs.capacity),
       v: t3(locale, "Noćenje", "Overnight", "Ночлег"),
-      icon: "bed",
     },
     {
       k: String(unit.specs.dayCapacity ?? "—"),
       v: t3(locale, "Dnevni gosti", "Day guests", "Гости днём"),
-      icon: "users",
     },
     {
       k: String(unit.specs.bathrooms),
       v: t3(locale, "Kupatila", "Bathrooms", "Санузлы"),
-      icon: "bath",
     },
   ];
 
   const headline = t3(
     locale,
-    "Mir, privatnost i prostor za okupljanja.",
-    "Quiet, privacy, and room to gather.",
-    "Тишина, приватность и простор для встреч."
+    "Kuća i bašta — jedan prostor za okupljanja.",
+    "House and garden — one place to gather.",
+    "Дом и сад — одно пространство для встреч."
   );
 
-  const lead = `${tx(unit.intro.lead, locale)} ${t3(
+  const lead = t3(
     locale,
-    "Na 2.000 m², oko 25 minuta od Beograda.",
-    "On 2,000 m², about 25 minutes from Belgrade.",
-    "На 2 000 м², примерно 25 минут от Белграда."
-  )}`;
+    "Privatno imanje van gradskog ritma, dovoljno blizu za vikend ili duži boravak.",
+    "A private estate away from the city pace, close enough for a weekend or a longer stay.",
+    "Частная усадьба вне городского ритма, достаточно близко для выходных или долгого отдыха."
+  );
 
   const mainImg = {
     src: "/images/exterior-1.jpg",
@@ -99,18 +92,11 @@ export function StatementSection() {
           >
             {metrics.slice(0, 4).map((m) => (
               <li key={m.v} className="vh-metric">
-                <span className="vh-metric-icon" aria-hidden="true">
-                  <MetricIcon id={m.icon} />
-                </span>
                 <strong>{m.k}</strong>
                 <span>{m.v}</span>
               </li>
             ))}
           </ul>
-
-          <a className="vh-btn vh-btn--bronze vh-m-cta" href={bookHref}>
-            {ui.booking.checkAvailability}
-          </a>
         </Reveal>
       </div>
 
@@ -135,13 +121,13 @@ export function StatementSection() {
           <h2 id="statement-title" className="vh-display">
             {headline}
           </h2>
-          <p className="vh-support">{tx(unit.intro.lead, locale)}</p>
+          <p className="vh-support">{lead}</p>
           <p className="vh-overview-note">
             {t3(
               locale,
-              "Rustični karakter uz savremen komfor — unutra i u bašti oko grejanog bazena.",
-              "Rustic character with modern comfort — indoors and in the garden by the heated pool.",
-              "Рустикальный характер и современный комфорт — внутри дома и в саду у бассейна с подогревом."
+              "Unutra toplina drveta i detalja; napolju terase i zelenilo za duže večeri.",
+              "Warm wood and detail indoors; terraces and greenery for longer evenings outside.",
+              "Внутри — тепло дерева и деталей; снаружи террасы и зелень для долгих вечеров."
             )}
           </p>
 
@@ -151,18 +137,11 @@ export function StatementSection() {
           >
             {metrics.map((m) => (
               <li key={m.v} className="vh-metric">
-                <span className="vh-metric-icon" aria-hidden="true">
-                  <MetricIcon id={m.icon} />
-                </span>
                 <strong>{m.k}</strong>
                 <span>{m.v}</span>
               </li>
             ))}
           </ul>
-
-          <a className="vh-btn vh-btn--bronze" href={bookHref}>
-            {ui.booking.checkAvailability}
-          </a>
         </Reveal>
       </div>
     </section>

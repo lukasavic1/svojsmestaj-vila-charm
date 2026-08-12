@@ -21,7 +21,7 @@ import { HeroSection } from "./sections/HeroSection";
 import { HostSection } from "./sections/HostSection";
 import { IntroSection } from "./sections/IntroSection";
 import { MapSection } from "./sections/MapSection";
-import { MobileBookBar } from "./sections/MobileBookBar";
+import { BookingBubble } from "./sections/BookingBubble";
 import { PricingSection } from "./sections/PricingSection";
 import { ReviewsSection } from "./sections/ReviewsSection";
 import { RulesSection } from "./sections/RulesSection";
@@ -75,7 +75,7 @@ function PropertyExperience() {
         })}
       </main>
       <SiteFooter />
-      <MobileBookBar />
+      <BookingBubble />
     </div>
   );
 }

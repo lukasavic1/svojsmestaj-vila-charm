@@ -86,7 +86,7 @@ export const uiEn: UiDictionary = {
     progressLabel: "Reservation steps",
     back: "Back",
     continue: "Continue",
-    confirm: "Confirm reservation",
+    confirm: "Confirm",
     selectUnit: "Select",
     selected: "Selected",
     viewPhotos: "View photos",

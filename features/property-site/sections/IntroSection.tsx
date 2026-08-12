@@ -9,7 +9,7 @@ import { t3, tx, txList } from "@/lib/i18n";
 
 /** Stay overview — desktop split; mobile feature card + capacity metrics. */
 export function IntroSection() {
-  const { unit, locale, bookHref, ui } = useDemo();
+  const { unit, locale } = useDemo();
   const living =
     unit.photos.find((p) => p.src.includes("living")) ?? unit.photos[0];
   const kitchen =
@@ -104,18 +104,6 @@ export function IntroSection() {
               </li>
             ))}
           </ul>
-
-          <a className="vh-btn vh-btn--bronze vh-m-cta" href="#termini">
-            {ui.booking.checkAvailability}
-          </a>
-          <a className="vh-m-link" href={bookHref}>
-            {t3(
-              locale,
-              "Ceo raspored",
-              "Full schedule",
-              "Весь календарь"
-            )}
-          </a>
         </Reveal>
       </div>
 
