@@ -123,7 +123,7 @@ export function IntroSection() {
         </Reveal>
 
         <Reveal className="vh-space-copy" delay={40}>
-          <p className="vh-label">{stayLabel}</p>
+          <p className="vh-pill">{stayLabel}</p>
           <h2 id="space-title" className="vh-title">
             {tx(unit.intro.heading, locale)}
           </h2>

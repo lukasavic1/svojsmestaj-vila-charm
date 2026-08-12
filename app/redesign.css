@@ -66,10 +66,17 @@
 }
 
 /* ——— Type ——— */
-.vh-label {
+.vh-label,
+.vh-pill {
+  display: inline-flex;
+  align-items: center;
   margin: 0 0 0.85rem;
+  padding: 0.42rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 76, 69, 0.16);
+  background: rgba(231, 242, 239, 0.72);
   font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 650;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -78,10 +85,14 @@
 
 .vh-label--warm {
   color: var(--accent);
+  border-color: rgba(224, 107, 53, 0.22);
+  background: rgba(224, 107, 53, 0.1);
 }
 
 .vh-label--on-dark {
   color: #ffb088;
+  border-color: rgba(255, 176, 136, 0.28);
+  background: rgba(255, 248, 241, 0.1);
 }
 
 .vh-editorial {
@@ -1115,22 +1126,6 @@
 
 .vh-exp-head .vh-title {
   max-width: 18ch;
-}
-
-.vh-pill {
-  display: inline-flex;
-  align-items: center;
-  margin: 0 0 0.9rem;
-  padding: 0.42rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 76, 69, 0.16);
-  background: rgba(231, 242, 239, 0.72);
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 0.68rem;
-  font-weight: 650;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent-deep);
 }
 
 /* Desktop accordion hidden on touch breakpoints */
@@ -2488,15 +2483,6 @@
   align-items: start;
 }
 
-.vh-pricing-tag {
-  margin: 0 0 0.45rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #c45a2a;
-}
-
 .vh-pricing-title {
   margin: 0 0 0.85rem;
   font-family: var(--font-heading), Georgia, serif;
@@ -2771,7 +2757,226 @@
   color: var(--ink) !important;
 }
 
-/* ——— Map ——— */
+/* ——— Reviews ——— */
+.vh-reviews {
+  padding: clamp(3.25rem, 7vw, 5.5rem) 0;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 241, 0.65), rgba(244, 236, 226, 0.35)),
+    var(--surface);
+}
+
+.vh-reviews-head {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto 1.75rem;
+}
+
+.vh-reviews-title {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: clamp(1.9rem, 5vw, 3.1rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.vh-reviews-lead {
+  margin: 0 auto;
+  max-width: 34rem;
+  font-size: clamp(0.9rem, 2vw, 1.02rem);
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.vh-reviews-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1rem auto 0;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 176, 136, 0.18);
+  border: 1px solid rgba(224, 107, 53, 0.28);
+  color: #7a3a1c;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.vh-reviews-rail {
+  margin: 0 calc(var(--pad) * -1);
+  padding: 0 var(--pad);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.vh-reviews-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.vh-reviews-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0.15rem 0 0.35rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(17.5rem, 82vw);
+  gap: 0.9rem;
+}
+
+.vh-review-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 100%;
+  height: 100%;
+  padding: 1.45rem 1.3rem 1.25rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(20, 40, 36, 0.1);
+  box-shadow: 0 10px 28px rgba(15, 50, 45, 0.05);
+  overflow: hidden;
+  transition:
+    transform 0.28s var(--ease),
+    box-shadow 0.28s var(--ease);
+}
+
+.vh-review-quote {
+  position: absolute;
+  top: 0.35rem;
+  right: 1rem;
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 4.5rem;
+  line-height: 1;
+  color: rgba(20, 40, 36, 0.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+.vh-review-stars {
+  position: relative;
+  z-index: 1;
+  color: #e08a3a;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  line-height: 1;
+}
+
+.vh-review-card blockquote {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  flex: 1 1 auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.vh-review-foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(20, 40, 36, 0.08);
+}
+
+.vh-review-author {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.vh-review-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 999px;
+  background: rgba(224, 107, 53, 0.14);
+  color: #a24a24;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.vh-review-author strong {
+  display: block;
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 0.92rem;
+  font-weight: 550;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.vh-review-author small {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.68rem;
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+.vh-review-badge {
+  flex: none;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(15, 76, 69, 0.08);
+  color: var(--accent-deep);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .vh-reviews-head {
+    margin-bottom: 2.25rem;
+  }
+
+  .vh-reviews-rail {
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .vh-reviews-grid {
+    grid-auto-flow: row;
+    grid-auto-columns: unset;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.15rem;
+  }
+
+  .vh-review-card {
+    padding: 1.7rem 1.55rem 1.4rem;
+  }
+
+  .vh-review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(15, 50, 45, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vh-review-card,
+  .vh-review-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
 .vh-map {
   padding: clamp(2.75rem, 6vw, 4.5rem) 0;
   background: var(--bg);
@@ -2781,15 +2986,6 @@
   display: grid;
   gap: 1.35rem;
   align-items: start;
-}
-
-.vh-map-tag {
-  margin: 0 0 0.4rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #c45a2a;
 }
 
 .vh-map-title {
@@ -3002,20 +3198,6 @@
 /* ——— Mobile overview (app-like statement + intro) ——— */
 .vh-m-overview {
   display: none;
-}
-
-.vh-pill {
-  display: inline-flex;
-  align-items: center;
-  margin: 0 0 0.85rem;
-  padding: 0.4rem 0.85rem;
-  border-radius: 999px;
-  background: rgba(15, 76, 69, 0.1);
-  color: var(--accent-deep);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
 .vh-m-rail {

@@ -56,7 +56,7 @@ export function GallerySection() {
     <section className="vh-gallery" id="galerija" aria-labelledby="gallery-title">
       <div className="vh-wrap">
         <Reveal className="vh-section-head vh-section-head--tight vh-gallery-head">
-          <p className="vh-label">
+          <p className="vh-pill">
             {t3(locale, "Galerija", "Gallery", "Галерея")}
           </p>
           <h2 id="gallery-title" className="vh-title vh-title--sm">

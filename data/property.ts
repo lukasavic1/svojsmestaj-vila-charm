@@ -556,18 +556,69 @@ export const property: PropertySiteData = {
     ),
   },
   reviews: {
-    heading: L("Utisci gostiju", "Guest reviews", "Отзывы гостей"),
+    heading: L(
+      "Iskustva koja se pamte.",
+      "Stays worth remembering.",
+      "Впечатления, которые остаются."
+    ),
     lead: L(
-      "Utisci će se pojaviti ovde.",
-      "Reviews will appear here.",
-      "Отзывы появятся здесь."
+      "Pročitajte utiske naših gostiju koji su boravili na imanju.",
+      "Read what guests say about their time on the estate.",
+      "Прочитайте отзывы гостей, которые отдыхали в усадьбе."
     ),
     google: {
-      score: 0,
-      count: 0,
-      source: L("Gostujući utisci", "Guest feedback", "Мнения гостей"),
+      score: 4.98,
+      count: 30,
+      source: L(
+        "Airbnb & Google",
+        "Airbnb & Google",
+        "Airbnb & Google"
+      ),
     },
-    items: [],
+    items: [
+      {
+        stars: 5,
+        name: "Marko P.",
+        text: L(
+          "Savršeno mesto za beg iz grada. Bazen i bašta su besprekorno uređeni, a privatnost je 100% zagarantovana. Sigurno se vraćamo opet!",
+          "The perfect escape from the city. The pool and garden are immaculate, and privacy is truly guaranteed. We’ll definitely be back!",
+          "Идеальное место, чтобы сбежать из города. Бассейн и сад безупречны, а приватность — на все 100%. Обязательно вернёмся!"
+        ),
+        place: L(
+          "Vikend boravak · Porodični odmor",
+          "Weekend stay · Family getaway",
+          "Выходные · Семейный отдых"
+        ),
+      },
+      {
+        stars: 5,
+        name: "Elena & Stefan",
+        text: L(
+          "Proslavili smo rođendan ovde i svi gosti su bili oduševljeni. Kuća je prelepa, grejani bazen je bio pun pogodak uveče. Sve pohvale za domaćine!",
+          "We celebrated a birthday here and every guest was impressed. The house is beautiful, and the heated pool was a highlight at night. All praise to the hosts!",
+          "Мы отметили здесь день рождения — все гости были в восторге. Дом прекрасен, а подогреваемый бассейн вечером стал попаданием в цель. Хозяевам — все похвалы!"
+        ),
+        place: L(
+          "Proslava · 3 noćenja",
+          "Celebration · 3 nights",
+          "Праздник · 3 ночи"
+        ),
+      },
+      {
+        stars: 5,
+        name: "Nikola M.",
+        text: L(
+          "Mir, tišina i neverovatan pogled. Slike uopšte ne mogu da dočaraju koliko je imanje uživo još lepše. Preporuka 10/10.",
+          "Calm, quiet, and an incredible view. Photos can’t capture how much more beautiful the estate is in person. 10/10 recommendation.",
+          "Тишина, покой и невероятный вид. Фотографии совсем не передают, насколько усадьба ещё красивее вживую. Рекомендация 10/10."
+        ),
+        place: L(
+          "Radni dani · 5 noćenja",
+          "Weekdays · 5 nights",
+          "Будни · 5 ночей"
+        ),
+      },
+    ],
   },
   contact: {
     heading: L(

@@ -14,7 +14,7 @@ export function MapSection() {
     <section className="vh-map" id="lokacija" aria-labelledby="mapa-naslov">
       <div className="vh-wrap vh-map-layout">
         <Reveal className="vh-map-intro">
-          <p className="vh-map-tag">
+          <p className="vh-pill">
             {t3(locale, "Lokacija", "Location", "Локация")}
           </p>
           <h2 id="mapa-naslov" className="vh-map-title">

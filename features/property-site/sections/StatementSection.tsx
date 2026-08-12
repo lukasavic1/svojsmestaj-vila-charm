@@ -117,7 +117,7 @@ export function StatementSection() {
         </Reveal>
 
         <Reveal className="vh-overview-copy" delay={40}>
-          <p className="vh-label">{estateLabel}</p>
+          <p className="vh-pill">{estateLabel}</p>
           <h2 id="statement-title" className="vh-display">
             {headline}
           </h2>

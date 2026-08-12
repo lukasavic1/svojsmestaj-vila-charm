@@ -12,7 +12,7 @@ export function PricingSection() {
     <section className="vh-pricing" id="cene" aria-labelledby="pricing-title">
       <div className="vh-wrap vh-pricing-layout">
         <Reveal className="vh-pricing-intro">
-          <p className="vh-pricing-tag">
+          <p className="vh-pill">
             {t3(locale, "Cenovnik", "Rates", "Цены")}
           </p>
           <h2 id="pricing-title" className="vh-pricing-title">

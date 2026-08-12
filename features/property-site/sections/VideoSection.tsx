@@ -150,7 +150,7 @@ export function VideoSection() {
     <section className="vh-cinema vh-cinema--sand" id="video" aria-labelledby="cinema-title">
       <div className="vh-wrap">
         <Reveal className="vh-cinema-head">
-          <p className="vh-label">{t3(locale, "Video", "Film", "Видео")}</p>
+          <p className="vh-pill">{t3(locale, "Video", "Film", "Видео")}</p>
           <h2 id="cinema-title" className="vh-cinema-title">
             {t3(
               locale,

@@ -64,6 +64,7 @@ export const experiences: Record<PackageId, ExperienceConfig> = {
       "gallery",
       "amenities",
       "pricing",
+      "reviews",
       "map",
       "contact",
     ],

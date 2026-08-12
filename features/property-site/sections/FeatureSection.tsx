@@ -28,7 +28,7 @@ export function FeatureSection() {
         </Reveal>
 
         <Reveal className="vh-feature-copy" delay={50}>
-          <p className="vh-label">{tx(featureBreak.kicker, locale)}</p>
+          <p className="vh-pill">{tx(featureBreak.kicker, locale)}</p>
           <h2 id="feature-title" className="vh-feature-title">
             {tx(featureBreak.title, locale)}
           </h2>
