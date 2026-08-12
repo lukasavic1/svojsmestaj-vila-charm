@@ -1,27 +1,50 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import {
+  Cinzel,
+  Cormorant_Garamond,
+  Great_Vibes,
+  Manrope,
+  Playfair_Display,
+} from "next/font/google";
 import { property } from "@/data/property";
 import { siteConfig } from "@/config/site";
 import { DEFAULT_LOCALE } from "@/types/locale";
 import { tx } from "@/lib/i18n";
 import "./globals.css";
 import "./redesign.css";
+import "./hero-variants.css";
 
-/**
- * Boutique hospitality pairing:
- * Cormorant Garamond — refined display
- * Manrope — clear, modern UI/body (latin-ext for Serbian)
- */
 const display = Cormorant_Garamond({
   subsets: ["latin", "latin-ext", "cyrillic"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
   variable: "--font-heading",
 });
 
-const sans = Manrope({
+const playfair = Playfair_Display({
   subsets: ["latin", "latin-ext", "cyrillic"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-editorial",
+});
+
+const cinzel = Cinzel({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-cinema",
+});
+
+const script = Great_Vibes({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400"],
+  display: "swap",
+  variable: "--font-script",
+});
+
+const sans = Manrope({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
   variable: "--font-body",
 });
@@ -76,7 +99,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="sr-Latn" className={`${display.variable} ${sans.variable}`}>
+    <html
+      lang="sr-Latn"
+      className={`${display.variable} ${playfair.variable} ${cinzel.variable} ${script.variable} ${sans.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

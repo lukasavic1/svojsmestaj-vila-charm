@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { CloseIcon, MenuIcon } from "@/components/ui/icons";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
+import { HeroVariantSwitcher } from "@/features/hero-preview/HeroVariantSwitcher";
 import { t3, tx } from "@/lib/i18n";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/types/locale";
 
@@ -194,6 +195,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="vh-nav-end">
+          <HeroVariantSwitcher />
           <LangSwitch locale={locale} setLocale={setLocale} className="vh-lang--nav" />
           <a className="vh-nav-cta vh-btn vh-btn--bronze vh-btn--nav" href={bookHref}>
             {bookLabel}

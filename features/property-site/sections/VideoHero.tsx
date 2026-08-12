@@ -207,6 +207,7 @@ export function VideoHero() {
       </div>
 
       <div className="vh-hero-content">
+        <span className="vh-hero-accent" aria-hidden="true" />
         <p className="vh-hero-kicker">
           {t3(
             locale,
@@ -215,7 +216,13 @@ export function VideoHero() {
             "Частная усадьба · Бараево"
           )}
         </p>
-        <h1 className="vh-hero-title">{tx(unit.name, locale)}</h1>
+        <h1 className="vh-hero-title">
+          <span className="vh-hero-title-line vh-hero-title-line--a">Villa</span>
+          <span className="vh-hero-title-connector" aria-hidden="true">
+            ✦
+          </span>
+          <span className="vh-hero-title-line vh-hero-title-line--b">Charm</span>
+        </h1>
         <p className="vh-hero-tagline">
           {t3(
             locale,
@@ -232,7 +239,7 @@ export function VideoHero() {
           >
             {ui.booking.checkAvailability}
           </button>
-          <a className="vh-btn vh-btn--ghost" href="#galerija">
+          <a className="vh-btn vh-btn--ghost vh-hero-secondary" href="#galerija">
             {t3(locale, "Galerija", "Gallery", "Галерея")}
           </a>
         </div>
