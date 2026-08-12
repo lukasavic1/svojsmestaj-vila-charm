@@ -5,6 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Gallery } from "@/features/gallery/Gallery";
 import { GALLERY_EXCLUDE } from "@/data/heroMedia";
 import { useDemo } from "@/features/demo/DemoProvider";
+import { t3 } from "@/lib/i18n";
 
 /**
  * Lightbox order: hero visuals first, weaker interiors later.
@@ -56,10 +57,15 @@ export function GallerySection() {
       <div className="vh-wrap">
         <Reveal className="vh-section-head vh-section-head--tight vh-gallery-head">
           <p className="vh-label">
-            {locale === "sr" ? "Galerija" : "Gallery"}
+            {t3(locale, "Galerija", "Gallery", "Галерея")}
           </p>
           <h2 id="gallery-title" className="vh-title vh-title--sm">
-            {locale === "sr" ? "Fotografije imanja" : "Photos of the estate"}
+            {t3(
+              locale,
+              "Fotografije imanja",
+              "Photos of the estate",
+              "Фотографии усадьбы"
+            )}
           </h2>
         </Reveal>
         <Reveal>

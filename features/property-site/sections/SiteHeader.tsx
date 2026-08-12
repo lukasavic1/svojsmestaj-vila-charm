@@ -5,7 +5,38 @@ import { createPortal } from "react-dom";
 import { CloseIcon, MenuIcon } from "@/components/ui/icons";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
+import { LOCALE_LABELS, LOCALES, type Locale } from "@/types/locale";
+
+function LangSwitch({
+  locale,
+  setLocale,
+  className = "",
+}: {
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`vh-lang${className ? ` ${className}` : ""}`}
+      role="group"
+      aria-label="Language"
+    >
+      {LOCALES.map((id) => (
+        <button
+          key={id}
+          type="button"
+          className={locale === id ? "is-on" : ""}
+          aria-pressed={locale === id}
+          onClick={() => setLocale(id)}
+        >
+          {LOCALE_LABELS[id]}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export function SiteHeader() {
   const { locale, ui, bookHref, setLocale } = useDemo();
@@ -55,11 +86,23 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   const nav = [
-    { href: "#statement", label: locale === "sr" ? "Imanje" : "Estate" },
-    { href: "#iskustva", label: locale === "sr" ? "Iskustva" : "Moments" },
-    { href: "#video", label: locale === "sr" ? "Video" : "Film" },
+    {
+      href: "#statement",
+      label: t3(locale, "Imanje", "Estate", "Усадьба"),
+    },
+    {
+      href: "#iskustva",
+      label: t3(locale, "Iskustva", "Moments", "Моменты"),
+    },
+    {
+      href: "#video",
+      label: t3(locale, "Video", "Film", "Видео"),
+    },
     { href: "#galerija", label: ui.nav.gallery },
-    { href: "#lokacija", label: locale === "sr" ? "Lokacija" : "Location" },
+    {
+      href: "#lokacija",
+      label: t3(locale, "Lokacija", "Location", "Локация"),
+    },
   ];
 
   const closeMenu = () => setMenuOpen(false);
@@ -75,6 +118,13 @@ export function SiteHeader() {
     typeof document !== "undefined"
       ? document.getElementById("top") ?? document.body
       : null;
+
+  const bookLabel = t3(
+    locale,
+    "Proveri termine",
+    "Check dates",
+    "Смотреть даты"
+  );
 
   const drawer =
     menuOpen && mounted && portalTarget
@@ -107,35 +157,19 @@ export function SiteHeader() {
                   </a>
                 ))}
                 <a href="#cene" onClick={closeMenu}>
-                  {locale === "sr" ? "Cene" : "Rates"}
+                  {t3(locale, "Cene", "Rates", "Цены")}
                 </a>
                 <a href="#termini" onClick={closeMenu}>
                   {ui.nav.book}
                 </a>
               </nav>
               <div className="vh-menu-foot">
-                <div className="vh-lang" role="group" aria-label="Language">
-                  <button
-                    type="button"
-                    className={locale === "sr" ? "is-on" : ""}
-                    onClick={() => setLocale("sr")}
-                  >
-                    SR
-                  </button>
-                  <button
-                    type="button"
-                    className={locale === "en" ? "is-on" : ""}
-                    onClick={() => setLocale("en")}
-                  >
-                    EN
-                  </button>
-                </div>
                 <a
                   className="vh-btn vh-btn--bronze vh-menu-cta"
                   href={bookHref}
                   onClick={closeMenu}
                 >
-                  {locale === "sr" ? "Proveri dostupnost" : "Check availability"}
+                  {bookLabel}
                 </a>
               </div>
             </div>
@@ -160,24 +194,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="vh-nav-end">
-          <div className="vh-lang vh-lang--nav" role="group" aria-label="Language">
-            <button
-              type="button"
-              className={locale === "sr" ? "is-on" : ""}
-              onClick={() => setLocale("sr")}
-            >
-              SR
-            </button>
-            <button
-              type="button"
-              className={locale === "en" ? "is-on" : ""}
-              onClick={() => setLocale("en")}
-            >
-              EN
-            </button>
-          </div>
+          <LangSwitch locale={locale} setLocale={setLocale} className="vh-lang--nav" />
           <a className="vh-nav-cta vh-btn vh-btn--bronze vh-btn--nav" href={bookHref}>
-            {locale === "sr" ? "Proveri dostupnost" : "Check availability"}
+            {bookLabel}
           </a>
           <button
             type="button"

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { heroVideo } from "@/data/heroMedia";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 
 const SLIDE_MS = 2800;
 const STILLS_FALLBACK_MS = 380;
@@ -208,13 +208,21 @@ export function VideoHero() {
 
       <div className="vh-hero-content">
         <p className="vh-hero-kicker">
-          {locale === "sr" ? "Privatno imanje · Barajevo" : "Private estate · Barajevo"}
+          {t3(
+            locale,
+            "Privatno imanje · Barajevo",
+            "Private estate · Barajevo",
+            "Частная усадьба · Бараево"
+          )}
         </p>
         <h1 className="vh-hero-title">{tx(unit.name, locale)}</h1>
         <p className="vh-hero-tagline">
-          {locale === "sr"
-            ? "Bašta, grejani bazen i mir — samo 25 minuta od Beograda."
-            : "Garden, heated pool, and quiet — just 25 minutes from Belgrade."}
+          {t3(
+            locale,
+            "Bašta, grejani bazen i mir — samo 25 minuta od Beograda.",
+            "Garden, heated pool, and quiet — just 25 minutes from Belgrade.",
+            "Сад, бассейн с подогревом и тишина — всего 25 минут от Белграда."
+          )}
         </p>
         <div className="vh-hero-actions">
           <button
@@ -225,7 +233,7 @@ export function VideoHero() {
             {ui.booking.checkAvailability}
           </button>
           <a className="vh-btn vh-btn--ghost" href="#galerija">
-            {locale === "sr" ? "Pogledaj galeriju" : "View gallery"}
+            {t3(locale, "Galerija", "Gallery", "Галерея")}
           </a>
         </div>
       </div>

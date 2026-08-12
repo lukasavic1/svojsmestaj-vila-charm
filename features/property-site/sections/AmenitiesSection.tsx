@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AmenityIcon } from "@/components/ui/AmenityIcon";
 import { Reveal } from "@/components/ui/Reveal";
 import { useDemo } from "@/features/demo/DemoProvider";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 
 const PREVIEW = 6;
 
@@ -48,12 +48,8 @@ export function AmenitiesSection() {
             aria-expanded={expanded}
           >
             {expanded
-              ? locale === "sr"
-                ? "Prikaži manje"
-                : "Show less"
-              : locale === "sr"
-                ? "Pogledaj sve"
-                : "View all"}
+              ? t3(locale, "Prikaži manje", "Show less", "Показать меньше")
+              : t3(locale, "Pogledaj sve", "View all", "Показать все")}
           </button>
         )}
       </div>

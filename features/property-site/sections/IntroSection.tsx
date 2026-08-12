@@ -5,11 +5,11 @@ import { MetricIcon, type MetricIconId } from "@/components/ui/MetricIcon";
 import { Reveal } from "@/components/ui/Reveal";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
-import { tx, txList } from "@/lib/i18n";
+import { t3, tx, txList } from "@/lib/i18n";
 
 /** Stay overview — desktop split; mobile feature card + capacity metrics. */
 export function IntroSection() {
-  const { unit, locale, bookHref } = useDemo();
+  const { unit, locale, bookHref, ui } = useDemo();
   const living =
     unit.photos.find((p) => p.src.includes("living")) ?? unit.photos[0];
   const kitchen =
@@ -18,51 +18,56 @@ export function IntroSection() {
     unit.photos.find((p) => p.src.includes("bedroom")) ?? unit.photos[2] ?? living;
   const paragraphs = txList(unit.intro.body, locale).slice(0, 2);
 
-  const metrics: { k: string; v: string; icon: MetricIconId }[] =
-    locale === "sr"
-      ? [
-          { k: String(unit.specs.capacity), v: "Noćenje", icon: "bed" },
-          {
-            k: String(unit.specs.dayCapacity ?? "—"),
-            v: "Dnevni boravak",
-            icon: "users",
-          },
-          { k: String(unit.specs.bathrooms), v: "Kupatila", icon: "bath" },
-          { k: "8×4 m", v: "Grejani bazen", icon: "pool" },
-        ]
-      : [
-          { k: String(unit.specs.capacity), v: "Overnight", icon: "bed" },
-          {
-            k: String(unit.specs.dayCapacity ?? "—"),
-            v: "Day guests",
-            icon: "users",
-          },
-          { k: String(unit.specs.bathrooms), v: "Bathrooms", icon: "bath" },
-          { k: "8×4 m", v: "Heated pool", icon: "pool" },
-        ];
+  const overnightLabel = t3(locale, "Noćenje", "Overnight", "Ночлег");
+  const dayGuestsLabel = t3(locale, "Dnevni boravak", "Day guests", "Гости днём");
+  const bathroomsLabel = t3(locale, "Kupatila", "Bathrooms", "Санузлы");
+  const stayLabel = t3(locale, "Prostor", "The stay", "Проживание");
 
-  const slides =
-    locale === "sr"
-      ? [
-          { src: living.src, alt: tx(living.alt, locale), badge: "Glavna kuća" },
-          { src: kitchen.src, alt: tx(kitchen.alt, locale), badge: "Kuhinja" },
-          { src: bedroom.src, alt: tx(bedroom.alt, locale), badge: "Sobe" },
-        ]
-      : [
-          { src: living.src, alt: tx(living.alt, locale), badge: "Main house" },
-          { src: kitchen.src, alt: tx(kitchen.alt, locale), badge: "Kitchen" },
-          { src: bedroom.src, alt: tx(bedroom.alt, locale), badge: "Rooms" },
-        ];
+  const metrics: { k: string; v: string; icon: MetricIconId }[] = [
+    { k: String(unit.specs.capacity), v: overnightLabel, icon: "bed" },
+    {
+      k: String(unit.specs.dayCapacity ?? "—"),
+      v: dayGuestsLabel,
+      icon: "users",
+    },
+    { k: String(unit.specs.bathrooms), v: bathroomsLabel, icon: "bath" },
+    {
+      k: t3(locale, "8×4 m", "8×4 m", "8×4 м"),
+      v: t3(locale, "Grejani bazen", "Heated pool", "Бассейн с подогревом"),
+      icon: "pool",
+    },
+  ];
+
+  const slides = [
+    {
+      src: living.src,
+      alt: tx(living.alt, locale),
+      badge: t3(locale, "Glavna kuća", "Main house", "Главный дом"),
+    },
+    {
+      src: kitchen.src,
+      alt: tx(kitchen.alt, locale),
+      badge: t3(locale, "Kuhinja", "Kitchen", "Кухня"),
+    },
+    {
+      src: bedroom.src,
+      alt: tx(bedroom.alt, locale),
+      badge: t3(locale, "Sobe", "Rooms", "Спальни"),
+    },
+  ];
 
   return (
     <section
       className="vh-space"
       id="o-smestaju"
-      aria-label={locale === "sr" ? "Prostor" : "The stay"}
+      aria-label={stayLabel}
     >
       {/* ——— Mobile ——— */}
       <div className="vh-m-overview vh-m-overview--space">
-        <div className="vh-m-rail" aria-label={locale === "sr" ? "Enterijer" : "Interior"}>
+        <div
+          className="vh-m-rail"
+          aria-label={t3(locale, "Enterijer", "Interior", "Интерьер")}
+        >
           {slides.map((s) => (
             <figure key={s.src + s.badge} className="vh-m-slide">
               <Image
@@ -79,15 +84,16 @@ export function IntroSection() {
         </div>
 
         <Reveal className="vh-m-card">
-          <p className="vh-pill">
-            {locale === "sr" ? "Prostor" : "The stay"}
-          </p>
+          <p className="vh-pill">{stayLabel}</p>
           <h2 className="vh-m-title">
             {tx(unit.intro.heading, locale)}
           </h2>
           <p className="vh-m-lead">{tx(unit.intro.lead, locale)}</p>
 
-          <ul className="vh-metrics vh-metrics--2x2" aria-label={locale === "sr" ? "Kapacitet" : "Capacity"}>
+          <ul
+            className="vh-metrics vh-metrics--2x2"
+            aria-label={t3(locale, "Kapacitet", "Capacity", "Вместимость")}
+          >
             {metrics.map((m) => (
               <li key={m.v} className="vh-metric">
                 <span className="vh-metric-icon" aria-hidden="true">
@@ -100,12 +106,15 @@ export function IntroSection() {
           </ul>
 
           <a className="vh-btn vh-btn--bronze vh-m-cta" href="#termini">
-            {locale === "sr"
-              ? "Proveri slobodne termine →"
-              : "Check free dates →"}
+            {ui.booking.checkAvailability}
           </a>
           <a className="vh-m-link" href={bookHref}>
-            {locale === "sr" ? "Pogledaj kompletan raspored" : "View full schedule"}
+            {t3(
+              locale,
+              "Ceo raspored",
+              "Full schedule",
+              "Весь календарь"
+            )}
           </a>
         </Reveal>
       </div>
@@ -126,9 +135,7 @@ export function IntroSection() {
         </Reveal>
 
         <Reveal className="vh-space-copy" delay={40}>
-          <p className="vh-label">
-            {locale === "sr" ? "Prostor" : "The stay"}
-          </p>
+          <p className="vh-label">{stayLabel}</p>
           <h2 id="space-title" className="vh-title">
             {tx(unit.intro.heading, locale)}
           </h2>
@@ -140,20 +147,20 @@ export function IntroSection() {
           </div>
           <dl className="vh-facts">
             <div>
-              <dt>{locale === "sr" ? "Noćenje" : "Overnight"}</dt>
+              <dt>{overnightLabel}</dt>
               <dd>{unit.specs.capacity}</dd>
             </div>
             <div>
-              <dt>{locale === "sr" ? "Dnevni boravak" : "Day guests"}</dt>
+              <dt>{dayGuestsLabel}</dt>
               <dd>{unit.specs.dayCapacity ?? "—"}</dd>
             </div>
             <div>
-              <dt>{locale === "sr" ? "Kupatila" : "Bathrooms"}</dt>
+              <dt>{bathroomsLabel}</dt>
               <dd>{unit.specs.bathrooms}</dd>
             </div>
             <div>
-              <dt>{locale === "sr" ? "Bazen" : "Pool"}</dt>
-              <dd>8×4 m</dd>
+              <dt>{t3(locale, "Bazen", "Pool", "Бассейн")}</dt>
+              <dd>{t3(locale, "8×4 m", "8×4 m", "8×4 м")}</dd>
             </div>
           </dl>
         </Reveal>

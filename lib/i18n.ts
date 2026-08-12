@@ -16,3 +16,8 @@ export function txList(value: LocalizedStringList, locale: Locale): string[] {
 export function parseLocaleParam(value: string | null): Locale | null {
   return isLocale(value) ? value : null;
 }
+
+/** Inline copy for the three locales — English is the fallback. */
+export function t3(locale: Locale, sr: string, en: string, ru: string): string {
+  return locale === "sr" ? sr : locale === "ru" ? ru : en;
+}

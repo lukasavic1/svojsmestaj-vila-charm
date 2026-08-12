@@ -13,12 +13,12 @@ const s = {
   viewBox: "0 0 24 24",
   fill: "none",
   stroke: "currentColor",
-  strokeWidth: 1.7,
+  strokeWidth: 1.6,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
   "aria-hidden": true as const,
-  width: 20,
-  height: 20,
+  className: "vh-metric-svg",
+  overflow: "visible" as const,
 };
 
 const icons: Record<MetricIconId, ReactNode> = {
@@ -71,5 +71,5 @@ const icons: Record<MetricIconId, ReactNode> = {
 };
 
 export function MetricIcon({ id }: { id: MetricIconId }) {
-  return <>{icons[id]}</>;
+  return icons[id];
 }

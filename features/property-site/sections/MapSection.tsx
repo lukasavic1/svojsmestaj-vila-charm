@@ -3,7 +3,8 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
+import { LOCALE_HTML } from "@/types/locale";
 
 export function MapSection() {
   const { locale, unit } = useDemo();
@@ -14,7 +15,7 @@ export function MapSection() {
       <div className="vh-wrap vh-map-grid">
         <Reveal>
           <p className="vh-label">
-            {locale === "sr" ? "Lokacija" : "Location"}
+            {t3(locale, "Lokacija", "Location", "Локация")}
           </p>
           <h2 id="mapa-naslov" className="vh-title">
             {tx(map.heading, locale)}
@@ -31,9 +32,7 @@ export function MapSection() {
         </Reveal>
         <Reveal className="vh-map-frame" delay={40}>
           <iframe
-            src={`https://www.google.com/maps?q=${map.lat},${map.lng}&hl=${
-              locale === "sr" ? "sr-Latn" : "en"
-            }&z=${map.zoom}&output=embed`}
+            src={`https://www.google.com/maps?q=${map.lat},${map.lng}&hl=${LOCALE_HTML[locale]}&z=${map.zoom}&output=embed`}
             title={`${tx(map.heading, locale)} — ${tx(unit.region, locale)}`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

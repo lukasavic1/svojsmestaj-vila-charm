@@ -13,14 +13,14 @@ import "./redesign.css";
  * Manrope — clear, modern UI/body (latin-ext for Serbian)
  */
 const display = Cormorant_Garamond({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
   weight: ["400", "500", "600"],
   display: "swap",
   variable: "--font-heading",
 });
 
 const sans = Manrope({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-body",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "sr_Latn_RS",
-    alternateLocale: ["en_US"],
+    alternateLocale: ["en_US", "ru_RU"],
     siteName: siteConfig.name,
     title,
     description,

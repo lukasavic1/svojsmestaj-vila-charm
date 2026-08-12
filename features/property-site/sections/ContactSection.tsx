@@ -2,7 +2,7 @@
 
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 
 export function ContactSection() {
   const { locale, ui, bookUnit, unit } = useDemo();
@@ -17,9 +17,12 @@ export function ContactSection() {
               {ui.nav.contact}
             </p>
             <h2 id="kontakt-naslov" className="vh-contact-title">
-              {locale === "sr"
-                ? "Spremni za rezervaciju?"
-                : "Ready to reserve?"}
+              {t3(
+                locale,
+                "Spremni za rezervaciju?",
+                "Ready to reserve?",
+                "Готовы забронировать?"
+              )}
             </h2>
             <p className="vh-contact-lead">
               {tx(c.lead, locale)}
@@ -43,9 +46,14 @@ export function ContactSection() {
               <a href={`mailto:${c.email}`}>{c.email}</a>
             </li>
             <li>
-              <span>{locale === "sr" ? "Lokacija" : "Location"}</span>
+              <span>{t3(locale, "Lokacija", "Location", "Локация")}</span>
               <strong>
-                {locale === "sr" ? "Barajevo, Srbija" : "Barajevo, Serbia"}
+                {t3(
+                  locale,
+                  "Barajevo, Srbija",
+                  "Barajevo, Serbia",
+                  "Бараево, Сербия"
+                )}
               </strong>
             </li>
           </ul>

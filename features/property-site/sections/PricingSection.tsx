@@ -2,84 +2,80 @@
 
 import { Reveal } from "@/components/ui/Reveal";
 import { useDemo } from "@/features/demo/DemoProvider";
+import { t3 } from "@/lib/i18n";
 
 /** Catchy rate story — equal cards, strong type, clear CTA only below. */
 export function PricingSection() {
-  const { locale, bookUnit, unit } = useDemo();
+  const { locale, bookUnit, unit, ui } = useDemo();
 
-  const rates =
-    locale === "sr"
-      ? [
-          {
-            tone: "teal",
-            tag: "01",
-            title: "Radni dani",
-            when: "Pon – Čet",
-            price: "300",
-            unit: "€ / noć",
-            note: "Mirniji ritam nedelje",
-          },
-          {
-            tone: "coral",
-            tag: "02",
-            title: "Vikend",
-            when: "Pet – Ned",
-            price: "500",
-            unit: "€ / noć",
-            note: "Bazen, bašta, okupljanja",
-          },
-        ]
-      : [
-          {
-            tone: "teal",
-            tag: "01",
-            title: "Weekdays",
-            when: "Mon – Thu",
-            price: "300",
-            unit: "€ / night",
-            note: "A quieter midweek pace",
-          },
-          {
-            tone: "coral",
-            tag: "02",
-            title: "Weekend",
-            when: "Fri – Sun",
-            price: "500",
-            unit: "€ / night",
-            note: "Pool, garden, gatherings",
-          },
-        ];
+  const perNight = t3(locale, "€ / noć", "€ / night", "€ / ночь");
 
-  const perks =
-    locale === "sr"
-      ? [
-          { k: "−15%", v: "7+ noći" },
-          { k: "−25%", v: "30+ noći" },
-          { k: "0%", v: "posrednička provizija" },
-        ]
-      : [
-          { k: "−15%", v: "7+ nights" },
-          { k: "−25%", v: "30+ nights" },
-          { k: "0%", v: "middleman fee" },
-        ];
+  const rates = [
+    {
+      tone: "teal",
+      tag: "01",
+      title: t3(locale, "Radni dani", "Weekdays", "Будни"),
+      when: t3(locale, "Pon – Čet", "Mon – Thu", "Пн – Чт"),
+      price: "300",
+      unit: perNight,
+      note: t3(
+        locale,
+        "Mirniji ritam nedelje",
+        "A quieter midweek pace",
+        "Спокойный ритм середины недели"
+      ),
+    },
+    {
+      tone: "coral",
+      tag: "02",
+      title: t3(locale, "Vikend", "Weekend", "Выходные"),
+      when: t3(locale, "Pet – Ned", "Fri – Sun", "Пт – Вс"),
+      price: "500",
+      unit: perNight,
+      note: t3(
+        locale,
+        "Bazen, bašta, okupljanja",
+        "Pool, garden, gatherings",
+        "Бассейн, сад, встречи"
+      ),
+    },
+  ];
+
+  const perks = [
+    { k: "−15%", v: t3(locale, "7+ noći", "7+ nights", "7+ ночей") },
+    { k: "−25%", v: t3(locale, "30+ noći", "30+ nights", "30+ ночей") },
+    {
+      k: "0%",
+      v: t3(
+        locale,
+        "posrednička provizija",
+        "middleman fee",
+        "комиссия посредника"
+      ),
+    },
+  ];
 
   return (
     <section className="vh-pricing" id="cene" aria-labelledby="pricing-title">
       <div className="vh-wrap">
         <Reveal className="vh-pricing-head">
-          <p className="vh-label">
-            {locale === "sr" ? "Cene" : "Rates"}
-          </p>
+          <p className="vh-label">{t3(locale, "Cene", "Rates", "Цены")}</p>
           <div className="vh-pricing-head-row">
             <h2 id="pricing-title" className="vh-title">
-              {locale === "sr"
-                ? "Cena prati ritam nedelje."
-                : "The rate follows the week."}
+              {t3(
+                locale,
+                "Cena prati ritam nedelje.",
+                "The rate follows the week.",
+                "Цена следует ритму недели."
+              )}
             </h2>
             <p className="vh-support">
-              {locale === "sr"
-                ? "Dve jasne cene — plus popusti ako ostanete duže."
-                : "Two clear rates — plus discounts when you stay longer."}
+              {t3(
+                locale,
+                "Dve jasne cene — plus popusti ako ostanete duže.",
+                "Two clear rates — plus discounts when you stay longer.",
+                "Два понятных тарифа — плюс скидки при длительном проживании."
+              )}
             </p>
           </div>
         </Reveal>
@@ -119,14 +115,17 @@ export function PricingSection() {
             className="vh-btn vh-btn--bronze"
             onClick={() => bookUnit(unit.id)}
           >
-            {locale === "sr" ? "Proveri dostupnost →" : "Check availability →"}
+            {ui.booking.checkAvailability}
           </button>
         </Reveal>
 
         <p className="vh-pricing-fine">
-          {locale === "sr"
-            ? "Konačna cena zavisi od datuma, broja gostiju i trajanja — potvrdićemo je pre rezervacije."
-            : "Final price depends on dates, guests, and length of stay — we’ll confirm before booking."}
+          {t3(
+            locale,
+            "Konačna cena zavisi od datuma, broja gostiju i trajanja — potvrdićemo je pre rezervacije.",
+            "Final price depends on dates, guests, and length of stay — we’ll confirm before booking.",
+            "Итоговая цена зависит от даты, числа гостей и длительности — мы подтвердим её до бронирования."
+          )}
         </p>
       </div>
     </section>

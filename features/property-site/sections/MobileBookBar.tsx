@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { useDemo } from "@/features/demo/DemoProvider";
+import { t3 } from "@/lib/i18n";
 
 /**
  * Desktop-only sticky availability strip.
@@ -74,7 +75,7 @@ export function MobileBookBar() {
       onSubmit={submit}
     >
       <label className="vh-sticky-field">
-        <span>{locale === "sr" ? "Prijava" : "Check-in"}</span>
+        <span>{t3(locale, "Prijava", "Check-in", "Заезд")}</span>
         <input
           type="date"
           value={checkIn}
@@ -83,7 +84,7 @@ export function MobileBookBar() {
         />
       </label>
       <label className="vh-sticky-field">
-        <span>{locale === "sr" ? "Odjava" : "Check-out"}</span>
+        <span>{t3(locale, "Odjava", "Check-out", "Выезд")}</span>
         <input
           type="date"
           value={checkOut}
@@ -92,7 +93,7 @@ export function MobileBookBar() {
         />
       </label>
       <label className="vh-sticky-field vh-sticky-field--guests">
-        <span>{locale === "sr" ? "Gosti" : "Guests"}</span>
+        <span>{t3(locale, "Gosti", "Guests", "Гости")}</span>
         <input
           type="number"
           min={1}
@@ -103,7 +104,7 @@ export function MobileBookBar() {
         />
       </label>
       <button type="submit" className="vh-btn vh-btn--bronze">
-        {locale === "sr" ? "Proveri dostupnost" : "Check availability"}
+        {ui.booking.checkAvailability}
       </button>
     </form>
   );

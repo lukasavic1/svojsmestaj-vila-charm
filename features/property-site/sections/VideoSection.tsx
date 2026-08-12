@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 import { useDragScroll, wasDragged } from "@/lib/useDragScroll";
 
 /** Cinematic films — swipeable poster slider + modal player. */
@@ -113,13 +113,18 @@ export function VideoSection() {
                 type="button"
                 className="vh-cinema-close"
                 onClick={close}
-                aria-label={locale === "sr" ? "Zatvori" : "Close"}
+                aria-label={t3(locale, "Zatvori", "Close", "Закрыть")}
               >
                 ✕
               </button>
               {!ready && (
                 <div className="vh-cinema-loading" aria-live="polite">
-                  {locale === "sr" ? "Učitavanje videa…" : "Loading video…"}
+                  {t3(
+                    locale,
+                    "Učitavanje videa…",
+                    "Loading video…",
+                    "Загрузка видео…"
+                  )}
                 </div>
               )}
               <video
@@ -145,16 +150,22 @@ export function VideoSection() {
     <section className="vh-cinema vh-cinema--sand" id="video" aria-labelledby="cinema-title">
       <div className="vh-wrap">
         <Reveal className="vh-cinema-head">
-          <p className="vh-label">
-            {locale === "sr" ? "Video" : "Film"}
-          </p>
+          <p className="vh-label">{t3(locale, "Video", "Film", "Видео")}</p>
           <h2 id="cinema-title" className="vh-cinema-title">
-            {locale === "sr" ? "Villa Charm u pokretu" : "Villa Charm in motion"}
+            {t3(
+              locale,
+              "Villa Charm u pokretu",
+              "Villa Charm in motion",
+              "Villa Charm в движении"
+            )}
           </h2>
           <p className="vh-cinema-lead">
-            {locale === "sr"
-              ? "Tri kratka filma — prevucite i pustite."
-              : "Three short films — swipe and play."}
+            {t3(
+              locale,
+              "Tri kratka filma — prevucite i pustite.",
+              "Three short films — swipe and play.",
+              "Три коротких фильма — пролистайте и включите."
+            )}
           </p>
         </Reveal>
 
@@ -162,7 +173,7 @@ export function VideoSection() {
           <div
             ref={trackRef}
             className="vh-cinema-slider"
-            aria-label={locale === "sr" ? "Video klizač" : "Video slider"}
+            aria-label={t3(locale, "Video klizač", "Video slider", "Слайдер видео")}
           >
             {videos.map((v, i) => (
               <div
@@ -180,11 +191,12 @@ export function VideoSection() {
                     openAt(i);
                   }
                 }}
-                aria-label={
-                  locale === "sr"
-                    ? `Pusti: ${tx(v.title, locale)}`
-                    : `Play: ${tx(v.title, locale)}`
-                }
+                aria-label={t3(
+                  locale,
+                  `Pusti: ${tx(v.title, locale)}`,
+                  `Play: ${tx(v.title, locale)}`,
+                  `Смотреть: ${tx(v.title, locale)}`
+                )}
                 aria-current={i === active ? "true" : undefined}
               >
                 <Image
@@ -213,7 +225,7 @@ export function VideoSection() {
             <div
               className="vh-cinema-dots"
               role="tablist"
-              aria-label={locale === "sr" ? "Izbor filma" : "Choose film"}
+              aria-label={t3(locale, "Izbor filma", "Choose film", "Выбор фильма")}
             >
               {videos.map((v, i) => (
                 <button

@@ -9,7 +9,7 @@ import { BookingWizard } from "@/features/booking/BookingWizard";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { property } from "@/data/property";
 import { formatIsoDisplay, nightsBetween } from "@/lib/calendar";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 
 export function AvailabilitySection() {
   const { unit, locale, ui, experience, units, bookingPrefillUnitId } =
@@ -27,9 +27,12 @@ export function AvailabilitySection() {
     const base = `https://wa.me/${property.contact.whatsapp}`;
     if (!checkIn || !checkOut) return base;
     const msg = encodeURIComponent(
-      locale === "sr"
-        ? `Zdravo! Zanima me boravak od ${checkIn} do ${checkOut} (${nights} noći).`
-        : `Hello! I'm interested in staying from ${checkIn} to ${checkOut} (${nights} nights).`
+      t3(
+        locale,
+        `Zdravo! Zanima me boravak od ${checkIn} do ${checkOut} (${nights} noći).`,
+        `Hello! I'm interested in staying from ${checkIn} to ${checkOut} (${nights} nights).`,
+        `Здравствуйте! Меня интересует проживание с ${checkIn} по ${checkOut} (ночей: ${nights}).`
+      )
     );
     return `${base}?text=${msg}`;
   }, [checkIn, checkOut, nights, locale]);

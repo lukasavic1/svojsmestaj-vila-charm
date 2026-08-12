@@ -2,7 +2,7 @@
 
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 
 export function SiteFooter() {
   const { ui, locale, bookHref } = useDemo();
@@ -16,26 +16,38 @@ export function SiteFooter() {
           <div className="vh-footer-brand">
             <p className="vh-footer-name">{tx(brand.name, locale)}</p>
             <p className="vh-footer-tag">
-              {locale === "sr"
-                ? "Privatno imanje · Barajevo · ~25 min od Beograda"
-                : "Private estate · Barajevo · ~25 min from Belgrade"}
+              {t3(
+                locale,
+                "Privatno imanje · Barajevo · ~25 min od Beograda",
+                "Private estate · Barajevo · ~25 min from Belgrade",
+                "Частная усадьба · Бараево · ~25 мин от Белграда"
+              )}
             </p>
           </div>
           <a className="vh-btn vh-btn--bronze vh-btn--nav" href={bookHref}>
-            {locale === "sr" ? "Rezerviši boravak" : "Reserve your stay"}
+            {t3(
+              locale,
+              "Rezerviši boravak",
+              "Reserve your stay",
+              "Забронировать проживание"
+            )}
           </a>
         </div>
 
         <div className="vh-footer-main">
           <nav className="vh-footer-nav" aria-label={ui.a11y.mainNav}>
             <p className="vh-footer-col-label">
-              {locale === "sr" ? "Istraži" : "Explore"}
+              {t3(locale, "Istraži", "Explore", "Обзор")}
             </p>
-            <a href="#statement">{locale === "sr" ? "Imanje" : "Estate"}</a>
-            <a href="#video">{locale === "sr" ? "Video" : "Film"}</a>
+            <a href="#statement">
+              {t3(locale, "Imanje", "Estate", "Усадьба")}
+            </a>
+            <a href="#video">{t3(locale, "Video", "Film", "Видео")}</a>
             <a href="#galerija">{ui.nav.gallery}</a>
             <a href="#sadrzaji">{ui.nav.amenities}</a>
-            <a href="#lokacija">{locale === "sr" ? "Lokacija" : "Location"}</a>
+            <a href="#lokacija">
+              {t3(locale, "Lokacija", "Location", "Локация")}
+            </a>
           </nav>
 
           <nav className="vh-footer-nav" aria-label={ui.nav.contact}>
@@ -50,12 +62,15 @@ export function SiteFooter() {
 
           <div className="vh-footer-aside">
             <p className="vh-footer-col-label">
-              {locale === "sr" ? "Direktno" : "Direct"}
+              {t3(locale, "Direktno", "Direct", "Напрямую")}
             </p>
             <p className="vh-footer-aside-text">
-              {locale === "sr"
-                ? "Bez posredničkih provizija — dogovorite boravak direktno sa domaćinom."
-                : "No middleman fees — arrange your stay directly with the host."}
+              {t3(
+                locale,
+                "Bez posredničkih provizija — dogovorite boravak direktno sa domaćinom.",
+                "No middleman fees — arrange your stay directly with the host.",
+                "Без комиссий посредников — договоритесь о проживании напрямую с хозяином."
+              )}
             </p>
           </div>
         </div>

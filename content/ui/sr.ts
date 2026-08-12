@@ -24,7 +24,7 @@ export const uiSr: UiDictionary = {
       "Integrisani višestepeni booking engine",
       "Upravljanje više jedinica (Vila, Apartman, Studio)",
       "Google Reviews / Airbnb trust bedž",
-      "Višejezična podrška (SR / EN)",
+      "Višejezična podrška (SR / EN / RU)",
       "SEO i ultra-brzo učitavanje",
     ],
   },
@@ -73,7 +73,7 @@ export const uiSr: UiDictionary = {
     contactOnlyTitle: "Rezervacija direktno kod domaćina",
     contactOnlyBody:
       "Ovaj sajt je namenjen direktnom kontaktu sa domaćinom. Nema online rezervacije ni plaćanja na sajtu — dogovorite termin telefonom, WhatsApp-om ili e-mailom.",
-    checkAvailability: "Proveri dostupnost →",
+    checkAvailability: "Proveri termine →",
     sendInquiry: "Pošaljite upit",
     sectionHeading: "Rezervacija",
     sectionLead: "Izaberite smeštaj, datume i goste — mi ćemo potvrditi u najkraćem roku.",

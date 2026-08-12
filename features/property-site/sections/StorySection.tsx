@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 
 /** Compact lifestyle moments. */
 export function StorySection() {
@@ -17,7 +17,7 @@ export function StorySection() {
       <div className="vh-wrap">
         <Reveal className="vh-section-head vh-section-head--tight">
           <p className="vh-label">
-            {locale === "sr" ? "Na imanju" : "On the estate"}
+            {t3(locale, "Na imanju", "On the estate", "В усадьбе")}
           </p>
           <h2 id="moments-title" className="vh-title vh-title--sm">
             {tx(property.story.heading, locale)}

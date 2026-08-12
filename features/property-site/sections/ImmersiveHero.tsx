@@ -6,9 +6,16 @@ import { PinIcon } from "@/components/ui/icons";
 import { heroSlides, unitHeroCovers } from "@/data/heroSlides";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
+import type { Locale } from "@/types/locale";
 
 const HERO_INTERVAL_MS = 7000;
+
+const NUMBER_LOCALE: Record<Locale, string> = {
+  sr: "sr-RS",
+  en: "en",
+  ru: "ru-RU",
+};
 
 /**
  * Premium full-bleed hero — photography-led, one clear CTA.
@@ -148,7 +155,12 @@ export function ImmersiveHero() {
       <div className="wrap hero-immersive-grid">
         <div className="hero-immersive-copy" key={activeUnit.id}>
           <p className="hero-kicker">
-            {locale === "sr" ? "Barajevo · Srbija" : "Barajevo · Serbia"}
+            {t3(
+              locale,
+              "Barajevo · Srbija",
+              "Barajevo · Serbia",
+              "Бараево · Сербия"
+            )}
           </p>
           <h1>{tx(activeUnit.name, locale)}</h1>
           <p className="hero-hook">{tx(activeUnit.hook, locale)}</p>
@@ -188,9 +200,12 @@ export function ImmersiveHero() {
               </strong>
               <span>
                 {specs.dayCapacity
-                  ? locale === "sr"
-                    ? `do ${specs.dayCapacity} dnevno`
-                    : `up to ${specs.dayCapacity} by day`
+                  ? t3(
+                      locale,
+                      `do ${specs.dayCapacity} dnevno`,
+                      `up to ${specs.dayCapacity} by day`,
+                      `до ${specs.dayCapacity} днём`
+                    )
                   : ui.booking.guests}
               </span>
             </li>
@@ -207,7 +222,7 @@ export function ImmersiveHero() {
                 {specs.bathrooms} {ui.booking.bathrooms}
               </strong>
               <span>
-                {specs.sizeSqm.toLocaleString(locale === "sr" ? "sr-RS" : "en")}{" "}
+                {specs.sizeSqm.toLocaleString(NUMBER_LOCALE[locale])}{" "}
                 {ui.booking.size}
               </span>
             </li>

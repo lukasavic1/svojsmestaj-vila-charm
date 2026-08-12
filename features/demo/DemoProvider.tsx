@@ -14,7 +14,7 @@ import { getUi, type UiDictionary } from "@/content/ui";
 import { getExperience, type ExperienceConfig } from "@/config/experience";
 import { property } from "@/data/property";
 import { siteConfig } from "@/config/site";
-import { DEFAULT_LOCALE, type Locale } from "@/types/locale";
+import { DEFAULT_LOCALE, LOCALE_HTML, type Locale } from "@/types/locale";
 import { DEFAULT_PACKAGE, type PackageId } from "@/types/package";
 import type { Unit } from "@/types/property";
 import { parseLocaleParam, tx } from "@/lib/i18n";
@@ -123,7 +123,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   }, [unitId, visibleUnits]);
 
   useEffect(() => {
-    document.documentElement.lang = locale === "sr" ? "sr-Latn" : "en";
+    document.documentElement.lang = LOCALE_HTML[locale];
     document.documentElement.dataset.experience = experience.id;
     document.title = tx(property.seo.title, locale);
   }, [locale, experience.id]);

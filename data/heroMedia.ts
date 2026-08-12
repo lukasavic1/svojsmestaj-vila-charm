@@ -10,19 +10,22 @@ export const featureBreak = {
   alt: {
     sr: "Bazen noću na imanju Villa Charm",
     en: "Pool at night at Villa Charm",
+    ru: "Бассейн ночью в имении Villa Charm",
   },
   kicker: {
     sr: "Veče na imanju",
     en: "Evening on the estate",
+    ru: "Вечер в имении",
   },
   title: {
     sr: "Kada padne mrak, bašta i voda postaju tiši.",
     en: "After dark, the garden and water grow quieter.",
+    ru: "С наступлением темноты сад и вода становятся тише.",
   },
   facts: [
-    { sr: "Grejani bazen", en: "Heated pool" },
-    { sr: "Privatna bašta", en: "Private garden" },
-    { sr: "Do 10 gostiju", en: "Up to 10 guests" },
+    { sr: "Grejani bazen", en: "Heated pool", ru: "Подогреваемый бассейн" },
+    { sr: "Privatna bašta", en: "Private garden", ru: "Частный сад" },
+    { sr: "Do 10 gostiju", en: "Up to 10 guests", ru: "До 10 гостей" },
   ],
 } as const;
 
@@ -32,6 +35,7 @@ export const closingBreak = {
   alt: {
     sr: "Eksterijer Villa Charm među zelenilom",
     en: "Villa Charm exterior among greenery",
+    ru: "Внешний вид Villa Charm среди зелени",
   },
 } as const;
 

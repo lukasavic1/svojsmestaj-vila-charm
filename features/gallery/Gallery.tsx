@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { Photo } from "@/types/property";
 import type { Locale } from "@/types/locale";
-import { tx } from "@/lib/i18n";
+import { t3, tx } from "@/lib/i18n";
 import { IMAGE_QUALITY } from "@/lib/images";
 import { useDemo } from "@/features/demo/DemoProvider";
 
@@ -111,10 +111,12 @@ export function Gallery({ photos, locale }: GalleryProps) {
   if (!photos.length || !lead) return null;
   const current = photos[index];
 
-  const ctaLabel =
-    locale === "sr"
-      ? `Pogledaj sve fotografije (${photos.length})`
-      : `View all photos (${photos.length})`;
+  const ctaLabel = t3(
+    locale,
+    `Pogledaj sve fotografije (${photos.length})`,
+    `View all photos (${photos.length})`,
+    `Смотреть все фото (${photos.length})`
+  );
 
   const lightbox =
     open && current && mounted

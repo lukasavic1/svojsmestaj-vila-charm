@@ -24,7 +24,7 @@ export const uiEn: UiDictionary = {
       "Integrated multi-step booking engine",
       "Multi-unit management (Villa, Apartment, Studio)",
       "Google Reviews / Airbnb trust badge",
-      "Multi-language support (SR / EN)",
+      "Multi-language support (SR / EN / RU)",
       "SEO & ultra-fast loading",
     ],
   },
@@ -73,7 +73,7 @@ export const uiEn: UiDictionary = {
     contactOnlyTitle: "Book directly with the host",
     contactOnlyBody:
       "This website is meant for direct contact with the host. There is no online booking engine or payment on the site — arrange dates by phone, WhatsApp, or email.",
-    checkAvailability: "Check availability →",
+    checkAvailability: "Check dates →",
     sendInquiry: "Send an inquiry",
     sectionHeading: "Reservation",
     sectionLead: "Choose your stay, dates, and guests — we’ll confirm shortly.",
