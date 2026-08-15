@@ -2968,9 +2968,13 @@
   margin: 0 calc(var(--pad) * -1);
   padding: 0 var(--pad);
   overflow-x: auto;
+  overflow-y: visible;
   overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  /* Keep page scroll fluid — don’t lock the finger to horizontal only */
+  touch-action: pan-x pan-y;
 }
 
 .vh-reviews-rail::-webkit-scrollbar {
@@ -3109,6 +3113,7 @@
     margin: 0;
     padding: 0;
     overflow: visible;
+    touch-action: auto;
   }
 
   .vh-reviews-grid {
@@ -3252,19 +3257,22 @@
     line-height: 1.5;
   }
 
-  /* Horizontal snap strip — one viewport of scenes, not three stacked cards */
+  /* Horizontal cards — page can still scroll up/down fluidly over them */
   .vh-gather-scenes {
     display: flex;
     gap: 0.75rem;
     overflow-x: auto;
+    overflow-y: visible;
     overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
+    overscroll-behavior-y: auto;
+    scroll-snap-type: x proximity;
     scroll-padding-inline: var(--pad);
     margin-inline: calc(var(--pad) * -1);
     padding-inline: var(--pad);
     padding-bottom: 0.35rem;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    touch-action: pan-x pan-y;
   }
 
   .vh-gather-scenes::-webkit-scrollbar {
@@ -3294,6 +3302,18 @@
     margin-top: 0.3rem;
     font-size: 0.8rem;
     line-height: 1.4;
+  }
+
+  .vh-reviews-grid {
+    scroll-snap-type: none;
+  }
+
+  .vh-reviews-rail {
+    scroll-snap-type: x proximity;
+  }
+
+  .vh-review-card {
+    scroll-snap-align: start;
   }
 }
 
