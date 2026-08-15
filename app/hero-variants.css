@@ -1313,12 +1313,12 @@
   }
 
   .vh-root[data-hero-variant="cinema"] .vh-hero-title {
-    font-size: clamp(2.9rem, 13vw, 4.25rem);
+    font-size: clamp(3.2rem, 14.5vw, 4.6rem);
     letter-spacing: 0.06em;
   }
 
   .vh-root[data-hero-variant="showcase"] .vh-hero-title {
-    font-size: clamp(3.4rem, 15vw, 4.75rem);
+    font-size: clamp(3.75rem, 16.5vw, 5.15rem);
   }
 
   /* —— 6 Overlay / 7 Diagonal: scaled script lockups —— */
@@ -1328,13 +1328,13 @@
   }
 
   .vh-root[data-hero-variant="overlay"] .vh-hero-title-line--a {
-    font-size: clamp(4rem, 18vw, 5.5rem);
+    font-size: clamp(4.4rem, 19.5vw, 5.85rem);
     line-height: 1.05;
     letter-spacing: 0.1em;
   }
 
   .vh-root[data-hero-variant="overlay"] .vh-hero-title-line--b {
-    font-size: clamp(4.6rem, 20vw, 6.5rem);
+    font-size: clamp(5.1rem, 22vw, 7rem);
     right: -0.04em;
     bottom: -0.22em;
     line-height: 1;
@@ -1349,7 +1349,7 @@
   }
 
   .vh-root[data-hero-variant="grandeur"] .vh-hero-title-line {
-    font-size: clamp(3.35rem, 15.5vw, 4.75rem);
+    font-size: clamp(3.85rem, 17.5vw, 5.4rem);
     line-height: 0.92;
   }
 
@@ -1359,21 +1359,25 @@
 
   .vh-root[data-hero-variant="intersected"] .vh-hero-title {
     padding-right: 0.5rem;
-    padding-bottom: 1.35em;
+    padding-bottom: 1.4em;
     margin-bottom: 0;
   }
 
   .vh-root[data-hero-variant="intersected"] .vh-hero-title-line--a {
-    font-size: clamp(3.1rem, 13.5vw, 4.5rem);
+    font-size: clamp(3.55rem, 15.5vw, 5.1rem);
     line-height: 1.05;
     letter-spacing: 0.12em;
   }
 
   .vh-root[data-hero-variant="intersected"] .vh-hero-title-line--b {
-    left: 22%;
-    top: 0.72em;
-    font-size: clamp(3.8rem, 17vw, 5.5rem);
+    left: 20%;
+    top: 0.7em;
+    font-size: clamp(4.35rem, 19vw, 6.25rem);
     line-height: 1;
+  }
+
+  .vh-root[data-hero-variant] .vh-hero-kicker {
+    font-size: 0.7rem !important;
   }
 
   .vh-root[data-hero-variant="intersected"] .vh-hero-softline,
