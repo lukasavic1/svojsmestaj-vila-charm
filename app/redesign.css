@@ -3,6 +3,11 @@
    Softer shapes · fewer borders · layered media · light/dark rhythm
    ========================================================================== */
 
+html:has(.vh-root),
+body:has(.vh-root) {
+  overflow-x: hidden;
+}
+
 .vh-root {
   /* Radical “pool sunset” — parchment + aqua mist + coral copper */
   --bg: #fff8f1;
@@ -27,6 +32,7 @@
   --r-md: 18px;
   --r-lg: 28px;
 
+  overflow-x: hidden;
   background:
     radial-gradient(900px 480px at 85% -5%, rgba(224, 107, 53, 0.12), transparent 55%),
     radial-gradient(800px 420px at 0% 20%, rgba(15, 76, 69, 0.07), transparent 50%),
@@ -55,7 +61,7 @@
 }
 
 .vh-root .experience-main {
-  overflow-x: clip;
+  overflow-x: hidden;
   /* Cancel legacy overlay pull-up — fixed glass nav already overlays the hero */
   margin-top: 0 !important;
 }
@@ -2919,6 +2925,7 @@
 /* ——— Reviews ——— */
 .vh-reviews {
   padding: clamp(3.25rem, 7vw, 5.5rem) 0;
+  overflow-x: hidden;
   background:
     linear-gradient(180deg, rgba(255, 248, 241, 0.65), rgba(244, 236, 226, 0.35)),
     var(--surface);
@@ -2968,13 +2975,12 @@
   margin: 0 calc(var(--pad) * -1);
   padding: 0 var(--pad);
   overflow-x: auto;
-  overflow-y: visible;
-  overscroll-behavior-x: contain;
-  overscroll-behavior-y: auto;
+  overflow-y: hidden;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  /* Keep page scroll fluid — don’t lock the finger to horizontal only */
-  touch-action: pan-x pan-y;
+  /* Horizontal carousel only — stops whole-page rubber-band while dragging cards */
+  touch-action: pan-x;
 }
 
 .vh-reviews-rail::-webkit-scrollbar {
@@ -3155,6 +3161,7 @@
 .vh-gather {
   padding: clamp(3rem, 7vw, 5rem) 0 0;
   background: var(--bg);
+  overflow-x: hidden;
 }
 
 .vh-gather-head {
@@ -3183,6 +3190,10 @@
 .vh-gather-scenes {
   display: grid;
   gap: 1rem;
+}
+
+.vh-gather-desktop {
+  display: none;
 }
 
 .vh-scene-card {
@@ -3230,10 +3241,40 @@
   line-height: 1.5;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .vh-gather-scenes {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.15rem;
+    display: flex;
+    gap: 0.85rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad);
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    padding-bottom: 0.35rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .vh-gather-scenes::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vh-scene-card {
+    flex: 0 0 min(42vw, 20rem);
+    scroll-snap-align: start;
+  }
+}
+
+@media (min-width: 1025px) {
+  .vh-gather-scenes {
+    display: none;
+  }
+
+  .vh-gather-desktop {
+    display: block;
   }
 }
 
@@ -3257,22 +3298,21 @@
     line-height: 1.5;
   }
 
-  /* Horizontal cards — page can still scroll up/down fluidly over them */
+  /* Horizontal cards — contained so the page can’t rubber-band sideways */
   .vh-gather-scenes {
     display: flex;
     gap: 0.75rem;
     overflow-x: auto;
-    overflow-y: visible;
-    overscroll-behavior-x: contain;
-    overscroll-behavior-y: auto;
-    scroll-snap-type: x proximity;
+    overflow-y: hidden;
+    overscroll-behavior: contain;
+    scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--pad);
     margin-inline: calc(var(--pad) * -1);
     padding-inline: var(--pad);
     padding-bottom: 0.35rem;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    touch-action: pan-x pan-y;
+    touch-action: pan-x;
   }
 
   .vh-gather-scenes::-webkit-scrollbar {
