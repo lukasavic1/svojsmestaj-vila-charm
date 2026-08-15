@@ -138,6 +138,8 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     const syncFromHash = () => {
       if (window.location.hash === "#termini") {
         setBookingOpen(true);
+      } else {
+        setBookingOpen(false);
       }
     };
     syncFromHash();

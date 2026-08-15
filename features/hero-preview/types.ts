@@ -13,7 +13,7 @@ export const HERO_VARIANTS = [
 export type HeroVariant = (typeof HERO_VARIANTS)[number];
 
 /** Change this (and remove HeroVariantSwitcher) once the client picks a look. */
-export const DEFAULT_HERO_VARIANT: HeroVariant = "grandeur";
+export const DEFAULT_HERO_VARIANT: HeroVariant = "intersected";
 
 export const HERO_VARIANT_META: Record<
   HeroVariant,

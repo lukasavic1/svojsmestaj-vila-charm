@@ -15,7 +15,7 @@ import {
   type HeroVariant,
 } from "./types";
 
-const STORAGE_KEY = "vh-hero-variant-v13";
+const STORAGE_KEY = "vh-hero-variant-v14";
 
 type HeroVariantContextValue = {
   variant: HeroVariant;

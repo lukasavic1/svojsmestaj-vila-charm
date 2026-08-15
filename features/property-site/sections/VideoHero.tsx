@@ -223,14 +223,30 @@ export function VideoHero() {
           </span>
           <span className="vh-hero-title-line vh-hero-title-line--b">Charm</span>
         </h1>
-        <p className="vh-hero-tagline">
-          {t3(
-            locale,
-            "Bašta, grejani bazen i mir — samo 25 minuta od Beograda.",
-            "Garden, heated pool, and quiet — just 25 minutes from Belgrade.",
-            "Сад, бассейн с подогревом и тишина — всего 25 минут от Белграда."
-          )}
+        <p className="vh-hero-softline">
+          <span className="vh-hero-softline-full">
+            {t3(
+              locale,
+              "Tišina koja leči — dobrodošli u oazu mira",
+              "Silence that heals — welcome to an oasis of calm",
+              "Тишина, которая лечит — добро пожаловать в оазис покоя"
+            )}
+          </span>
+          <span className="vh-hero-softline-short">
+            {t3(
+              locale,
+              "Tišina koja leči",
+              "Silence that heals",
+              "Тишина, которая лечит"
+            )}
+          </span>
         </p>
+        <ul className="vh-hero-coords" aria-label={t3(locale, "Koordinate mira", "Coordinates of calm", "Координаты покоя")}>
+          <li>{t3(locale, "2.000 m² privatnosti", "2,000 m² of privacy", "2 000 м² уединения")}</li>
+          <li>{t3(locale, "25 min od grada", "25 min from the city", "25 мин от города")}</li>
+          <li>{t3(locale, "Grejani bazen", "Heated pool", "Бассейн с подогревом")}</li>
+          <li>{t3(locale, "Do 10 gostiju", "Up to 10 guests", "До 10 гостей")}</li>
+        </ul>
       </div>
     </section>
   );

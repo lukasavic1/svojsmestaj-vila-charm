@@ -5,7 +5,7 @@
   display: none;
 }
 
-/* Logo-first: no tagline / CTAs competing with the wordmark */
+/* Logo-first wordmark; story copy sits below lockup */
 .vh-root[data-hero-variant] .vh-hero-tagline {
   display: none !important;
 }
@@ -13,6 +13,7 @@
 .vh-root[data-hero-variant] .vh-hero-content {
   position: relative;
   padding-bottom: 0;
+  max-width: min(100% - (var(--pad) * 2), 42rem);
 }
 
 .vh-hero-title-line {
@@ -1018,6 +1019,17 @@
   pointer-events: none;
 }
 
+.vh-root[data-hero-variant="intersected"] .vh-hero-softline {
+  margin-top: 0.15rem;
+  animation: vh-hv-rise 0.65s var(--ease) 0.22s both;
+}
+
+.vh-root[data-hero-variant="intersected"] .vh-hero-coords {
+  margin-top: 1.35rem;
+  justify-content: center;
+  animation: vh-hv-rise 0.65s var(--ease) 0.28s both;
+}
+
 .vh-root[data-hero-variant="intersected"] .vh-hero-actions {
   margin-top: 2.5rem;
   max-width: 24rem;
@@ -1328,23 +1340,50 @@
     line-height: 1;
   }
 
+  .vh-root[data-hero-variant="grandeur"] .vh-hero-kicker {
+    margin-bottom: 0.65rem;
+  }
+
+  .vh-root[data-hero-variant="grandeur"] .vh-hero-title {
+    gap: 0;
+  }
+
+  .vh-root[data-hero-variant="grandeur"] .vh-hero-title-line {
+    font-size: clamp(3.35rem, 15.5vw, 4.75rem);
+    line-height: 0.92;
+  }
+
+  .vh-root[data-hero-variant="grandeur"] .vh-hero-content {
+    padding-block: 0.5rem;
+  }
+
   .vh-root[data-hero-variant="intersected"] .vh-hero-title {
     padding-right: 0.5rem;
-    padding-bottom: 1.7em;
-    margin-bottom: 0.15rem;
+    padding-bottom: 1.35em;
+    margin-bottom: 0;
   }
 
   .vh-root[data-hero-variant="intersected"] .vh-hero-title-line--a {
-    font-size: clamp(3.8rem, 16vw, 5.25rem);
+    font-size: clamp(3.1rem, 13.5vw, 4.5rem);
     line-height: 1.05;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
   }
 
   .vh-root[data-hero-variant="intersected"] .vh-hero-title-line--b {
-    left: 24%;
-    top: 0.8em;
-    font-size: clamp(4.6rem, 20vw, 6.5rem);
+    left: 22%;
+    top: 0.72em;
+    font-size: clamp(3.8rem, 17vw, 5.5rem);
     line-height: 1;
+  }
+
+  .vh-root[data-hero-variant="intersected"] .vh-hero-softline,
+  .vh-root[data-hero-variant="grandeur"] .vh-hero-softline {
+    margin-top: 0.1rem;
+  }
+
+  .vh-root[data-hero-variant="intersected"] .vh-hero-coords,
+  .vh-root[data-hero-variant="grandeur"] .vh-hero-coords {
+    margin-top: 0.75rem;
   }
 
   /* —— 8 Inline star: keep on one line —— */
@@ -1367,10 +1406,6 @@
   .vh-root[data-hero-variant="hierarchy"] .vh-hero-title-line--b {
     font-size: clamp(5rem, 22vw, 7.5rem);
     line-height: 0.98;
-  }
-
-  .vh-root[data-hero-variant="grandeur"] .vh-hero-title-line {
-    font-size: clamp(5.2rem, 24vw, 8rem);
   }
 
   .vh-root[data-hero-variant="stacked"] .vh-hero-title-line {

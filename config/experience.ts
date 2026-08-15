@@ -19,7 +19,9 @@ export type SectionId =
   | "experiences"
   | "features"
   | "host"
-  | "reviews";
+  | "reviews"
+  | "gather"
+  | "album";
 
 export type ExperienceConfig = {
   id: PackageId;
@@ -55,15 +57,11 @@ export const experiences: Record<PackageId, ExperienceConfig> = {
     booking: "wizard",
     motion: "rich",
     header: "overlay",
-    /** Editorial story — not a generic hotel template order. */
+    /** Four-chapter editorial narrative. */
     sections: [
       "hero",
-      "statement",
-      "experiences",
-      "video",
-      "gallery",
-      "amenities",
-      "pricing",
+      "gather",
+      "album",
       "reviews",
       "map",
       "contact",

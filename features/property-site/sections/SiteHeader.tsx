@@ -88,18 +88,21 @@ export function SiteHeader() {
 
   const nav = [
     {
-      href: "#statement",
-      label: t3(locale, "Imanje", "Estate", "Усадьба"),
+      href: "#prostor",
+      label: t3(locale, "Prostor", "Gather", "Пространство"),
     },
     {
-      href: "#iskustva",
-      label: t3(locale, "Iskustva", "Moments", "Моменты"),
+      href: "#cene",
+      label: t3(locale, "Cene", "Rates", "Цены"),
     },
     {
-      href: "#video",
-      label: t3(locale, "Video", "Film", "Видео"),
+      href: "#galerija",
+      label: t3(locale, "Album", "Album", "Альбом"),
     },
-    { href: "#galerija", label: ui.nav.gallery },
+    {
+      href: "#utisci",
+      label: t3(locale, "Utisci", "Reviews", "Отзывы"),
+    },
     {
       href: "#lokacija",
       label: t3(locale, "Lokacija", "Location", "Локация"),
@@ -157,9 +160,6 @@ export function SiteHeader() {
                     {n.label}
                   </a>
                 ))}
-                <a href="#cene" onClick={closeMenu}>
-                  {t3(locale, "Cene", "Rates", "Цены")}
-                </a>
                 <a href="#kontakt" onClick={closeMenu}>
                   {ui.nav.contact}
                 </a>

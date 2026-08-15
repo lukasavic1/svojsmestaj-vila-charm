@@ -31,15 +31,32 @@ export function ReviewsSection() {
     <section className="vh-reviews" id="utisci" aria-labelledby="utisci-naslov">
       <div className="vh-wrap">
         <Reveal className="vh-reviews-head">
-          <p className="vh-pill">
-            {t3(locale, "Utisci gostiju", "Guest reviews", "Отзывы гостей")}
-          </p>
           <h2 id="utisci-naslov" className="vh-reviews-title">
-            {tx(reviews.heading, locale)}
+            {t3(
+              locale,
+              "Priča se ne završava odlaskom.",
+              "The story doesn’t end when you leave.",
+              "История не заканчивается с отъездом."
+            )}
           </h2>
-          <p className="vh-reviews-lead">{tx(reviews.lead, locale)}</p>
+          <p className="vh-reviews-lead">
+            {t3(
+              locale,
+              "Gosti koji su bili ovde nose deo Ville Charm sa sobom — a mnogi se vraćaju. Ako želite da napišete svoje poglavlje, javite nam se.",
+              "Guests who stay here take a piece of Villa Charm with them — and many return. If you want to write your own chapter, reach out.",
+              "Гости увозят с собой частичку Villa Charm — и многие возвращаются. Если хотите написать свою главу, напишите нам."
+            )}
+          </p>
           <p className="vh-reviews-pill" aria-label={ratingPill}>
             {ratingPill}
+          </p>
+          <p className="vh-reviews-proof">
+            {t3(
+              locale,
+              "Dokaz da se priča nastavlja",
+              "Proof the story continues",
+              "Доказательство, что история продолжается"
+            )}
           </p>
         </Reveal>
 

@@ -31,12 +31,16 @@ export function SiteFooter() {
             <p className="vh-footer-col-label">
               {t3(locale, "Istraži", "Explore", "Обзор")}
             </p>
-            <a href="#statement">
-              {t3(locale, "Imanje", "Estate", "Усадьба")}
+            <a href="#prostor">
+              {t3(locale, "Prostor", "Gather", "Пространство")}
             </a>
-            <a href="#video">{t3(locale, "Video", "Film", "Видео")}</a>
-            <a href="#galerija">{ui.nav.gallery}</a>
-            <a href="#sadrzaji">{ui.nav.amenities}</a>
+            <a href="#cene">{t3(locale, "Cene", "Rates", "Цены")}</a>
+            <a href="#galerija">
+              {t3(locale, "Album", "Album", "Альбом")}
+            </a>
+            <a href="#utisci">
+              {t3(locale, "Utisci", "Reviews", "Отзывы")}
+            </a>
             <a href="#lokacija">
               {t3(locale, "Lokacija", "Location", "Локация")}
             </a>

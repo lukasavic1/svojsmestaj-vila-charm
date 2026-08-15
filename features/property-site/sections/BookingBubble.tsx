@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { Modal } from "@/components/ui/Modal";
 import { WhatsAppSimpleIcon } from "@/components/ui/icons";
 import { Calendar } from "@/features/calendar/Calendar";
@@ -14,8 +15,8 @@ import { t3, tx } from "@/lib/i18n";
 function CalendarIcon() {
   return (
     <svg
-      width="22"
-      height="22"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -123,27 +124,23 @@ function BasicBookingPanel() {
                 ))}
               </dl>
             </div>
+            <a
+              className="btn btn-solid"
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatsAppSimpleIcon />
+              {ui.booking.whatsappCta}
+            </a>
           </div>
-          <a
-            className="btn btn-solid btn-block btn-glow"
-            href={estimate != null ? waHref : `https://wa.me/${property.contact.whatsapp}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <WhatsAppSimpleIcon />
-            {estimate != null
-              ? ui.booking.inquireSelected
-              : ui.booking.checkAvailability}
-          </a>
         </aside>
       </div>
     </div>
   );
 }
 
-/**
- * Floating booking bubble + sheet. Remove inline #termini section CTAs — this is the entry.
- */
+/** Round floating booking FAB — portaled to body so device frames can’t clip it. */
 export function BookingBubble() {
   const {
     locale,
@@ -155,6 +152,11 @@ export function BookingBubble() {
     openBooking,
     closeBooking,
   } = useDemo();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const label = t3(locale, "Termini", "Dates", "Даты");
   const title =
@@ -162,23 +164,29 @@ export function BookingBubble() {
       ? ui.booking.sectionHeading
       : ui.availability.heading;
 
+  const bubble =
+    mounted && !bookingOpen ? (
+      <button
+        type="button"
+        className="vh-book-bubble"
+        aria-label={ui.booking.checkAvailability}
+        onClick={() => openBooking()}
+      >
+        <span className="vh-book-bubble-ring" aria-hidden="true" />
+        <span
+          className="vh-book-bubble-ring vh-book-bubble-ring--delay"
+          aria-hidden="true"
+        />
+        <span className="vh-book-bubble-core">
+          <CalendarIcon />
+          <span className="vh-book-bubble-label">{label}</span>
+        </span>
+      </button>
+    ) : null;
+
   return (
     <>
-      {!bookingOpen ? (
-        <button
-          type="button"
-          className="vh-book-bubble"
-          aria-label={ui.booking.checkAvailability}
-          onClick={() => openBooking()}
-        >
-          <span className="vh-book-bubble-ring" aria-hidden="true" />
-          <span className="vh-book-bubble-ring vh-book-bubble-ring--delay" aria-hidden="true" />
-          <span className="vh-book-bubble-core">
-            <CalendarIcon />
-            <span className="vh-book-bubble-label">{label}</span>
-          </span>
-        </button>
-      ) : null}
+      {mounted && bubble ? createPortal(bubble, document.body) : null}
 
       <Modal
         open={bookingOpen}

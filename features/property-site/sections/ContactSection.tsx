@@ -5,28 +5,45 @@ import { useDemo } from "@/features/demo/DemoProvider";
 import { t3, tx } from "@/lib/i18n";
 
 export function ContactSection() {
-  const { locale, ui } = useDemo();
+  const { locale, ui, openBooking } = useDemo();
   const c = property.contact;
 
   return (
-    <section className="vh-contact" id="kontakt" aria-labelledby="kontakt-naslov">
+    <section className="vh-contact vh-contact--chapter" id="kontakt" aria-labelledby="kontakt-naslov">
       <div className="vh-wrap">
-        <div className="vh-contact-panel">
+        <div className="vh-contact-panel vh-contact-panel--chapter">
           <div className="vh-contact-copy">
-            <p className="vh-label vh-label--on-dark">
-              {ui.nav.contact}
+            <p className="vh-pill vh-label--on-dark">
+              {t3(
+                locale,
+                "Napišite vaše poglavlje",
+                "Write your chapter",
+                "Напишите свою главу"
+              )}
             </p>
             <h2 id="kontakt-naslov" className="vh-contact-title">
               {t3(
                 locale,
-                "Tu smo za sva pitanja.",
-                "We’re here for every question.",
-                "Мы на связи по любым вопросам."
+                "Sledeći trenutak počinje ovde.",
+                "The next moment begins here.",
+                "Следующий момент начинается здесь."
               )}
             </h2>
             <p className="vh-contact-lead">
-              {tx(c.lead, locale)}
+              {t3(
+                locale,
+                "Proverite termine i recite nam kako zamišljate boravak — mi ćemo potvrditi dostupnost i detalje.",
+                "Check dates and tell us how you imagine the stay — we’ll confirm availability and details.",
+                "Проверьте даты и расскажите, каким видите отдых — мы подтвердим доступность и детали."
+              )}
             </p>
+            <button
+              type="button"
+              className="vh-btn vh-btn--bronze vh-contact-cta"
+              onClick={() => openBooking()}
+            >
+              {t3(locale, "Proveri termine", "Check dates", "Смотреть даты")}
+            </button>
           </div>
 
           <ul className="vh-contact-cards">
