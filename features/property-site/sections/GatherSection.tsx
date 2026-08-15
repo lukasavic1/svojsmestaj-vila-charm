@@ -62,6 +62,7 @@ const SCENES = [
 export function GatherSection() {
   const { locale } = useDemo();
   const [active, setActive] = useState(0);
+  const [film, setFilm] = useState(0);
   const [desktopHover, setDesktopHover] = useState(false);
 
   useEffect(() => {
@@ -77,6 +78,14 @@ export function GatherSection() {
     "Trenuci na imanju",
     "Moments on the estate",
     "Моменты в усадьбе"
+  );
+
+  const featured = SCENES[film];
+  const featuredTitle = t3(
+    locale,
+    featured.title[0],
+    featured.title[1],
+    featured.title[2]
   );
 
   return (
@@ -101,35 +110,96 @@ export function GatherSection() {
           </p>
         </Reveal>
 
-        {/* Phone / tablet: horizontal cards */}
-        <div className="vh-gather-scenes">
-          {SCENES.map((scene, index) => (
-            <article className="vh-scene-card" key={scene.id}>
-              <div className="vh-scene-card-image">
+        {/* Phone / tablet: tap filmstrip */}
+        <Reveal className="vh-gather-film" delay={40}>
+          <div
+            className="vh-exp-film-stage"
+            role="region"
+            aria-live="polite"
+            aria-label={scenesLabel}
+          >
+            {SCENES.map((scene, i) => (
+              <div
+                key={scene.id}
+                className={`vh-exp-film-slide${i === film ? " is-on" : ""}`}
+                aria-hidden={i !== film}
+              >
                 <Image
                   src={scene.image}
-                  alt={t3(
-                    locale,
-                    scene.title[0],
-                    scene.title[1],
-                    scene.title[2]
-                  )}
+                  alt={i === film ? featuredTitle : ""}
                   fill
-                  quality={IMAGE_QUALITY.card}
-                  sizes="(max-width: 1024px) 78vw, 33vw"
-                  className="vh-photo"
-                  priority={index === 0}
+                  priority={i === 0}
+                  sizes="(max-width: 1024px) 100vw, 0px"
+                  quality={IMAGE_QUALITY.gallery}
+                  className="vh-photo vh-exp-film-img"
                 />
               </div>
-              <div className="vh-scene-card-copy">
-                <h3>
-                  {t3(locale, scene.title[0], scene.title[1], scene.title[2])}
-                </h3>
-                <p>{t3(locale, scene.body[0], scene.body[1], scene.body[2])}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+            ))}
+            <span className="vh-exp-veil vh-exp-veil--heavy" aria-hidden="true" />
+            <div className="vh-exp-film-copy" key={featured.id}>
+              <p className="vh-exp-badge">
+                {t3(
+                  locale,
+                  featured.badge[0],
+                  featured.badge[1],
+                  featured.badge[2]
+                )}
+              </p>
+              <h3 id={`gather-film-${featured.id}`}>{featuredTitle}</h3>
+              <p>
+                {t3(
+                  locale,
+                  featured.body[0],
+                  featured.body[1],
+                  featured.body[2]
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div
+            className="vh-exp-strip"
+            role="tablist"
+            aria-label={t3(
+              locale,
+              "Izaberite trenutak",
+              "Choose a moment",
+              "Выберите момент"
+            )}
+          >
+            {SCENES.map((scene, i) => {
+              const selected = i === film;
+              return (
+                <button
+                  key={scene.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  aria-controls={`gather-film-${scene.id}`}
+                  className={`vh-exp-thumb${selected ? " is-on" : ""}`}
+                  onClick={() => setFilm(i)}
+                >
+                  <Image
+                    src={scene.image}
+                    alt=""
+                    fill
+                    sizes="120px"
+                    quality={IMAGE_QUALITY.card}
+                    className="vh-photo"
+                  />
+                  <span className="vh-exp-thumb-label">
+                    {t3(
+                      locale,
+                      scene.badge[0],
+                      scene.badge[1],
+                      scene.badge[2]
+                    )}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
 
         {/* Desktop / laptop: hover accordion */}
         <Reveal className="vh-gather-desktop" delay={40}>
