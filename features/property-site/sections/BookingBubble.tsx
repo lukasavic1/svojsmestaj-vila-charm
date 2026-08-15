@@ -131,7 +131,7 @@ function BasicBookingPanel() {
               rel="noopener noreferrer"
             >
               <WhatsAppSimpleIcon />
-              {ui.booking.whatsappCta}
+              {ui.booking.inquireSelected}
             </a>
           </div>
         </aside>
