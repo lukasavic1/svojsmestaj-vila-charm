@@ -9,6 +9,7 @@ import { StepGuests } from "./steps/StepGuests";
 import { StepReview } from "./steps/StepReview";
 import { StepUnits } from "./steps/StepUnits";
 import { useDemo } from "@/features/demo/DemoProvider";
+import { RatesStrip } from "@/features/property-site/sections/RatesStrip";
 import type { Unit } from "@/types/property";
 
 function WizardBody() {
@@ -151,6 +152,7 @@ export function BookingWizard({
             {ui.booking.sectionHeading}
           </h2>
           <p className="sec-lead">{ui.booking.sectionLead}</p>
+          <RatesStrip variant="bubble" />
           <WizardProgress />
         </header>
         <WizardBody />

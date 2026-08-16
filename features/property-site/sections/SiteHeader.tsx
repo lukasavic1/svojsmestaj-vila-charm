@@ -88,18 +88,6 @@ export function SiteHeader() {
 
   const nav = [
     {
-      href: "#prostor",
-      label: t3(locale, "Prostor", "Gather", "Пространство"),
-    },
-    {
-      href: "#cene",
-      label: t3(locale, "Cene", "Rates", "Цены"),
-    },
-    {
-      href: "#galerija",
-      label: t3(locale, "Album", "Album", "Альбом"),
-    },
-    {
       href: "#utisci",
       label: t3(locale, "Utisci", "Reviews", "Отзывы"),
     },

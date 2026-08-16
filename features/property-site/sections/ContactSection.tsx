@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3, tx } from "@/lib/i18n";
+import { IMAGE_QUALITY } from "@/lib/images";
 
 export function ContactSection() {
   const { locale, ui, openBooking } = useDemo();
@@ -12,6 +14,16 @@ export function ContactSection() {
     <section className="vh-contact vh-contact--chapter" id="kontakt" aria-labelledby="kontakt-naslov">
       <div className="vh-wrap">
         <div className="vh-contact-panel vh-contact-panel--chapter">
+          <div className="vh-contact-bg" aria-hidden="true">
+            <Image
+              src="/images/pool-night-2.jpg"
+              alt=""
+              fill
+              quality={IMAGE_QUALITY.gallery}
+              sizes="(max-width: 1140px) 100vw, 1140px"
+              className="vh-photo"
+            />
+          </div>
           <div className="vh-contact-copy">
             <p className="vh-pill vh-label--on-dark">
               {t3(

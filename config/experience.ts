@@ -2,12 +2,12 @@ import type { PackageId } from "@/types/package";
 
 export type SectionId =
   | "hero"
+  | "leadin"
   | "statement"
   | "feature"
   | "discovery"
   | "intro"
   | "gallery"
-  | "story"
   | "amenities"
   | "pricing"
   | "availability"
@@ -60,6 +60,7 @@ export const experiences: Record<PackageId, ExperienceConfig> = {
     /** Four-chapter editorial narrative. */
     sections: [
       "hero",
+      "leadin",
       "gather",
       "album",
       "reviews",

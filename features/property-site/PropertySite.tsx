@@ -22,19 +22,20 @@ import { GatherSection } from "./sections/GatherSection";
 import { HeroSection } from "./sections/HeroSection";
 import { HostSection } from "./sections/HostSection";
 import { IntroSection } from "./sections/IntroSection";
+import { LeadInSection } from "./sections/LeadInSection";
 import { MapSection } from "./sections/MapSection";
 import { BookingBubble } from "./sections/BookingBubble";
 import { PricingSection } from "./sections/PricingSection";
 import { ReviewsSection } from "./sections/ReviewsSection";
 import { RulesSection } from "./sections/RulesSection";
 import { StatementSection } from "./sections/StatementSection";
-import { StorySection } from "./sections/StorySection";
 import { VideoSection } from "./sections/VideoSection";
 import { SiteFooter } from "./sections/SiteFooter";
 import { SiteHeader } from "./sections/SiteHeader";
 
 const SECTION_MAP: Record<SectionId, ComponentType> = {
   hero: HeroSection,
+  leadin: LeadInSection,
   statement: StatementSection,
   experiences: ExperiencesSection,
   feature: FeatureSection,
@@ -42,7 +43,6 @@ const SECTION_MAP: Record<SectionId, ComponentType> = {
   intro: IntroSection,
   gallery: GallerySection,
   video: VideoSection,
-  story: StorySection,
   features: FeaturesSection,
   amenities: AmenitiesSection,
   pricing: PricingSection,
