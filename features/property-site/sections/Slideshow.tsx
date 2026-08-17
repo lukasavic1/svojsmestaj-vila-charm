@@ -22,46 +22,66 @@ function armMutedInline(el: HTMLVideoElement) {
   el.setAttribute("webkit-playsinline", "");
 }
 
+/**
+ * Safari often sits at HAVE_METADATA for off-slide videos and never fires
+ * canplay unless load()/play() nudges the network. Keep trying briefly.
+ */
 function playWhenReady(el: HTMLVideoElement, signal: { cancelled: boolean }) {
   armMutedInline(el);
 
   let removeReady: (() => void) | undefined;
   let raf = 0;
+  const timers: number[] = [];
 
   const tryPlay = () => {
     if (signal.cancelled) return;
+    if (!el.paused && !el.ended && el.currentTime > 0) return;
     armMutedInline(el);
     void el.play().catch(() => {});
   };
 
-  /* Wait a frame so the slide is opacity:1 before Safari evaluates autoplay. */
-  raf = requestAnimationFrame(() => {
-    if (signal.cancelled) return;
-
-    if (el.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-      tryPlay();
-      return;
-    }
-
+  const armReady = () => {
     const onReady = () => tryPlay();
     el.addEventListener("loadeddata", onReady);
     el.addEventListener("canplay", onReady);
+    el.addEventListener("canplaythrough", onReady);
+    el.addEventListener("progress", onReady);
     removeReady = () => {
       el.removeEventListener("loadeddata", onReady);
       el.removeEventListener("canplay", onReady);
+      el.removeEventListener("canplaythrough", onReady);
+      el.removeEventListener("progress", onReady);
     };
+  };
 
-    if (el.readyState < HTMLMediaElement.HAVE_METADATA) {
+  raf = requestAnimationFrame(() => {
+    if (signal.cancelled) return;
+
+    armReady();
+
+    /* Don't call load() while a fetch is in flight — it aborts ~95MB buffers. */
+    const idle =
+      el.networkState === HTMLMediaElement.NETWORK_EMPTY ||
+      el.networkState === HTMLMediaElement.NETWORK_IDLE;
+    if (el.readyState < HTMLMediaElement.HAVE_CURRENT_DATA && idle) {
       try {
         el.load();
       } catch {
         /* ignore */
       }
     }
+
+    tryPlay();
+
+    /* Large clips (e.g. ~95MB tour) need repeated kicks on cellular Safari. */
+    for (const ms of [120, 400, 900, 2000, 4000, 7000]) {
+      timers.push(window.setTimeout(tryPlay, ms));
+    }
   });
 
   return () => {
     cancelAnimationFrame(raf);
+    timers.forEach((id) => window.clearTimeout(id));
     removeReady?.();
   };
 }
@@ -106,6 +126,27 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
     );
     return () => window.clearInterval(id);
   }, [count, paused, inView]);
+
+  /* Prefetch every clip in this carousel once visible — Safari won't
+   * buffer opacity:0 / far slides with preload=metadata alone. */
+  useEffect(() => {
+    if (!inView) return;
+    videoRefs.current.forEach((v, i) => {
+      armMutedInline(v);
+      v.preload = "auto";
+      if (i === active) return;
+      const idle =
+        v.networkState === HTMLMediaElement.NETWORK_EMPTY ||
+        v.networkState === HTMLMediaElement.NETWORK_IDLE;
+      if (v.readyState < HTMLMediaElement.HAVE_CURRENT_DATA && idle) {
+        try {
+          v.load();
+        } catch {
+          /* ignore */
+        }
+      }
+    });
+  }, [inView, active, count]);
 
   /*
    * Keep <video> nodes mounted (don’t remount on slide change).
@@ -189,15 +230,14 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
                   <video
                     ref={(el) => setVideoRef(i, el)}
                     className="vh-slide-video"
+                    src={s.src}
                     muted
                     loop
                     playsInline
-                    preload={Math.abs(i - active) <= 1 ? "auto" : "metadata"}
+                    preload={inView ? "auto" : "metadata"}
                     poster={s.poster}
                     draggable={false}
-                  >
-                    <source src={s.src} type="video/mp4" />
-                  </video>
+                  />
                   <span className="vh-slide-badge" aria-hidden="true">
                     {t3(locale, "Video", "Video", "Видео")}
                   </span>
