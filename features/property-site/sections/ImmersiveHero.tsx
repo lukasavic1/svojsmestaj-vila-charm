@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { PinIcon } from "@/components/ui/icons";
 import { heroSlides, unitHeroCovers } from "@/data/heroSlides";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
 import { t3, tx } from "@/lib/i18n";
+import { useSwipeIndex } from "@/lib/useSwipeIndex";
 import type { Locale } from "@/types/locale";
 
 const HERO_INTERVAL_MS = 7000;
@@ -35,6 +36,7 @@ export function ImmersiveHero() {
   const [instant, setInstant] = useState(false);
   const [inView, setInView] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   const activeUnit = units.length === 1 ? units[0] : units[index] ?? units[0];
   const specs = activeUnit.specs;
@@ -80,6 +82,20 @@ export function ImmersiveHero() {
     setCycle((c) => c + 1);
   };
 
+  const onSwipe = useCallback(
+    (direction: 1 | -1) => {
+      setInstant(true);
+      setIndex((i) => (i + direction + slides.length) % slides.length);
+      setCycle((c) => c + 1);
+    },
+    [slides.length]
+  );
+
+  useSwipeIndex(stageRef, {
+    count: slides.length,
+    onSwipe,
+  });
+
   return (
     <section
       ref={sectionRef}
@@ -87,6 +103,7 @@ export function ImmersiveHero() {
       aria-label={tx(activeUnit.name, locale)}
     >
       <div
+        ref={stageRef}
         className={`hero-stage${instant ? " is-instant" : ""}`}
         aria-hidden="true"
       >
@@ -104,6 +121,7 @@ export function ImmersiveHero() {
               quality={IMAGE_QUALITY.hero}
               sizes="100vw"
               className="hero-slide-img"
+              draggable={false}
             />
           </div>
         ))}

@@ -3213,6 +3213,11 @@ body:has(.modal-root) .discovery-card {
 
 .modal-panel--booking .booking-wizard-head {
   padding-right: 2.5rem;
+  overflow: visible;
+}
+
+.modal-panel--booking .vh-rates--bubble {
+  margin-top: 1.15rem;
 }
 
 /* Mobile / tablet: floating card, never flush to screen edges */
@@ -3848,6 +3853,12 @@ body:has(.modal-root) .discovery-card {
   height: auto;
   overflow: hidden;
   background: #1a3344;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+.hero-stage:active {
+  cursor: grabbing;
 }
 .hero-slide {
   position: absolute;

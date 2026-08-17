@@ -1,16 +1,70 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
 import { t3 } from "@/lib/i18n";
+import { useSwipeIndex } from "@/lib/useSwipeIndex";
 
 export type Slide =
   | { kind: "image"; src: string; alt: string }
   | { kind: "video"; src: string; poster: string; alt: string };
 
 const ADVANCE_MS = 5200;
+
+function armMutedInline(el: HTMLVideoElement) {
+  el.muted = true;
+  el.defaultMuted = true;
+  el.playsInline = true;
+  el.setAttribute("muted", "");
+  el.setAttribute("playsinline", "");
+  el.setAttribute("webkit-playsinline", "");
+}
+
+function playWhenReady(el: HTMLVideoElement, signal: { cancelled: boolean }) {
+  armMutedInline(el);
+
+  let removeReady: (() => void) | undefined;
+  let raf = 0;
+
+  const tryPlay = () => {
+    if (signal.cancelled) return;
+    armMutedInline(el);
+    void el.play().catch(() => {});
+  };
+
+  /* Wait a frame so the slide is opacity:1 before Safari evaluates autoplay. */
+  raf = requestAnimationFrame(() => {
+    if (signal.cancelled) return;
+
+    if (el.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      tryPlay();
+      return;
+    }
+
+    const onReady = () => tryPlay();
+    el.addEventListener("loadeddata", onReady);
+    el.addEventListener("canplay", onReady);
+    removeReady = () => {
+      el.removeEventListener("loadeddata", onReady);
+      el.removeEventListener("canplay", onReady);
+    };
+
+    if (el.readyState < HTMLMediaElement.HAVE_METADATA) {
+      try {
+        el.load();
+      } catch {
+        /* ignore */
+      }
+    }
+  });
+
+  return () => {
+    cancelAnimationFrame(raf);
+    removeReady?.();
+  };
+}
 
 /** Half-section media carousel — mixes photos and muted looping videos. */
 export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }) {
@@ -19,9 +73,19 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
   const [paused, setPaused] = useState(false);
   const [inView, setInView] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
 
   const count = slides.length;
+
+  const setVideoRef = useCallback((index: number, el: HTMLVideoElement | null) => {
+    if (el) {
+      armMutedInline(el);
+      videoRefs.current.set(index, el);
+    } else {
+      videoRefs.current.delete(index);
+    }
+  }, []);
 
   useEffect(() => {
     const el = rootRef.current;
@@ -43,17 +107,43 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
     return () => window.clearInterval(id);
   }, [count, paused, inView]);
 
+  /*
+   * Keep <video> nodes mounted (don’t remount on slide change).
+   * Safari iOS often refuses play() on a freshly mounted element with preload=none.
+   */
   useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (inView) {
-      void v.play().catch(() => {});
-    } else {
-      v.pause();
-    }
+    const signal = { cancelled: false };
+    const cleanups: Array<() => void> = [];
+
+    videoRefs.current.forEach((v, i) => {
+      if (i === active && inView) {
+        cleanups.push(playWhenReady(v, signal));
+      } else {
+        v.pause();
+      }
+    });
+
+    return () => {
+      signal.cancelled = true;
+      cleanups.forEach((fn) => fn());
+    };
   }, [active, inView]);
 
   const go = (i: number) => setActive((i + count) % count);
+
+  const onSwipe = useCallback(
+    (direction: 1 | -1) => {
+      setPaused(true);
+      setActive((i) => (i + direction + count) % count);
+    },
+    [count]
+  );
+
+  useSwipeIndex(stageRef, {
+    count,
+    onSwipe,
+    onInteract: () => setPaused(true),
+  });
 
   return (
     <div
@@ -65,7 +155,7 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="vh-slideshow-stage">
+      <div ref={stageRef} className="vh-slideshow-stage">
         {slides.map((s, i) => {
           const on = i === active;
           return (
@@ -83,6 +173,7 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
                   sizes="(max-width: 900px) 100vw, 46vw"
                   className="vh-photo"
                   priority={i === 0}
+                  draggable={false}
                 />
               ) : (
                 <>
@@ -92,21 +183,21 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
                     fill
                     quality={IMAGE_QUALITY.gallery}
                     sizes="(max-width: 900px) 100vw, 46vw"
-                    className="vh-photo"
+                    className="vh-photo vh-slide-poster"
+                    draggable={false}
                   />
-                  {on ? (
-                    <video
-                      ref={videoRef}
-                      className="vh-slide-video"
-                      muted
-                      loop
-                      playsInline
-                      preload="none"
-                      poster={s.poster}
-                    >
-                      <source src={s.src} type="video/mp4" />
-                    </video>
-                  ) : null}
+                  <video
+                    ref={(el) => setVideoRef(i, el)}
+                    className="vh-slide-video"
+                    muted
+                    loop
+                    playsInline
+                    preload={Math.abs(i - active) <= 1 ? "auto" : "metadata"}
+                    poster={s.poster}
+                    draggable={false}
+                  >
+                    <source src={s.src} type="video/mp4" />
+                  </video>
                   <span className="vh-slide-badge" aria-hidden="true">
                     {t3(locale, "Video", "Video", "Видео")}
                   </span>

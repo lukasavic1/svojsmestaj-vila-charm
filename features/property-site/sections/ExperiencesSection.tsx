@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
 import { t3 } from "@/lib/i18n";
+import { useSwipeIndex } from "@/lib/useSwipeIndex";
 
 type ExperienceCard = {
   id: string;
@@ -127,6 +128,19 @@ export function ExperiencesSection() {
   );
 
   const featured = cards[film];
+  const filmStageRef = useRef<HTMLDivElement>(null);
+
+  const onFilmSwipe = useCallback(
+    (direction: 1 | -1) => {
+      setFilm((i) => (i + direction + cards.length) % cards.length);
+    },
+    [cards.length]
+  );
+
+  useSwipeIndex(filmStageRef, {
+    count: cards.length,
+    onSwipe: onFilmSwipe,
+  });
 
   useEffect(() => {
     const hoverMq = window.matchMedia(DESKTOP_HOVER_MQ);
@@ -173,6 +187,7 @@ export function ExperiencesSection() {
         {/* Mobile + tablet: tap-to-expand filmstrip */}
         <Reveal className="vh-exp-film" delay={40}>
           <div
+            ref={filmStageRef}
             className="vh-exp-film-stage"
             role="region"
             aria-live="polite"

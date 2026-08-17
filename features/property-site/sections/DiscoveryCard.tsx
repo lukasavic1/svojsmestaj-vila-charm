@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useState, type MouseEvent, type TouchEvent } from "react";
+import { useCallback, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import type { Unit } from "@/types/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
 import { tx } from "@/lib/i18n";
+import { useSwipeIndex } from "@/lib/useSwipeIndex";
 
 type Props = {
   unit: Unit;
@@ -17,7 +18,7 @@ export function DiscoveryCard({ unit, onOpen }: Props) {
   const { locale, ui } = useDemo();
   const [photoIdx, setPhotoIdx] = useState(0);
   const photos = unit.photos;
-  const touchX = useRef<number | null>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
   const swiped = useRef(false);
 
   const step = (e: MouseEvent, delta: number) => {
@@ -26,24 +27,19 @@ export function DiscoveryCard({ unit, onOpen }: Props) {
     setPhotoIdx((i) => (i + delta + photos.length) % photos.length);
   };
 
-  const onTouchStart = (e: TouchEvent) => {
-    touchX.current = e.touches[0]?.clientX ?? null;
-  };
+  const onSwipe = useCallback(
+    (direction: 1 | -1) => {
+      swiped.current = true;
+      setPhotoIdx((i) => (i + direction + photos.length) % photos.length);
+    },
+    [photos.length]
+  );
 
-  const onTouchEnd = (e: TouchEvent) => {
-    if (touchX.current == null || photos.length < 2) return;
-    const x = e.changedTouches[0]?.clientX;
-    if (x == null) return;
-    const dx = x - touchX.current;
-    touchX.current = null;
-    if (Math.abs(dx) < 40) return;
-    swiped.current = true;
-    setPhotoIdx((i) =>
-      dx < 0
-        ? (i + 1) % photos.length
-        : (i - 1 + photos.length) % photos.length
-    );
-  };
+  useSwipeIndex(mediaRef, {
+    count: photos.length,
+    onSwipe,
+    threshold: 40,
+  });
 
   const openCard = () => {
     if (swiped.current) {
@@ -67,11 +63,7 @@ export function DiscoveryCard({ unit, onOpen }: Props) {
       }}
       aria-label={`${ui.units.details} — ${tx(unit.name, locale)}`}
     >
-      <div
-        className="discovery-media"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
+      <div ref={mediaRef} className="discovery-media">
         {photos.map((p, i) => (
           <Image
             key={p.src}
@@ -81,6 +73,7 @@ export function DiscoveryCard({ unit, onOpen }: Props) {
             quality={IMAGE_QUALITY.card}
             sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
             loading={i < 2 ? "eager" : "lazy"}
+            draggable={false}
             className={`discovery-img${i === photoIdx ? " is-active" : ""}`}
           />
         ))}
