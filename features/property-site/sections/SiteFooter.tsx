@@ -44,6 +44,9 @@ export function SiteFooter() {
             <a href="#lokacija">
               {t3(locale, "Lokacija", "Location", "Локация")}
             </a>
+            <a href="#faq">
+              {t3(locale, "Pitanja", "FAQ", "Вопросы")}
+            </a>
           </nav>
 
           <nav className="vh-footer-nav" aria-label={ui.nav.contact}>

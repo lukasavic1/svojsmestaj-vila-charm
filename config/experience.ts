@@ -21,7 +21,8 @@ export type SectionId =
   | "host"
   | "reviews"
   | "gather"
-  | "album";
+  | "album"
+  | "faq";
 
 export type ExperienceConfig = {
   id: PackageId;
@@ -47,6 +48,7 @@ export const experiences: Record<PackageId, ExperienceConfig> = {
       "gallery",
       "amenities",
       "map",
+      "faq",
       "contact",
     ],
   },
@@ -66,6 +68,7 @@ export const experiences: Record<PackageId, ExperienceConfig> = {
       "reviews",
       "amenities",
       "map",
+      "faq",
       "contact",
     ],
   },

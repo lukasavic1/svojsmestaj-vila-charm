@@ -11,6 +11,7 @@ import { ClosingSection } from "./sections/ClosingSection";
 import { ContactSection } from "./sections/ContactSection";
 import { DiscoverySection } from "./sections/DiscoverySection";
 import { ExperiencesSection } from "./sections/ExperiencesSection";
+import { FaqSection } from "./sections/FaqSection";
 import { FeatureSection } from "./sections/FeatureSection";
 import { FeaturesSection } from "./sections/FeaturesSection";
 import { GallerySection } from "./sections/GallerySection";
@@ -51,6 +52,7 @@ const SECTION_MAP: Record<SectionId, ComponentType> = {
   contact: ContactSection,
   gather: GatherSection,
   album: AlbumSection,
+  faq: FaqSection,
 };
 
 function PropertyExperience() {
