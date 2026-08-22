@@ -3859,7 +3859,17 @@ body:has(.vh-root) {
 
 @media (max-width: 899px) {
   .vh-story-themes {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    width: 100%;
+  }
+
+  .vh-story-theme {
+    padding-inline: 0.15rem;
+    text-align: center;
+    letter-spacing: 0.08em;
+    font-size: 0.64rem;
   }
 }
 
