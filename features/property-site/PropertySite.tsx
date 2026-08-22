@@ -4,10 +4,6 @@ import type { ComponentType } from "react";
 import { Suspense } from "react";
 import type { SectionId } from "@/config/experience";
 import { DemoProvider, useDemo } from "@/features/demo/DemoProvider";
-import {
-  HeroVariantProvider,
-  useHeroVariant,
-} from "@/features/hero-preview/HeroVariantProvider";
 import { AmenitiesSection } from "./sections/AmenitiesSection";
 import { AvailabilitySection } from "./sections/AvailabilitySection";
 import { AlbumSection } from "./sections/AlbumSection";
@@ -59,7 +55,6 @@ const SECTION_MAP: Record<SectionId, ComponentType> = {
 
 function PropertyExperience() {
   const { experience, packageId } = useDemo();
-  const { variant } = useHeroVariant();
 
   return (
     <>
@@ -70,7 +65,6 @@ function PropertyExperience() {
         data-motion={experience.motion}
         data-header={experience.header}
         data-theme="charm-editorial"
-        data-hero-variant={variant}
       >
         <SiteHeader />
         <main key={packageId} className="experience-main">
@@ -90,9 +84,7 @@ export function PropertySite() {
   return (
     <Suspense fallback={null}>
       <DemoProvider>
-        <HeroVariantProvider>
-          <PropertyExperience />
-        </HeroVariantProvider>
+        <PropertyExperience />
       </DemoProvider>
     </Suspense>
   );

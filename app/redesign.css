@@ -3,7 +3,13 @@
    Softer shapes · fewer borders · layered media · light/dark rhythm
    ========================================================================== */
 
-html:has(.vh-root),
+html:has(.vh-root) {
+  overflow-x: hidden;
+  /* Sit hash targets flush under the fixed nav (70px bar + 1px border).
+     Extra padding here left a strip of the previous section visible. */
+  scroll-padding-top: 71px;
+}
+
 body:has(.vh-root) {
   overflow-x: hidden;
 }

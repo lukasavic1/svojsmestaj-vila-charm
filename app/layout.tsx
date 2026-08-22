@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import {
-  Cinzel,
   Cormorant_Garamond,
   Great_Vibes,
   Manrope,
@@ -26,13 +25,6 @@ const playfair = Playfair_Display({
   weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-editorial",
-});
-
-const cinzel = Cinzel({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-  variable: "--font-cinema",
 });
 
 const script = Great_Vibes({
@@ -101,7 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="sr-Latn"
-      className={`${display.variable} ${playfair.variable} ${cinzel.variable} ${script.variable} ${sans.variable}`}
+      className={`${display.variable} ${playfair.variable} ${script.variable} ${sans.variable}`}
     >
       <body>{children}</body>
     </html>

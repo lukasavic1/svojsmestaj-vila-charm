@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import { CloseIcon, MenuIcon } from "@/components/ui/icons";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
-import { HeroVariantSwitcher } from "@/features/hero-preview/HeroVariantSwitcher";
 import { t3, tx } from "@/lib/i18n";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/types/locale";
 
@@ -87,6 +86,14 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   const nav = [
+    {
+      href: "#o-nama",
+      label: t3(locale, "O nama", "About", "О нас"),
+    },
+    {
+      href: "#prostor",
+      label: t3(locale, "Galerija", "Gallery", "Галерея"),
+    },
     {
       href: "#utisci",
       label: t3(locale, "Utisci", "Reviews", "Отзывы"),
@@ -183,7 +190,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="vh-nav-end">
-          <HeroVariantSwitcher />
           <LangSwitch locale={locale} setLocale={setLocale} className="vh-lang--nav" />
           <button
             type="button"

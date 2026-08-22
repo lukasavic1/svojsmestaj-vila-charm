@@ -207,7 +207,6 @@ export function VideoHero() {
       </div>
 
       <div className="vh-hero-content">
-        <span className="vh-hero-accent" aria-hidden="true" />
         <p className="vh-hero-kicker">
           {t3(
             locale,
@@ -218,9 +217,6 @@ export function VideoHero() {
         </p>
         <h1 className="vh-hero-title">
           <span className="vh-hero-title-line vh-hero-title-line--a">Villa</span>
-          <span className="vh-hero-title-connector" aria-hidden="true">
-            ✦
-          </span>
           <span className="vh-hero-title-line vh-hero-title-line--b">Charm</span>
         </h1>
         <p className="vh-hero-softline">

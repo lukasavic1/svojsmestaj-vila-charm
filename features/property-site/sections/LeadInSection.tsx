@@ -40,6 +40,7 @@ export function LeadInSection() {
 
   return (
     <StorySection
+      id="o-nama"
       title={t3(
         locale,
         "Tišina koja leči",
