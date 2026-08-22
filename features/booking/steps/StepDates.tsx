@@ -21,7 +21,7 @@ export function StepDates() {
             onChange={setDates}
           />
         </div>
-        <BookingSummary />
+        <BookingSummary compact />
       </div>
       <WizardNav onPrimary={goNext} primaryDisabled={!canContinue} />
     </div>

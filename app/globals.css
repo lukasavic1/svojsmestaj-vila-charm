@@ -1033,13 +1033,18 @@ body:has(.modal-root) .discovery-card {
   position: absolute;
   top: 12px;
   right: 12px;
+  z-index: 8;
+  display: grid;
+  place-items: center;
   width: 36px;
   height: 36px;
+  padding: 0;
   border-radius: 50%;
   border: 0;
   background: var(--sky);
   color: var(--sea);
   cursor: pointer;
+  line-height: 0;
 }
 .modal-title {
   font-size: 1.45rem;
@@ -2002,23 +2007,26 @@ body:has(.modal-root) .discovery-card {
   border-radius: 9px;
   font-size: clamp(0.78rem, 2.8vw, 0.92rem);
   font-variant-numeric: tabular-nums;
-  background: rgba(61, 111, 134, 0.14);
-  color: var(--sea);
-  font-weight: 600;
+  background: #d5ebe6;
+  color: #0c3d38;
+  font-weight: 650;
 }
 .cal .day.empty {
   background: none;
 }
 .cal .day.free {
-  background: rgba(61, 111, 134, 0.16);
-  color: var(--deep);
+  background: #c8e6df;
+  color: #0c3d38;
+  box-shadow: inset 0 0 0 1px rgba(15, 76, 69, 0.18);
 }
 .cal .day.taken {
-  background: rgba(15, 42, 61, 0.06);
-  color: rgba(15, 42, 61, 0.38);
+  background: #f0cfc4;
+  color: #7a2e14;
   text-decoration: line-through;
-  text-decoration-thickness: 1.5px;
-  font-weight: 500;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #c45a2a;
+  font-weight: 550;
+  box-shadow: none;
 }
 .cal .day-btn {
   border: 0;
@@ -2027,29 +2035,35 @@ body:has(.modal-root) .discovery-card {
   transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 .cal .day-btn.free:hover:not(:disabled) {
-  background: var(--sea);
-  color: var(--paper);
+  background: #0f4c45;
+  color: #fff8f1;
   transform: scale(1.04);
+  box-shadow: none;
 }
 .cal .day-btn:disabled {
   cursor: not-allowed;
 }
 .cal .day-btn.in-range {
-  background: rgba(61, 111, 134, 0.28);
-  color: var(--sea);
+  background: rgba(196, 90, 42, 0.22);
+  color: #8a3a18;
   text-decoration: none;
   border-radius: 0;
+  box-shadow: none;
 }
 .cal .day-btn.is-endpoint {
-  background: var(--sea);
-  color: var(--paper);
+  background: #c45a2a;
+  color: #fff8f1;
   border-radius: 9px;
   text-decoration: none;
+  box-shadow: none;
 }
 .cal .day-btn.is-past {
-  opacity: 0.35;
+  opacity: 1;
   background: transparent;
-  color: var(--sea-soft);
+  color: #8a9a96;
+  font-weight: 500;
+  box-shadow: none;
+  text-decoration: none;
 }
 .cal-legend {
   display: flex;
@@ -2071,13 +2085,15 @@ body:has(.modal-root) .discovery-card {
   flex: none;
 }
 .dot.free {
-  background: rgba(61, 111, 134, 0.45);
+  background: #c8e6df;
+  box-shadow: inset 0 0 0 1px rgba(15, 76, 69, 0.28);
 }
 .dot.busy {
-  background: rgba(15, 42, 61, 0.25);
+  background: #f0cfc4;
+  box-shadow: inset 0 0 0 1px rgba(196, 90, 42, 0.35);
 }
 .dot.selected {
-  background: var(--sea);
+  background: #c45a2a;
 }
 .cal-estimate {
   margin: 0;
@@ -2668,10 +2684,33 @@ body:has(.modal-root) .discovery-card {
   margin-bottom: clamp(24px, 4vw, 36px);
 }
 
+.booking-wizard-chrome {
+  flex: none;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 0 2.5rem 0.75rem 0;
+  background: var(--paper);
+  box-shadow: 0 12px 16px -14px rgba(15, 50, 45, 0.28);
+}
+
+.booking-wizard-chrome .sec-title {
+  margin: 0;
+}
+
+.booking-wizard-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.25rem 0 0.75rem;
+}
+
 .wiz-progress {
   list-style: none;
-  margin: 28px 0 0;
-  padding: 0 4px;
+  margin: 0.85rem 0 0;
+  padding: 0 4px 0.15rem;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -2728,8 +2767,8 @@ body:has(.modal-root) .discovery-card {
 }
 @media (min-width: 768px) {
   .wiz-progress {
-    margin-top: 28px;
-    padding: 0 12px;
+    margin-top: 1rem;
+    padding: 0 12px 0.15rem;
   }
   .wiz-progress::before {
     left: 36px;
@@ -3194,16 +3233,32 @@ body:has(.modal-root) .discovery-card {
 }
 
 .modal-panel--booking {
+  display: flex;
+  flex-direction: column;
   width: min(960px, 100%);
   max-height: min(90svh, 980px);
+  overflow: hidden;
 }
 
 .modal-panel--booking .modal-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
   padding-top: 0.25rem;
 }
 
+.modal-panel--booking .vh-book-dock,
 .modal-panel--booking .booking-wizard {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
   max-width: none;
+}
+
+.modal-panel--booking .booking-wizard {
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -3216,8 +3271,23 @@ body:has(.modal-root) .discovery-card {
   overflow: visible;
 }
 
+.modal-panel--booking .modal-close {
+  z-index: 8;
+}
+
 .modal-panel--booking .vh-rates--bubble {
-  margin-top: 0.7rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0.85rem;
+}
+
+.modal-panel--booking .book-summary {
+  position: static;
+  top: auto;
+}
+
+.modal-panel--booking .book-summary.is-compact {
+  position: sticky;
+  top: 1.25rem;
 }
 
 /* Mobile / tablet: floating card, never flush to screen edges */
@@ -3268,20 +3338,18 @@ body:has(.modal-root) .discovery-card {
   }
 
   .modal-panel--booking .modal-close {
-    top: 0.55rem;
-    right: 0.55rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    z-index: 2;
+    top: 1.5rem;
+    right: 0.7rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    z-index: 8;
   }
 
   .modal-panel--booking .modal-body {
-    overflow: auto;
+    overflow: hidden;
     flex: 1 1 auto;
     min-height: 0;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    padding: 0 0 0.5rem;
+    padding: 0 0 0.15rem;
   }
 
   .modal-panel--booking .booking-wizard-head .sec-lead {
@@ -3340,11 +3408,22 @@ body:has(.modal-root) .discovery-card {
   gap: 20px;
   align-items: start;
 }
+
+.wiz-guests-layout,
+.review-layout {
+  align-items: stretch;
+}
+
 @media (max-width: 860px) {
   .wiz-dates-layout,
   .wiz-guests-layout,
   .review-layout {
     grid-template-columns: 1fr;
+  }
+
+  .modal-panel--booking .book-summary.is-compact {
+    position: static;
+    top: auto;
   }
 }
 
@@ -3370,30 +3449,38 @@ body:has(.modal-root) .discovery-card {
 }
 .range-cal-grid .day-btn:hover:not(:disabled) {
   transform: scale(1.04);
-  background: rgba(44, 116, 136, 0.28);
+  background: #0f4c45;
+  color: #fff8f1;
+}
+.range-cal-grid .day-btn.taken:hover,
+.range-cal-grid .day-btn.is-past:hover {
+  transform: none;
+  background: inherit;
+  color: inherit;
 }
 .range-cal-grid .day-btn:disabled {
   cursor: not-allowed;
 }
 .range-cal-grid .day-btn.is-past {
-  opacity: 0.35;
+  opacity: 1;
   background: transparent;
-  color: var(--sea-soft);
+  color: #8a9a96;
 }
 .range-cal-grid .day-btn.in-range {
-  background: rgba(44, 116, 136, 0.22);
-  color: var(--sea);
+  background: rgba(196, 90, 42, 0.22);
+  color: #8a3a18;
   text-decoration: none;
   border-radius: 0;
 }
 .range-cal-grid .day-btn.is-endpoint {
-  background: var(--sea);
-  color: var(--paper);
+  background: #c45a2a;
+  color: #fff8f1;
   border-radius: 9px;
   text-decoration: none;
 }
-.dot.selected {
-  background: var(--sea);
+.range-cal-grid .day-btn.is-endpoint:hover:not(:disabled) {
+  background: #c45a2a;
+  color: #fff8f1;
 }
 .range-cal-clear {
   margin-top: 14px;
@@ -3412,7 +3499,7 @@ body:has(.modal-root) .discovery-card {
   background: var(--sand);
   border: 1px solid var(--line);
   border-radius: var(--r);
-  padding: 20px;
+  padding: 22px;
   box-shadow: var(--shadow);
   position: sticky;
   top: 88px;
@@ -3483,6 +3570,52 @@ body:has(.modal-root) .discovery-card {
   font-family: var(--font-heading), serif;
   font-size: 1.35rem;
   color: var(--roof);
+}
+
+.book-summary.is-compact {
+  padding: 0.85rem 0.95rem 0.95rem;
+}
+
+.book-summary.is-compact h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+
+.book-summary.is-compact .book-summary-unit {
+  gap: 0.65rem;
+  margin-bottom: 0.7rem;
+}
+
+.book-summary.is-compact .book-summary-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+}
+
+.book-summary.is-compact .book-summary-unit strong {
+  font-size: 0.88rem;
+  margin-bottom: 0;
+}
+
+.book-summary.is-compact .book-summary-unit p {
+  display: none;
+}
+
+.book-summary.is-compact .book-summary-dl {
+  gap: 0.35rem;
+}
+
+.book-summary.is-compact .book-summary-dl div {
+  font-size: 0.8rem;
+  padding-bottom: 0.4rem;
+}
+
+.book-summary.is-compact .book-summary-total {
+  margin-top: 0.7rem;
+}
+
+.book-summary.is-compact .book-summary-total strong {
+  font-size: 1.15rem;
 }
 
 .guest-panel {

@@ -138,8 +138,7 @@ export function Calendar({
           const classes = [
             "day",
             selectable ? "day-btn" : "",
-            taken ? "taken" : "free",
-            past && !taken ? "is-past" : "",
+            taken ? "taken" : past ? "is-past" : "free",
             inRange ? "in-range" : "",
             endpoint ? "is-endpoint" : "",
           ]

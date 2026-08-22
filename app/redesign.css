@@ -5161,10 +5161,7 @@ body:has(.modal-root) .vh-book-bubble {
   min-height: 0;
 }
 
-.vh-book-dock .booking-wizard-head {
-  margin-bottom: 0.35rem;
-}
-
+.vh-book-dock .booking-wizard-chrome .sec-title,
 .vh-book-dock .sec-title {
   font-size: clamp(1.45rem, 4vw, 1.85rem);
 }

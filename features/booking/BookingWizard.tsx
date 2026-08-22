@@ -22,7 +22,9 @@ function WizardBody() {
     if (!target) return;
     const id = window.requestAnimationFrame(() => {
       target.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      target.closest(".modal-body")?.scrollTo({ top: 0, behavior: "smooth" });
+      target
+        .closest(".booking-wizard-scroll, .modal-body")
+        ?.scrollTo({ top: 0, behavior: "smooth" });
     });
     return () => window.cancelAnimationFrame(id);
   }, [stepScrollNonce]);
@@ -141,13 +143,18 @@ function WizardHead() {
   const showRates = step === flowSteps[0];
 
   return (
-    <header className="booking-wizard-head">
-      <h2 className="sec-title" id="termini-naslov">
-        {ui.booking.sectionHeading}
-      </h2>
-      {showRates ? <RatesStrip variant="bubble" /> : null}
-      <WizardProgress />
-    </header>
+    <>
+      <header className="booking-wizard-chrome">
+        <h2 className="sec-title" id="termini-naslov">
+          {ui.booking.sectionHeading}
+        </h2>
+        <WizardProgress />
+      </header>
+      <div className="booking-wizard-scroll">
+        {showRates ? <RatesStrip variant="bubble" /> : null}
+        <WizardBody />
+      </div>
+    </>
   );
 }
 
@@ -162,7 +169,6 @@ export function BookingWizard({
     <BookingProvider units={units} initialUnitId={initialUnitId}>
       <div className="booking-wizard">
         <WizardHead />
-        <WizardBody />
         <SuccessPopup />
       </div>
     </BookingProvider>

@@ -53,7 +53,9 @@ export function Modal({
 
   const contentScrollTop = () => {
     const body = bodyRef.current;
-    const nested = body?.querySelector<HTMLElement>(".qv-scroll");
+    const nested = body?.querySelector<HTMLElement>(
+      ".qv-scroll, .booking-wizard-scroll"
+    );
     return Math.max(
       body?.scrollTop ?? 0,
       panelRef.current?.scrollTop ?? 0,
@@ -96,7 +98,7 @@ export function Modal({
       if (!target) return;
       if (
         target.closest(
-          ".qv-scroll, .modal-body, .modal-panel, .head-drawer, .vh-book-dock, .booking-wizard, .cal-grid, input, textarea"
+          ".qv-scroll, .modal-body, .modal-panel, .head-drawer, .vh-book-dock, .booking-wizard, .booking-wizard-scroll, .cal-grid, input, textarea"
         )
       ) {
         return;
@@ -256,7 +258,15 @@ export function Modal({
           onClick={onClose}
           aria-label={closeLabel}
         >
-          ✕
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+            <path
+              d="M6 6l12 12M18 6 6 18"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+            />
+          </svg>
         </button>
         <h2
           id={titleId}

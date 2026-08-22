@@ -130,8 +130,7 @@ export function RangeCalendar({
           const classes = [
             "day",
             "day-btn",
-            booked ? "taken" : "",
-            past && !booked ? "is-past" : "",
+            booked ? "taken" : past ? "is-past" : "free",
             inRange ? "in-range" : "",
             endpoint ? "is-endpoint" : "",
           ]
