@@ -3217,7 +3217,7 @@ body:has(.modal-root) .discovery-card {
 }
 
 .modal-panel--booking .vh-rates--bubble {
-  margin-top: 1.15rem;
+  margin-top: 0.7rem;
 }
 
 /* Mobile / tablet: floating card, never flush to screen edges */

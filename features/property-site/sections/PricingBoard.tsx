@@ -3,6 +3,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3 } from "@/lib/i18n";
+import { RateCard } from "./RatesStrip";
 
 type PricingBoardProps = {
   embedded?: boolean;
@@ -39,43 +40,9 @@ export function PricingBoard({ embedded = false }: PricingBoardProps) {
         </Reveal>
 
         <div className="vh-pricing-main">
-          <div className="vh-pricing-cards">
-            <Reveal className="vh-price-card" delay={40}>
-              <header className="vh-price-card-head">
-                <h3>{t3(locale, "Radni dani", "Weekdays", "Будни")}</h3>
-                <p>{t3(locale, "Pon – Čet", "Mon – Thu", "Пн – Чт")}</p>
-              </header>
-              <p className="vh-price-card-sum">
-                <strong>300 €</strong>
-                <span>{t3(locale, "/ noć", "/ night", "/ ночь")}</span>
-              </p>
-              <p className="vh-price-card-tag">
-                {t3(locale, "−15% za 7+ noći", "−15% for 7+ nights", "−15% за 7+ ночей")}
-              </p>
-            </Reveal>
-
-            <Reveal className="vh-price-card vh-price-card--featured" delay={70}>
-              <span className="vh-price-card-badge">
-                {t3(locale, "Najtraženije", "Most booked", "Самый популярный")}
-              </span>
-              <header className="vh-price-card-head">
-                <h3>{t3(locale, "Vikend", "Weekend", "Выходные")}</h3>
-                <p>{t3(locale, "Pet – Ned", "Fri – Sun", "Пт – Вс")}</p>
-              </header>
-              <p className="vh-price-card-sum">
-                <strong>500 €</strong>
-                <span>{t3(locale, "/ noć", "/ night", "/ ночь")}</span>
-              </p>
-              <p className="vh-price-card-tag">
-                {t3(
-                  locale,
-                  "−25% za 30+ noći",
-                  "−25% for 30+ nights",
-                  "−25% за 30+ ночей"
-                )}
-              </p>
-            </Reveal>
-          </div>
+          <Reveal delay={40}>
+            <RateCard />
+          </Reveal>
 
           <ul
             className="vh-pricing-perks"

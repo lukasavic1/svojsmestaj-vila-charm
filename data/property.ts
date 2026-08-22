@@ -104,9 +104,9 @@ const unitVilla: Unit = {
   price: {
     amount: L("od 300 €", "from €300", "от 300 €"),
     note: L(
-      "pon–čet · vikend 500 € · popusti za duži boravak",
-      "Mon–Thu · weekend €500 · longer-stay discounts",
-      "пн–чт · выходные 500 € · скидки на длительное проживание"
+      "pon–čet · vikend 500 €",
+      "Mon–Thu · weekend €500",
+      "пн–чт · выходные 500 €"
     ),
     perNightEur: 300,
   },
@@ -537,15 +537,15 @@ export const property: PropertySiteData = {
     body: LL(
       [
         "Izaberite datume i broj gostiju, pošaljite upit — potvrdićemo dostupnost i konačnu cenu pre rezervacije.",
-        "Cene zavise od dana u nedelji, broja gostiju i trajanja boravka. Za 7+ noći −15%, za 30+ noći −25%.",
+        "Cene zavise od dana u nedelji, broja gostiju i trajanja boravka.",
       ],
       [
         "Choose your dates and guest count, send an inquiry — we’ll confirm availability and the final price before booking.",
-        "Rates depend on the day of the week, guest count, and length of stay. 7+ nights −15%, 30+ nights −25%.",
+        "Rates depend on the day of the week, guest count, and length of stay.",
       ],
       [
         "Выберите даты и количество гостей, отправьте запрос — мы подтвердим свободные даты и итоговую стоимость до бронирования.",
-        "Цена зависит от дня недели, числа гостей и длительности проживания. От 7 ночей −15%, от 30 ночей −25%.",
+        "Цена зависит от дня недели, числа гостей и длительности проживания.",
       ]
     ),
   },

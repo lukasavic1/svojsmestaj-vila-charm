@@ -102,9 +102,9 @@ export const faq: {
         "Как забронировать и какие цены?"
       ),
       a: L(
-        "Rezervacija ide direktno sa nama, bez posredničkih provizija. Cena je od 300 € (pon–čet) i 500 € vikendom, uz popuste za duži boravak. Pošaljite termine — potvrdićemo dostupnost.",
-        "You book directly with us, with no middleman fees. Rates start at €300 (Mon–Thu) and €500 on weekends, with discounts for longer stays. Send your dates and we’ll confirm availability.",
-        "Бронирование напрямую с нами, без комиссий посредников. Цена от 300 € (пн–чт) и 500 € на выходных, со скидками за длительное проживание. Пришлите даты — подтвердим доступность."
+        "Rezervacija ide direktno sa nama, bez posredničkih provizija. Cena je od 300 € (pon–čet) i 500 € vikendom. Pošaljite termine — potvrdićemo dostupnost.",
+        "You book directly with us, with no middleman fees. Rates start at €300 (Mon–Thu) and €500 on weekends. Send your dates and we’ll confirm availability.",
+        "Бронирование напрямую с нами, без комиссий посредников. Цена от 300 € (пн–чт) и 500 € на выходных. Пришлите даты — подтвердим доступность."
       ),
     },
   ],

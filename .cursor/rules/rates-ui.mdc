@@ -1,0 +1,24 @@
+---
+description: Villa Charm rates UI — approved compact fare + what not to do
+globs: features/property-site/sections/RatesStrip.tsx,features/property-site/sections/PricingBoard.tsx,app/redesign.css
+alwaysApply: true
+---
+
+# Rates UI
+
+Guests see weekday **300 €** (Pon–Čet) and weekend **500 €** (Pet–Ned). Never show 15%/25% stay discounts.
+
+## Approved compact fare (remember / revert to this)
+
+One short two-cell strip — not two stacked cards. ~2 lines tall. No confirmation paragraph inside the booking sheet.
+
+- Left: `Radni dani` + `Pon – Čet` / **300** € / noć
+- Right: `Vikend` + `Pet – Ned` / **500** € / noć (copper number, faint warm fill)
+- Classes: `.vh-fare`, `.vh-fare-cell`, `.vh-fare-cell--peak`, `.vh-fare-label`, `.vh-fare-sum`
+- Keep side-by-side on phone. Do not stack.
+
+## Do not ship
+
+- Two tall rate cards (phone scroll)
+- Forest/sunset split, sun/moon icons, script “ili” medallion, giant display numbers
+- Extra muted disclaimer under the rates in `variant="bubble"`
