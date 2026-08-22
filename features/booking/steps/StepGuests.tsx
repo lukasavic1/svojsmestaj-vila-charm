@@ -58,8 +58,8 @@ export function StepGuests() {
     draft,
     setGuests,
     setSpecialRequest,
+    setGuestDetails,
     occupancyOk,
-    guestTotal,
     goNext,
     canContinue,
   } = useBooking();
@@ -105,12 +105,47 @@ export function StepGuests() {
           <label className="guest-notes">
             <span>{ui.booking.specialRequest}</span>
             <textarea
-              rows={4}
+              rows={2}
+              required
               value={draft.specialRequest}
               placeholder={ui.booking.specialRequestHint}
               onChange={(e) => setSpecialRequest(e.target.value)}
             />
           </label>
+
+          <div className="guest-details">
+            <p className="guest-details-title">{ui.booking.guestDetails}</p>
+            <label>
+              <span>{ui.booking.fullName}</span>
+              <input
+                type="text"
+                autoComplete="name"
+                required
+                value={draft.guestName}
+                onChange={(e) => setGuestDetails({ guestName: e.target.value })}
+              />
+            </label>
+            <label>
+              <span>{ui.booking.email}</span>
+              <input
+                type="email"
+                autoComplete="email"
+                required
+                value={draft.guestEmail}
+                onChange={(e) => setGuestDetails({ guestEmail: e.target.value })}
+              />
+            </label>
+            <label>
+              <span>{ui.booking.phone}</span>
+              <input
+                type="tel"
+                autoComplete="tel"
+                required
+                value={draft.guestPhone}
+                onChange={(e) => setGuestDetails({ guestPhone: e.target.value })}
+              />
+            </label>
+          </div>
         </div>
         <BookingSummary />
       </div>

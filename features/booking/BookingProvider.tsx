@@ -117,7 +117,8 @@ export function BookingProvider({
   const reviewOk =
     draft.guestName.trim().length > 1 &&
     emailOk(draft.guestEmail) &&
-    draft.guestPhone.trim().length >= 6;
+    draft.guestPhone.trim().length >= 6 &&
+    draft.specialRequest.trim().length > 0;
 
   const canContinue = useMemo(() => {
     switch (step) {
@@ -126,7 +127,7 @@ export function BookingProvider({
       case "dates":
         return datesOk;
       case "guests":
-        return occupancyOk && draft.adults >= 1;
+        return occupancyOk && draft.adults >= 1 && reviewOk;
       case "review":
         return reviewOk && datesOk && occupancyOk;
       default:

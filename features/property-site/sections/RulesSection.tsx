@@ -18,8 +18,7 @@ const s = {
   "aria-hidden": true as const,
 };
 
-/** Keyed by the English label so icons stay stable across locales. */
-const RULE_ICONS: Record<string, ReactNode> = {
+export const RULE_ICONS: Record<string, ReactNode> = {
   "Check-in": (
     <svg {...s}>
       <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />

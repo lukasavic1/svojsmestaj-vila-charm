@@ -3414,6 +3414,10 @@ body:has(.modal-root) .discovery-card {
   align-items: stretch;
 }
 
+.review-layout--solo {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 860px) {
   .wiz-dates-layout,
   .wiz-guests-layout,
@@ -3691,9 +3695,54 @@ body:has(.modal-root) .discovery-card {
   color: var(--ink);
   background: var(--paper);
   resize: vertical;
-  min-height: 110px;
+  min-height: 72px;
 }
 .guest-notes textarea:focus {
+  outline: 2px solid var(--wave);
+  outline-offset: 1px;
+}
+
+.guest-details {
+  display: grid;
+  gap: 14px;
+  margin-top: 1.35rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.guest-details-title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.guest-details label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sea-soft);
+}
+
+.guest-details input {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.guest-details input:focus {
   outline: 2px solid var(--wave);
   outline-offset: 1px;
 }

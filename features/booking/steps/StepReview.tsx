@@ -13,7 +13,6 @@ export function StepReview() {
     draft,
     nights,
     estimatedTotal,
-    setGuestDetails,
     confirm,
     canContinue,
   } = useBooking();
@@ -28,7 +27,7 @@ export function StepReview() {
 
   return (
     <div className="wiz-step" key="review">
-      <div className="review-layout">
+      <div className="review-layout review-layout--solo">
         <div className="review-card">
           <h3>{ui.booking.reviewTitle}</h3>
           <p className="review-lead">{ui.booking.reviewLead}</p>
@@ -84,6 +83,18 @@ export function StepReview() {
                   : ui.booking.noNotes}
               </dd>
             </div>
+            <div>
+              <dt>{ui.booking.fullName}</dt>
+              <dd>{draft.guestName}</dd>
+            </div>
+            <div>
+              <dt>{ui.booking.email}</dt>
+              <dd>{draft.guestEmail}</dd>
+            </div>
+            <div>
+              <dt>{ui.booking.phone}</dt>
+              <dd>{draft.guestPhone}</dd>
+            </div>
             {estimatedTotal != null && (
               <div>
                 <dt>{ui.booking.estimatedTotal}</dt>
@@ -93,40 +104,6 @@ export function StepReview() {
               </div>
             )}
           </dl>
-        </div>
-
-        <div className="review-form">
-          <h3>{ui.booking.guestDetails}</h3>
-          <label>
-            <span>{ui.booking.fullName}</span>
-            <input
-              type="text"
-              autoComplete="name"
-              required
-              value={draft.guestName}
-              onChange={(e) => setGuestDetails({ guestName: e.target.value })}
-            />
-          </label>
-          <label>
-            <span>{ui.booking.email}</span>
-            <input
-              type="email"
-              autoComplete="email"
-              required
-              value={draft.guestEmail}
-              onChange={(e) => setGuestDetails({ guestEmail: e.target.value })}
-            />
-          </label>
-          <label>
-            <span>{ui.booking.phone}</span>
-            <input
-              type="tel"
-              autoComplete="tel"
-              required
-              value={draft.guestPhone}
-              onChange={(e) => setGuestDetails({ guestPhone: e.target.value })}
-            />
-          </label>
         </div>
       </div>
 
