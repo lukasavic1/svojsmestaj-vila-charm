@@ -3733,6 +3733,49 @@ body:has(.vh-root) {
   margin-top: 0.8rem;
 }
 
+.vh-story-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.2rem;
+  margin: 0 0 0.9rem;
+  padding: 0 0 0.15rem;
+}
+
+.vh-story-theme {
+  appearance: none;
+  margin: 0;
+  padding: 0.42rem 0.72rem 0.5rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+
+.vh-story-theme:hover {
+  color: var(--ink);
+}
+
+.vh-story-theme.is-on {
+  color: var(--accent);
+  border-bottom-color: var(--bronze);
+}
+
+@media (max-width: 899px) {
+  .vh-story-themes {
+    justify-content: center;
+  }
+}
+
 @media (min-width: 900px) {
   .vh-story-grid {
     grid-template-columns: 1fr 1fr;

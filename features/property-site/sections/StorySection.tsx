@@ -12,6 +12,10 @@ type StorySectionProps = {
   /** When true, the slideshow sits on the left and the text on the right. */
   flip?: boolean;
   mediaLabel?: string;
+  /** Remount the slideshow when the set of slides changes (e.g. theme tabs). */
+  mediaKey?: string;
+  /** Sits above the slideshow — theme tabs, captions, etc. */
+  mediaHeader?: ReactNode;
   children?: ReactNode;
 };
 
@@ -23,6 +27,8 @@ export function StorySection({
   slides,
   flip = false,
   mediaLabel,
+  mediaKey,
+  mediaHeader,
   children,
 }: StorySectionProps) {
   const paragraphs = Array.isArray(body) ? body : [body];
@@ -41,7 +47,12 @@ export function StorySection({
         </Reveal>
 
         <Reveal className="vh-story-media" delay={60}>
-          <Slideshow slides={slides} label={mediaLabel} />
+          {mediaHeader}
+          <Slideshow
+            key={mediaKey ?? "slides"}
+            slides={slides}
+            label={mediaLabel}
+          />
         </Reveal>
       </div>
     </section>
