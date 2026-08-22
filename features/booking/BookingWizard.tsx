@@ -135,6 +135,22 @@ function SuccessPopup() {
   );
 }
 
+function WizardHead() {
+  const { ui } = useDemo();
+  const { step, flowSteps } = useBooking();
+  const showRates = step === flowSteps[0];
+
+  return (
+    <header className="booking-wizard-head">
+      <h2 className="sec-title" id="termini-naslov">
+        {ui.booking.sectionHeading}
+      </h2>
+      {showRates ? <RatesStrip variant="bubble" /> : null}
+      <WizardProgress />
+    </header>
+  );
+}
+
 export function BookingWizard({
   units,
   initialUnitId = null,
@@ -142,19 +158,10 @@ export function BookingWizard({
   units: Unit[];
   initialUnitId?: string | null;
 }) {
-  const { ui } = useDemo();
-
   return (
     <BookingProvider units={units} initialUnitId={initialUnitId}>
       <div className="booking-wizard">
-        <header className="booking-wizard-head">
-          <h2 className="sec-title" id="termini-naslov">
-            {ui.booking.sectionHeading}
-          </h2>
-          <p className="sec-lead">{ui.booking.sectionLead}</p>
-          <RatesStrip variant="bubble" />
-          <WizardProgress />
-        </header>
+        <WizardHead />
         <WizardBody />
         <SuccessPopup />
       </div>

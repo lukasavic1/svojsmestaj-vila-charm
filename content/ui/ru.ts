@@ -76,7 +76,6 @@ export const uiRu: UiDictionary = {
     checkAvailability: "Смотреть даты →",
     sendInquiry: "Отправить запрос",
     sectionHeading: "Бронирование",
-    sectionLead: "Выберите проживание, даты и гостей — мы подтвердим в ближайшее время.",
     steps: {
       unit: "Объект",
       dates: "Даты",

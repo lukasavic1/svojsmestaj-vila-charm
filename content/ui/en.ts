@@ -76,7 +76,6 @@ export const uiEn: UiDictionary = {
     checkAvailability: "Check dates →",
     sendInquiry: "Send an inquiry",
     sectionHeading: "Reservation",
-    sectionLead: "Choose your stay, dates, and guests — we’ll confirm shortly.",
     steps: {
       unit: "Stay",
       dates: "Dates",

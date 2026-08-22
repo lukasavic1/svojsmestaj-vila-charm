@@ -53,7 +53,6 @@ export type UiDictionary = {
     checkAvailability: string;
     sendInquiry: string;
     sectionHeading: string;
-    sectionLead: string;
     steps: {
       unit: string;
       dates: string;

@@ -76,7 +76,6 @@ export const uiSr: UiDictionary = {
     checkAvailability: "Proveri termine →",
     sendInquiry: "Pošaljite upit",
     sectionHeading: "Rezervacija",
-    sectionLead: "Izaberite smeštaj, datume i goste — mi ćemo potvrditi u najkraćem roku.",
     steps: {
       unit: "Smeštaj",
       dates: "Datumi",
