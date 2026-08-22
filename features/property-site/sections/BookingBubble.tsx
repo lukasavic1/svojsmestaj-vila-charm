@@ -158,7 +158,7 @@ export function BookingBubble() {
     setMounted(true);
   }, []);
 
-  const label = t3(locale, "Termini", "Dates", "Даты");
+  const label = t3(locale, "Rezerviši", "Book", "Бронь");
   const title =
     experience.booking === "wizard"
       ? ui.booking.sectionHeading
