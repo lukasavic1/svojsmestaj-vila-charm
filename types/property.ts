@@ -60,7 +60,8 @@ export type AmenityIconId =
   | "bbq"
   | "washer"
   | "pets"
-  | "garden";
+  | "garden"
+  | "kids";
 
 export type AmenityItem = {
   icon: AmenityIconId;

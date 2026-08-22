@@ -228,24 +228,18 @@ const unitVilla: Unit = {
       amenity("tv", "Televizori", "TVs", "Телевизоры"),
       amenity("washer", "Veš mašina", "Washing machine", "Стиральная машина"),
       amenity("linen", "Čisti peškiri", "Clean towels", "Свежие полотенца"),
+      amenity(
+        "kids",
+        "Dečiji sadržaji",
+        "Children's facilities",
+        "Детские удобства"
+      ),
       amenity("pets", "Pet-friendly", "Pet-friendly", "Можно с питомцами"),
       amenity(
         "tips",
         "Biblioteka i društvene igre",
         "Library and board games",
         "Библиотека и настольные игры"
-      ),
-      amenity(
-        "balcony",
-        "Veliki balkon / terasa",
-        "Large balcony / terrace",
-        "Большой балкон / терраса"
-      ),
-      amenity(
-        "fridge",
-        "Kuhinjski uređaji",
-        "Kitchen appliances",
-        "Кухонная техника"
       ),
       amenity(
         "shower",

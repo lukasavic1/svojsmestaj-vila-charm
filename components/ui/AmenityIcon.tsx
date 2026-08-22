@@ -134,6 +134,14 @@ const icons: Record<AmenityIconId, ReactNode> = {
       <path d="M5 22h14" />
     </svg>
   ),
+  kids: (
+    <svg {...s}>
+      <circle cx="9" cy="7" r="2.15" />
+      <path d="M5.2 20v-5.2a3.8 3.8 0 0 1 7.6 0V20" />
+      <circle cx="16.6" cy="9.2" r="1.65" />
+      <path d="M13.8 20v-3.6a2.8 2.8 0 0 1 5.6 0V20" />
+    </svg>
+  ),
 };
 
 export function AmenityIcon({ id }: { id: AmenityIconId }) {
