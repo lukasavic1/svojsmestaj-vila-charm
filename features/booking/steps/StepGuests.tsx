@@ -28,7 +28,7 @@ function Counter({
   maxMessage: string;
 }) {
   const [warn, setWarn] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const timer = useRef<number | undefined>(undefined);
   const canDec = value > min;
 
   const flash = () => {
