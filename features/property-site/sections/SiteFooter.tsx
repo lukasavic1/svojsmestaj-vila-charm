@@ -1,13 +1,42 @@
 "use client";
 
+import type { SectionId } from "@/config/experience";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3, tx } from "@/lib/i18n";
 
+const EXPLORE_LINKS: Partial<
+  Record<SectionId, { href: string; sr: string; en: string; ru: string }>
+> = {
+  leadin: { href: "#o-nama", sr: "O nama", en: "About", ru: "О нас" },
+  intro: {
+    href: "#o-smestaju",
+    sr: "O smeštaju",
+    en: "The stay",
+    ru: "О жилье",
+  },
+  gather: { href: "#prostor", sr: "Galerija", en: "Gallery", ru: "Галерея" },
+  album: { href: "#galerija", sr: "Događaji", en: "Events", ru: "События" },
+  gallery: { href: "#galerija", sr: "Galerija", en: "Gallery", ru: "Галерея" },
+  reviews: { href: "#utisci", sr: "Utisci", en: "Reviews", ru: "Отзывы" },
+  amenities: {
+    href: "#sadrzaji",
+    sr: "Sadržaji",
+    en: "Amenities",
+    ru: "Удобства",
+  },
+  pricing: { href: "#cene", sr: "Cene", en: "Rates", ru: "Цены" },
+  map: { href: "#lokacija", sr: "Lokacija", en: "Location", ru: "Локация" },
+  faq: { href: "#faq", sr: "Pitanja", en: "FAQ", ru: "Вопросы" },
+};
+
 export function SiteFooter() {
-  const { ui, locale } = useDemo();
+  const { ui, locale, experience } = useDemo();
   const brand = property.units[0];
   const phone = property.contact.phone;
+  const explore = experience.sections
+    .map((id) => EXPLORE_LINKS[id])
+    .filter((link): link is NonNullable<typeof link> => Boolean(link));
 
   return (
     <footer className="vh-footer">
@@ -31,22 +60,11 @@ export function SiteFooter() {
             <p className="vh-footer-col-label">
               {t3(locale, "Istraži", "Explore", "Обзор")}
             </p>
-            <a href="#prostor">
-              {t3(locale, "Prostor", "Gather", "Пространство")}
-            </a>
-            <a href="#cene">{t3(locale, "Cene", "Rates", "Цены")}</a>
-            <a href="#galerija">
-              {t3(locale, "Album", "Album", "Альбом")}
-            </a>
-            <a href="#utisci">
-              {t3(locale, "Utisci", "Reviews", "Отзывы")}
-            </a>
-            <a href="#lokacija">
-              {t3(locale, "Lokacija", "Location", "Локация")}
-            </a>
-            <a href="#faq">
-              {t3(locale, "Pitanja", "FAQ", "Вопросы")}
-            </a>
+            {explore.map((link) => (
+              <a key={link.href} href={link.href}>
+                {t3(locale, link.sr, link.en, link.ru)}
+              </a>
+            ))}
           </nav>
 
           <nav className="vh-footer-nav" aria-label={ui.nav.contact}>

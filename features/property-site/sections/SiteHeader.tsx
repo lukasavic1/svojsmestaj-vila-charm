@@ -95,12 +95,20 @@ export function SiteHeader() {
       label: t3(locale, "Galerija", "Gallery", "Галерея"),
     },
     {
+      href: "#galerija",
+      label: t3(locale, "Događaji", "Events", "События"),
+    },
+    {
       href: "#utisci",
       label: t3(locale, "Utisci", "Reviews", "Отзывы"),
     },
     {
       href: "#lokacija",
       label: t3(locale, "Lokacija", "Location", "Локация"),
+    },
+    {
+      href: "#faq",
+      label: t3(locale, "Pitanja", "FAQ", "Вопросы"),
     },
   ];
 

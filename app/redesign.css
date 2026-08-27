@@ -334,7 +334,7 @@ body:has(.vh-root) {
   align-items: center;
   justify-content: center;
   min-height: var(--tap);
-  min-width: 5.75rem;
+  min-width: 4.1rem;
   color: inherit;
   text-decoration: none;
   font-family: var(--font-body), system-ui, sans-serif;
