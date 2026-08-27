@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { InstagramIcon } from "@/components/ui/icons";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3, tx } from "@/lib/i18n";
@@ -67,6 +68,22 @@ export function ContactSection() {
               <span>{ui.contact.email}</span>
               <a href={`mailto:${c.email}`}>{c.email}</a>
             </li>
+            {c.instagram ? (
+              <li className="vh-contact-ig">
+                <span>
+                  <InstagramIcon />
+                  {ui.contact.instagram}
+                </span>
+                <a
+                  href={c.instagram.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${ui.contact.instagram}: ${c.instagram.handle}`}
+                >
+                  {c.instagram.handle}
+                </a>
+              </li>
+            ) : null}
             <li>
               <span>{t3(locale, "Lokacija", "Location", "Локация")}</span>
               <strong>

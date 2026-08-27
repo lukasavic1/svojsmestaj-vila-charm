@@ -628,6 +628,10 @@ export const property: PropertySiteData = {
     phone: "+381 60 434 6644",
     whatsapp: "381604346644",
     email: "rezervacije@weekendica.com",
+    instagram: {
+      handle: "@villacharm.barajevo",
+      url: "https://www.instagram.com/villacharm.barajevo/",
+    },
     footnote: L(
       "Adresa se šalje nakon potvrde rezervacije. Svetosavska, Barajevo.",
       "The exact address is shared after booking confirmation. Svetosavska, Barajevo.",

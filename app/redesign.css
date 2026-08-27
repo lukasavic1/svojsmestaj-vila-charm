@@ -5142,6 +5142,23 @@ body:has(.vh-root) {
   color: #ffb088;
 }
 
+.vh-contact-ig {
+  background: rgba(224, 107, 53, 0.22) !important;
+  border-color: rgba(255, 176, 136, 0.38) !important;
+}
+
+.vh-contact-ig span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #ffb088;
+}
+
+.vh-contact-ig svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
 .vh-contact-note {
   margin: 1rem 0 0;
   color: var(--muted);
@@ -5215,6 +5232,61 @@ body:has(.vh-root) {
 
 .vh-footer-nav a:hover {
   color: #fff8f1;
+}
+
+.vh-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.95rem 0.55rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(224, 107, 53, 0.2);
+  border: 1px solid rgba(255, 176, 136, 0.38);
+  color: #ffb088;
+  text-decoration: none;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.vh-ig:hover {
+  background: rgba(224, 107, 53, 0.32);
+  color: #fff8f1;
+}
+
+.vh-ig svg {
+  flex: none;
+}
+
+.vh-ig-copy {
+  display: grid;
+  gap: 0.08rem;
+  line-height: 1.15;
+}
+
+.vh-ig-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.vh-ig-handle {
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: #fff8f1;
+}
+
+.vh-menu-ig {
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--accent);
+  background: rgba(224, 107, 53, 0.1);
+  border-color: rgba(196, 90, 42, 0.28);
+}
+
+.vh-menu-ig .vh-ig-handle {
+  color: var(--ink);
 }
 
 .vh-footer-aside-text {

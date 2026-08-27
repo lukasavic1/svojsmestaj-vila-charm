@@ -34,6 +34,7 @@ export function SiteFooter() {
   const { ui, locale, experience } = useDemo();
   const brand = property.units[0];
   const phone = property.contact.phone;
+  const instagram = property.contact.instagram;
   const explore = experience.sections
     .map((id) => EXPLORE_LINKS[id])
     .filter((link): link is NonNullable<typeof link> => Boolean(link));
@@ -73,7 +74,16 @@ export function SiteFooter() {
             <a href={`mailto:${property.contact.email}`}>
               {property.contact.email}
             </a>
-            <a href="#kontakt">{ui.nav.contact}</a>
+            {instagram ? (
+              <a
+                href={instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${ui.contact.instagram}: ${instagram.handle}`}
+              >
+                {instagram.handle}
+              </a>
+            ) : null}
           </nav>
 
           <div className="vh-footer-aside">

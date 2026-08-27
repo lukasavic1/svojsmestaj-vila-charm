@@ -15,6 +15,9 @@ export function JsonLd() {
     url: siteConfig.url,
     telephone: property.contact.phone,
     email: property.contact.email,
+    ...(property.contact.instagram
+      ? { sameAs: [property.contact.instagram.url] }
+      : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: "Svetosavska",

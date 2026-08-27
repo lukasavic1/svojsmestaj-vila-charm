@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { CloseIcon, MenuIcon } from "@/components/ui/icons";
+import { CloseIcon, InstagramIcon, MenuIcon } from "@/components/ui/icons";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3, tx } from "@/lib/i18n";
@@ -192,6 +192,7 @@ export function SiteHeader() {
       : null;
 
   const bookLabel = t3(locale, "Rezerviši", "Book", "Бронь");
+  const instagram = property.contact.instagram;
 
   const drawer =
     menuOpen && mounted && portalTarget
@@ -228,6 +229,22 @@ export function SiteHeader() {
                 </a>
               </nav>
               <div className="vh-menu-foot">
+                {instagram ? (
+                  <a
+                    className="vh-ig vh-menu-ig"
+                    href={instagram.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={closeMenu}
+                    aria-label={`${ui.contact.instagram}: ${instagram.handle}`}
+                  >
+                    <InstagramIcon />
+                    <span className="vh-ig-copy">
+                      <span className="vh-ig-label">{ui.contact.instagram}</span>
+                      <span className="vh-ig-handle">{instagram.handle}</span>
+                    </span>
+                  </a>
+                ) : null}
                 <div className="vh-menu-langs" role="group" aria-label="Language">
                   {LOCALES.map((id) => (
                     <button
