@@ -88,18 +88,19 @@ function interiorRooms(locale: Locale): Record<InteriorSubCategory, Slide[]> {
         t3(locale, "Spavaća soba 1", "Bedroom 1", "Спальня 1")
       ),
       img(
-        "canopy-bed.jpg",
-        t3(locale, "Krevet sa baldahinom", "Canopy bed", "Кровать с балдахином")
+        "bedroom-2b.jpg",
+        t3(
+          locale,
+          "Spavaća soba 1 — drugi ugao",
+          "Bedroom 1 — another angle",
+          "Спальня 1 — другой ракурс"
+        )
       ),
     ],
     "soba-2": [
       img(
         "bedroom-2a.jpg",
         t3(locale, "Spavaća soba 2", "Bedroom 2", "Спальня 2")
-      ),
-      img(
-        "bedroom-2b.jpg",
-        t3(locale, "Spavaća soba 2 — drugi ugao", "Bedroom 2 — another angle", "Спальня 2 — другой ракурс")
       ),
       img(
         "bedroom-2c.jpg",

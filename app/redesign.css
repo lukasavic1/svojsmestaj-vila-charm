@@ -2556,7 +2556,7 @@ body:has(.vh-root) {
 
 /* ——— Amenities ——— */
 .vh-amenities {
-  padding: clamp(2.5rem, 5.5vw, 4rem) 0;
+  padding: clamp(2rem, 4vw, 3rem) 0;
   background: var(--bg);
 }
 
@@ -3233,7 +3233,7 @@ body:has(.vh-root) {
 
 /* ——— Reviews ——— */
 .vh-reviews {
-  padding: clamp(3.25rem, 7vw, 5.5rem) 0;
+  padding: clamp(2rem, 4.5vw, 3.25rem) 0;
   overflow-x: hidden;
   background:
     linear-gradient(180deg, rgba(255, 248, 241, 0.65), rgba(244, 236, 226, 0.35)),
@@ -3924,9 +3924,23 @@ body:has(.vh-root) {
 
 /* ——— Story sections (uniform half text / half slideshow) ——— */
 .vh-story {
-  padding: clamp(3.25rem, 8vw, 6rem) 0;
+  padding: clamp(1.75rem, 4vw, 2.75rem) 0;
   background: var(--bg);
   overflow-x: hidden;
+}
+
+@media (min-width: 900px) {
+  .vh-story {
+    min-height: calc(100svh - 71px);
+    padding: 1.35rem 0;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .vh-story > .vh-wrap {
+    width: min(100% - (var(--pad) * 2), var(--wrap));
+  }
 }
 
 .vh-story--flip {
@@ -3937,8 +3951,8 @@ body:has(.vh-root) {
 
 .vh-story-grid {
   display: grid;
-  gap: clamp(1.75rem, 5vw, 2.75rem);
-  align-items: center;
+  gap: clamp(1.25rem, 3.5vw, 2rem);
+  align-items: start;
 }
 
 .vh-story-media {
@@ -4156,6 +4170,7 @@ body:has(.vh-root) {
   .vh-story-grid {
     grid-template-columns: 1fr 1fr;
     gap: clamp(2.5rem, 5vw, 4.5rem);
+    align-items: center;
   }
 
   .vh-story-copy {
@@ -4235,7 +4250,14 @@ body:has(.vh-root) {
 
 @media (min-width: 900px) {
   .vh-slideshow-stage {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: auto;
+    width: 100%;
+    height: calc(100svh - 10.75rem);
+    max-height: 40rem;
+  }
+
+  .vh-story-media:has(.vh-story-themes) .vh-slideshow-stage {
+    height: calc(100svh - 13.25rem);
   }
 }
 
@@ -4351,7 +4373,7 @@ body:has(.vh-root) {
 
 /* ——— Album (Chapter 03) ——— */
 .vh-album {
-  padding: clamp(3rem, 7vw, 5rem) 0;
+  padding: clamp(2rem, 4.5vw, 3.25rem) 0;
   background: var(--surface);
 }
 
@@ -4416,7 +4438,7 @@ body:has(.vh-root) {
 }
 
 .vh-map {
-  padding: clamp(2.75rem, 6vw, 4.5rem) 0;
+  padding: clamp(2rem, 4.5vw, 3.25rem) 0;
   background: var(--bg);
 }
 
@@ -4963,7 +4985,7 @@ body:has(.vh-root) {
 /* ——— Contact ——— */
 /* ——— Contact (closing CTA) ——— */
 .vh-contact {
-  padding: clamp(3.5rem, 8vw, 5.5rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+  padding: clamp(2.25rem, 5vw, 3.5rem) 0 clamp(1.75rem, 4vw, 2.75rem);
   background: var(--bg);
 }
 
