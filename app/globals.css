@@ -3104,7 +3104,9 @@ body:has(.modal-root) .discovery-card {
   animation: wiz-success-backdrop 0.28s var(--ease) both;
 }
 .wiz-success-popup {
-  width: min(400px, 100%);
+  width: min(440px, 100%);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
   background: var(--paper);
   color: var(--ink);
   border-radius: 24px;
@@ -3150,15 +3152,77 @@ body:has(.modal-root) .discovery-card {
   animation: rise 0.4s var(--ease) 0.28s both;
 }
 .wiz-success-popup .success-body {
-  margin: 0 0 22px;
+  margin: 0 0 18px;
   color: var(--sea-soft);
   font-size: 0.95rem;
   line-height: 1.55;
   animation: rise 0.4s var(--ease) 0.34s both;
 }
+.wiz-success-popup .success-confirm {
+  text-align: left;
+  margin: 0 0 18px;
+  padding: 14px 14px 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--sand);
+  animation: rise 0.4s var(--ease) 0.38s both;
+}
+.wiz-success-popup .success-confirm-lead {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--sea-soft);
+}
+.wiz-success-popup .success-channels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.wiz-success-popup .success-channels a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px;
+  border-radius: 12px;
+  color: var(--sea);
+  text-decoration: none;
+}
+.wiz-success-popup .success-channels a:hover {
+  background: var(--paper);
+}
+.wiz-success-popup .success-channels svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--wave);
+}
+.wiz-success-popup .success-channels span {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.wiz-success-popup .success-channels em {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 .wiz-success-popup .btn {
   margin-top: 4px;
-  animation: rise 0.4s var(--ease) 0.4s both;
+  animation: rise 0.4s var(--ease) 0.44s both;
 }
 @keyframes wiz-success-backdrop {
   from {
@@ -3276,8 +3340,8 @@ body:has(.modal-root) .discovery-card {
 }
 
 .modal-panel--booking .vh-rates--bubble {
-  margin-top: 0.15rem;
-  margin-bottom: 0.85rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .modal-panel--booking .book-summary {
@@ -3634,6 +3698,14 @@ body:has(.modal-root) .discovery-card {
   color: var(--sea-soft);
   font-size: 0.92rem;
 }
+.guest-counter-block {
+  padding-bottom: 0.15rem;
+}
+
+.guest-counter-block + .guest-counter-block {
+  margin-top: 0.15rem;
+}
+
 .guest-counter {
   display: flex;
   justify-content: space-between;
@@ -3643,6 +3715,11 @@ body:has(.modal-root) .discovery-card {
   border-bottom: 1px solid var(--line);
   font-weight: 600;
 }
+
+.guest-counter-block.is-warn .guest-counter-controls strong {
+  color: #b42318;
+}
+
 .guest-counter-controls {
   display: flex;
   align-items: center;
@@ -3667,12 +3744,187 @@ body:has(.modal-root) .discovery-card {
   min-width: 1.5ch;
   text-align: center;
   font-variant-numeric: tabular-nums;
+  transition: color 0.2s ease;
 }
 .guest-error {
   margin: 12px 0 0;
   color: var(--roof);
   font-size: 0.9rem;
 }
+
+.guest-warn {
+  margin: 0.9rem 0 0.2rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(180, 35, 24, 0.1);
+  color: #9b1c1c;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.guest-day-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0.85rem 0 0;
+  color: var(--sea-soft);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.guest-day-note svg {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  margin-top: 0.12rem;
+  color: var(--accent-deep);
+}
+
+.guest-more {
+  margin: 1rem 0 0;
+  padding: 0.85rem 0.95rem;
+  border-radius: 14px;
+  background: rgba(15, 76, 69, 0.06);
+  border: 1px solid rgba(15, 76, 69, 0.08);
+}
+
+.guest-more-title {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.guest-more-body {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--sea-soft);
+}
+
+.guest-more-link {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.guest-more-link:hover {
+  color: var(--accent-deep);
+}
+
+.guest-cele {
+  position: relative;
+  margin-top: 1.15rem;
+}
+
+.guest-cele-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sea-soft);
+}
+
+.guest-cele-now {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 3.05rem;
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(20, 40, 36, 0.03);
+}
+
+.guest-cele-now.is-empty {
+  color: var(--sea-soft);
+  font-weight: 500;
+}
+
+.guest-cele-now.is-open,
+.guest-cele-now:focus-visible {
+  border-color: rgba(196, 90, 42, 0.45);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(196, 90, 42, 0.12);
+}
+
+.guest-cele-caret {
+  flex: none;
+  width: 0.38rem;
+  height: 0.38rem;
+  margin-top: -0.12rem;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.55;
+}
+
+.guest-cele-now.is-open .guest-cele-caret {
+  margin-top: 0.14rem;
+  transform: rotate(225deg);
+}
+
+.guest-cele-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.4rem);
+  z-index: 8;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  border: 1px solid rgba(20, 40, 36, 0.1);
+  border-radius: 16px;
+  background: #fffaf4;
+  box-shadow: 0 16px 36px rgba(20, 40, 36, 0.12);
+}
+
+.guest-cele-menu button {
+  appearance: none;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0.72rem 0.85rem;
+  border: 0;
+  border-radius: 11px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.guest-cele-menu button:hover,
+.guest-cele-menu button.is-on {
+  background: rgba(224, 107, 53, 0.1);
+  color: var(--accent);
+}
+
+.review-card .vh-fare-deposit {
+  margin-top: 1.1rem;
+}
+
 .guest-notes {
   display: grid;
   gap: 8px;

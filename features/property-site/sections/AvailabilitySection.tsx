@@ -9,6 +9,7 @@ import { BookingWizard } from "@/features/booking/BookingWizard";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { property } from "@/data/property";
 import { formatIsoDisplay, nightsBetween } from "@/lib/calendar";
+import { estimateStayTotal } from "@/features/booking/lib/rates";
 import { t3, tx } from "@/lib/i18n";
 
 export function AvailabilitySection() {
@@ -21,7 +22,14 @@ export function AvailabilitySection() {
   const nights =
     checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
   const estimate =
-    nights > 0 ? nights * unit.price.perNightEur : null;
+    checkIn && checkOut
+      ? estimateStayTotal(
+          checkIn,
+          checkOut,
+          unit.price.perNightEur,
+          unit.price.weekendEur
+        )
+      : null;
 
   const waHref = useMemo(() => {
     const base = `https://wa.me/${property.contact.whatsapp}`;

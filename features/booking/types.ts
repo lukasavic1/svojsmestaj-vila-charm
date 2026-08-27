@@ -8,12 +8,24 @@ export const BOOKING_STEPS = [
 
 export type BookingStep = (typeof BOOKING_STEPS)[number];
 
+export const CELEBRATION_TYPES = [
+  "stag",
+  "hen",
+  "kids_birthday",
+  "gathering",
+  "other",
+] as const;
+
+export type CelebrationType = (typeof CELEBRATION_TYPES)[number];
+
 export type BookingDraft = {
   unitId: string | null;
   checkIn: string | null;
   checkOut: string | null;
   adults: number;
   children: number;
+  dayGuests: number;
+  celebrationType: CelebrationType | "";
   specialRequest: string;
   guestName: string;
   guestEmail: string;
@@ -26,6 +38,8 @@ export const INITIAL_BOOKING_DRAFT: BookingDraft = {
   checkOut: null,
   adults: 2,
   children: 0,
+  dayGuests: 2,
+  celebrationType: "",
   specialRequest: "",
   guestName: "",
   guestEmail: "",

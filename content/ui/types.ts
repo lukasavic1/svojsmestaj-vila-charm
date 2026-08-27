@@ -97,6 +97,25 @@ export type UiDictionary = {
     specialRequestHint: string;
     occupancyHint: string;
     occupancyError: string;
+    sleepingGuests: string;
+    sleepingWarning: string;
+    dayGuests: string;
+    dayCapacityNote: string;
+    dayWarning: string;
+    moreGuestsTitle: string;
+    moreGuestsBody: string;
+    moreGuestsContact: string;
+    depositLabel: string;
+    depositNote: string;
+    celebrationType: string;
+    celebrationPlaceholder: string;
+    celebrationOptions: {
+      stag: string;
+      hen: string;
+      kids_birthday: string;
+      gathering: string;
+      other: string;
+    };
     guestDetails: string;
     fullName: string;
     email: string;
@@ -108,6 +127,8 @@ export type UiDictionary = {
     successTitle: string;
     successLead: string;
     successBody: string;
+    successConfirmNow: string;
+    successWhatsapp: string;
     successClose: string;
     newRequest: string;
     estimatedStay: string;

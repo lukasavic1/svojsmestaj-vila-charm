@@ -13,13 +13,15 @@ import {
   rangeHasBookedNight,
 } from "@/lib/calendar";
 import type { Unit } from "@/types/property";
+import { clampDayGuests, clampSleepingGuests, unitCapacity, unitDayCapacity } from "./lib/occupancy";
+import { estimateStayTotal } from "./lib/rates";
 import {
   bookingFlowSteps,
   INITIAL_BOOKING_DRAFT,
   type BookingDraft,
   type BookingStep,
+  type CelebrationType,
 } from "./types";
-import { clampGuests, unitCapacity } from "./lib/occupancy";
 
 type BookingContextValue = {
   step: BookingStep;
@@ -40,8 +42,10 @@ type BookingContextValue = {
   goTo: (step: BookingStep) => void;
   selectUnit: (unitId: string) => void;
   setDates: (checkIn: string | null, checkOut: string | null) => void;
-  setGuests: (adults: number, children: number) => void;
+  setGuests: (adults: number) => void;
+  setDayGuests: (count: number) => void;
   setSpecialRequest: (value: string) => void;
+  setCelebrationType: (value: CelebrationType | "") => void;
   setGuestDetails: (details: {
     guestName?: string;
     guestEmail?: string;
@@ -92,14 +96,22 @@ export function BookingProvider({
       : 0;
 
   const estimatedTotal =
-    selectedUnit && nights > 0
-      ? selectedUnit.price.perNightEur * nights
+    selectedUnit && draft.checkIn && draft.checkOut
+      ? estimateStayTotal(
+          draft.checkIn,
+          draft.checkOut,
+          selectedUnit.price.perNightEur,
+          selectedUnit.price.weekendEur
+        )
       : null;
 
-  const guestTotal = draft.adults + draft.children;
+  const guestTotal = draft.adults;
 
   const occupancyOk = selectedUnit
-    ? guestTotal >= 1 && guestTotal <= unitCapacity(selectedUnit)
+    ? guestTotal >= 2 &&
+      guestTotal <= unitCapacity(selectedUnit) &&
+      draft.dayGuests >= guestTotal &&
+      draft.dayGuests <= unitDayCapacity(selectedUnit)
     : false;
 
   const datesOk = Boolean(
@@ -118,7 +130,7 @@ export function BookingProvider({
     draft.guestName.trim().length > 1 &&
     emailOk(draft.guestEmail) &&
     draft.guestPhone.trim().length >= 6 &&
-    draft.specialRequest.trim().length > 0;
+    Boolean(draft.celebrationType);
 
   const canContinue = useMemo(() => {
     switch (step) {
@@ -127,7 +139,7 @@ export function BookingProvider({
       case "dates":
         return datesOk;
       case "guests":
-        return occupancyOk && draft.adults >= 1 && reviewOk;
+        return occupancyOk && draft.adults >= 2 && reviewOk;
       case "review":
         return reviewOk && datesOk && occupancyOk;
       default:
@@ -165,16 +177,19 @@ export function BookingProvider({
 
   const selectUnit = useCallback(
     (unitId: string) => {
+      const unit = units.find((u) => u.id === unitId) ?? null;
+      const sleepCap = unitCapacity(unit);
+      const dayCap = unitDayCapacity(unit);
       setDraft((d) => {
-        const unit = units.find((u) => u.id === unitId) ?? null;
-        const capped = clampGuests(d.adults, d.children, unitCapacity(unit));
+        const adults = clampSleepingGuests(d.adults, sleepCap);
         return {
           ...d,
           unitId,
           checkIn: null,
           checkOut: null,
-          adults: capped.adults,
-          children: capped.children,
+          adults,
+          children: 0,
+          dayGuests: clampDayGuests(d.dayGuests, adults, dayCap),
         };
       });
     },
@@ -189,21 +204,42 @@ export function BookingProvider({
   );
 
   const setGuests = useCallback(
-    (adults: number, children: number) => {
+    (adults: number) => {
       setDraft((d) => {
-        const unit = units.find((u) => u.id === d.unitId) ?? null;
-        const capped = clampGuests(adults, children, unitCapacity(unit));
+        const unit = units.find((u) => u.id === d.unitId) ?? units[0] ?? null;
+        const sleepCap = unitCapacity(unit);
+        const dayCap = unitDayCapacity(unit);
+        const next = clampSleepingGuests(adults, sleepCap);
         return {
           ...d,
-          adults: capped.adults,
-          children: capped.children,
+          adults: next,
+          children: 0,
+          dayGuests: clampDayGuests(Math.max(d.dayGuests, next), next, dayCap),
         };
       });
     },
     [units]
   );
+
+  const setDayGuests = useCallback(
+    (count: number) => {
+      setDraft((d) => {
+        const unit = units.find((u) => u.id === d.unitId) ?? units[0] ?? null;
+        return {
+          ...d,
+          dayGuests: clampDayGuests(count, d.adults, unitDayCapacity(unit)),
+        };
+      });
+    },
+    [units]
+  );
+
   const setSpecialRequest = useCallback((value: string) => {
     setDraft((d) => ({ ...d, specialRequest: value }));
+  }, []);
+
+  const setCelebrationType = useCallback((value: CelebrationType | "") => {
+    setDraft((d) => ({ ...d, celebrationType: value }));
   }, []);
 
   const setGuestDetails = useCallback(
@@ -273,7 +309,9 @@ export function BookingProvider({
       selectUnit,
       setDates,
       setGuests,
+      setDayGuests,
       setSpecialRequest,
+      setCelebrationType,
       setGuestDetails,
       confirm,
       dismissSuccess,
@@ -299,7 +337,9 @@ export function BookingProvider({
       selectUnit,
       setDates,
       setGuests,
+      setDayGuests,
       setSpecialRequest,
+      setCelebrationType,
       setGuestDetails,
       confirm,
       dismissSuccess,

@@ -67,12 +67,19 @@ export function StepReview() {
               <dd>{nightLabel}</dd>
             </div>
             <div>
-              <dt>{ui.booking.guests}</dt>
+              <dt>{ui.booking.sleepingGuests}</dt>
+              <dd>{draft.adults}</dd>
+            </div>
+            <div>
+              <dt>{ui.booking.dayGuests}</dt>
+              <dd>{draft.dayGuests}</dd>
+            </div>
+            <div>
+              <dt>{ui.booking.celebrationType}</dt>
               <dd>
-                {draft.adults} {ui.booking.adults.toLowerCase()}
-                {draft.children > 0
-                  ? `, ${draft.children} ${ui.booking.children.toLowerCase()}`
-                  : ""}
+                {draft.celebrationType
+                  ? ui.booking.celebrationOptions[draft.celebrationType]
+                  : ui.booking.noNotes}
               </dd>
             </div>
             <div>
@@ -104,6 +111,15 @@ export function StepReview() {
               </div>
             )}
           </dl>
+          <p className="vh-fare-deposit">
+            <span className="vh-fare-deposit-label">{ui.booking.depositLabel}</span>
+            <i className="vh-fare-deposit-dot" aria-hidden="true" />
+            <strong className="vh-fare-deposit-sum">
+              {selectedUnit.price.depositEur} €
+            </strong>
+            <i className="vh-fare-deposit-dot" aria-hidden="true" />
+            <span className="vh-fare-deposit-copy">{ui.booking.depositNote}</span>
+          </p>
         </div>
       </div>
 

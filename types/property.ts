@@ -95,7 +95,13 @@ export type Unit = {
   hook: LocalizedString;
   badges: LocalizedStringList;
   specs: UnitSpecs;
-  price: { amount: LocalizedString; note: LocalizedString; perNightEur: number };
+  price: {
+    amount: LocalizedString;
+    note: LocalizedString;
+    perNightEur: number;
+    weekendEur: number;
+    depositEur: number;
+  };
   intro: {
     heading: LocalizedString;
     lead: LocalizedString;

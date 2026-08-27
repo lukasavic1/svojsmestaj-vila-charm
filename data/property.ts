@@ -102,13 +102,15 @@ const unitVilla: Unit = {
     ),
   },
   price: {
-    amount: L("od 300 €", "from €300", "от 300 €"),
+    amount: L("od 250 €", "from €250", "от 250 €"),
     note: L(
-      "pon–čet · vikend 500 €",
-      "Mon–Thu · weekend €500",
-      "пн–чт · выходные 500 €"
+      "pon–čet · vikend 450 €",
+      "Mon–Thu · weekend €450",
+      "пн–чт · выходные 450 €"
     ),
-    perNightEur: 300,
+    perNightEur: 250,
+    weekendEur: 450,
+    depositEur: 100,
   },
   intro: {
     heading: L(

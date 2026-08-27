@@ -8,7 +8,10 @@ import { StepDates } from "./steps/StepDates";
 import { StepGuests } from "./steps/StepGuests";
 import { StepReview } from "./steps/StepReview";
 import { StepUnits } from "./steps/StepUnits";
+import { MailIcon, PhoneIcon, WhatsAppIcon } from "@/components/ui/icons";
+import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
+import { t3 } from "@/lib/i18n";
 import { RatesStrip } from "@/features/property-site/sections/RatesStrip";
 import type { Unit } from "@/types/property";
 
@@ -41,9 +44,19 @@ function WizardBody() {
 
 function SuccessPopup() {
   const { successOpen, dismissSuccess } = useBooking();
-  const { ui } = useDemo();
+  const { locale, ui } = useDemo();
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const { phone, email, whatsapp } = property.contact;
+  const telHref = `tel:${phone.replace(/\s/g, "")}`;
+  const waHref = `https://wa.me/${whatsapp}?text=${encodeURIComponent(
+    t3(
+      locale,
+      "Poštovani, želim da potvrdim rezervaciju u Villa Charm.",
+      "Hello, I would like to confirm a reservation at Villa Charm.",
+      "Здравствуйте, хочу подтвердить бронирование в Villa Charm."
+    )
+  )}`;
 
   useEffect(() => {
     setMounted(true);
@@ -123,6 +136,38 @@ function SuccessPopup() {
         <h3 id="wiz-success-title">{ui.booking.successTitle}</h3>
         <p className="success-lead">{ui.booking.successLead}</p>
         <p className="success-body">{ui.booking.successBody}</p>
+        <div className="success-confirm">
+          <p className="success-confirm-lead">{ui.booking.successConfirmNow}</p>
+          <ul className="success-channels">
+            <li>
+              <a href={telHref}>
+                <PhoneIcon />
+                <span>
+                  <em>{ui.contact.phone}</em>
+                  {phone}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${email}`}>
+                <MailIcon />
+                <span>
+                  <em>{ui.contact.email}</em>
+                  {email}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href={waHref} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon />
+                <span>
+                  <em>{ui.booking.successWhatsapp}</em>
+                  {phone}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
         <button
           ref={closeRef}
           type="button"

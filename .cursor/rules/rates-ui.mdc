@@ -6,16 +6,24 @@ alwaysApply: true
 
 # Rates UI
 
-Guests see weekday **300 €** (Pon–Čet) and weekend **500 €** (Pet–Ned). Never show 15%/25% stay discounts.
+Guests see weekday **250 €** (Pon–Čet) and weekend **450 €** (Pet–Ned). Deposit to confirm: **100 €**. Never show 15%/25% stay discounts.
 
-## Approved compact fare (remember / revert to this)
+## Page fare (PricingBoard / section)
 
-One short two-cell strip — not two stacked cards. ~2 lines tall. No confirmation paragraph inside the booking sheet.
+One short two-cell strip — not two stacked cards. ~2 lines tall.
 
-- Left: `Radni dani` + `Pon – Čet` / **300** € / noć
-- Right: `Vikend` + `Pet – Ned` / **500** € / noć (copper number, faint warm fill)
+- Left: `Radni dani` + `Pon – Čet` / **250** € / noć
+- Right: `Vikend` + `Pet – Ned` / **450** € / noć (copper number, faint warm fill)
 - Classes: `.vh-fare`, `.vh-fare-cell`, `.vh-fare-cell--peak`, `.vh-fare-label`, `.vh-fare-sum`
 - Keep side-by-side on phone. Do not stack.
+
+## Booking modal fare (`RatesStrip variant="bubble"`)
+
+Two side-by-side editorial cards (`.vh-fare-cards`) plus a deposit note. Keep side-by-side on phone. No stay-discount copy.
+
+- Weekday: cream, serif **250** €
+- Weekend: warm copper wash, serif **450** €
+- Below: centered caption `Kapara · 100 € · Za potvrdu rezervacije.` No box, no invoice line.
 
 ## Do not ship
 

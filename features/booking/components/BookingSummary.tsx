@@ -6,7 +6,13 @@ import { tx } from "@/lib/i18n";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { useBooking } from "../BookingProvider";
 
-export function BookingSummary({ compact = false }: { compact?: boolean }) {
+export function BookingSummary({
+  compact = false,
+  hideGuests = false,
+}: {
+  compact?: boolean;
+  hideGuests?: boolean;
+}) {
   const { selectedUnit, draft, nights, estimatedTotal } = useBooking();
   const { locale, ui } = useDemo();
 
@@ -56,14 +62,14 @@ export function BookingSummary({ compact = false }: { compact?: boolean }) {
           <dt>{ui.booking.nights}</dt>
           <dd>{nights > 0 ? nightLabel : "—"}</dd>
         </div>
-        <div>
-          <dt>{ui.booking.guests}</dt>
-          <dd>
-            {draft.adults + draft.children > 0
-              ? `${draft.adults + draft.children}`
-              : "—"}
-          </dd>
-        </div>
+        {hideGuests ? null : (
+          <div>
+            <dt>{ui.booking.guests}</dt>
+            <dd>
+              {draft.adults > 0 ? `${draft.adults}` : "—"}
+            </dd>
+          </div>
+        )}
       </dl>
 
       {estimatedTotal != null && (

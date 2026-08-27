@@ -1,14 +1,20 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3 } from "@/lib/i18n";
 
 type RatesStripProps = {
   /**
    * "section" — full panel (heading, perks, CTA that opens the
-   * booking sheet). "bubble" — the same rates, compact, inside the booking sheet.
+   * booking sheet). "bubble" — editorial fare cards inside the booking sheet.
    */
   variant?: "section" | "bubble";
+};
+
+type RateCardProps = {
+  layout?: "strip" | "editorial";
 };
 
 const PERKS = [
@@ -21,39 +27,86 @@ const FARES = [
   {
     days: ["Pon – Čet", "Mon – Thu", "Пн – Чт"],
     label: ["Radni dani", "Weekdays", "Будни"],
-    price: "300",
     peak: false,
   },
   {
     days: ["Pet – Ned", "Fri – Sun", "Пт – Вс"],
     label: ["Vikend", "Weekend", "Выходные"],
-    price: "500",
     peak: true,
   },
 ] as const;
 
 /** Slim two-fare strip — weekday + weekend in one row. */
-export function RateCard() {
-  const { locale } = useDemo();
+export function RateCard({ layout = "strip" }: RateCardProps) {
+  const { locale, ui } = useDemo();
+  const fare = property.units[0].price;
+
+  if (layout === "editorial") {
+    return (
+      <div className="vh-fare-board">
+        <div className="vh-fare-cards" role="group">
+          {FARES.map((item, i) => {
+            const price = item.peak ? fare.weekendEur : fare.perNightEur;
+            return (
+              <motion.article
+                key={item.label[0]}
+                className={`vh-fare-card${item.peak ? " vh-fare-card--peak" : " vh-fare-card--weekday"}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <span className="vh-fare-card-ghost" aria-hidden="true">
+                  {price}
+                </span>
+                <p className="vh-fare-card-sum">
+                  <strong>{price}</strong>
+                  <span>€</span>
+                  <small>{t3(locale, "/ noć", "/ night", "/ ночь")}</small>
+                </p>
+                <p className="vh-fare-card-top">
+                  <span className="vh-fare-card-title">
+                    {t3(locale, item.label[0], item.label[1], item.label[2])}
+                  </span>
+                  <span className="vh-fare-card-days">
+                    {t3(locale, item.days[0], item.days[1], item.days[2])}
+                  </span>
+                </p>
+              </motion.article>
+            );
+          })}
+        </div>
+        <p className="vh-fare-deposit">
+          <span className="vh-fare-deposit-label">{ui.booking.depositLabel}</span>
+          <i className="vh-fare-deposit-dot" aria-hidden="true" />
+          <strong className="vh-fare-deposit-sum">{fare.depositEur} €</strong>
+          <i className="vh-fare-deposit-dot" aria-hidden="true" />
+          <span className="vh-fare-deposit-copy">{ui.booking.depositNote}</span>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="vh-fare" role="group">
-      {FARES.map((fare) => (
-        <div
-          key={fare.price}
-          className={`vh-fare-cell${fare.peak ? " vh-fare-cell--peak" : ""}`}
-        >
-          <span className="vh-fare-label">
-            {t3(locale, fare.label[0], fare.label[1], fare.label[2])}
-            <em>{t3(locale, fare.days[0], fare.days[1], fare.days[2])}</em>
-          </span>
-          <span className="vh-fare-sum">
-            <strong>{fare.price}</strong>
-            <span>€</span>
-            <small>{t3(locale, "/ noć", "/ night", "/ ночь")}</small>
-          </span>
-        </div>
-      ))}
+      {FARES.map((item) => {
+        const price = item.peak ? fare.weekendEur : fare.perNightEur;
+        return (
+          <div
+            key={item.label[0]}
+            className={`vh-fare-cell${item.peak ? " vh-fare-cell--peak" : ""}`}
+          >
+            <span className="vh-fare-label">
+              {t3(locale, item.label[0], item.label[1], item.label[2])}
+              <em>{t3(locale, item.days[0], item.days[1], item.days[2])}</em>
+            </span>
+            <span className="vh-fare-sum">
+              <strong>{price}</strong>
+              <span>€</span>
+              <small>{t3(locale, "/ noć", "/ night", "/ ночь")}</small>
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -84,7 +137,7 @@ export function RatesStrip({ variant = "section" }: RatesStripProps) {
         </header>
       ) : null}
 
-      <RateCard />
+      <RateCard layout={isSection ? "strip" : "editorial"} />
 
       {isSection ? (
         <div className="vh-rates-foot">
