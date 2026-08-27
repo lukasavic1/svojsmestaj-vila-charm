@@ -1,236 +1,98 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3 } from "@/lib/i18n";
 import { StorySection } from "./StorySection";
-import type { Slide } from "./Slideshow";
+import {
+  DEFAULT_INTERIOR_SUB,
+  gatherThemes,
+  slidesForTheme,
+  type GalleryCategory,
+  type InteriorNavSub,
+  type InteriorSubCategory,
+} from "./gatherMedia";
 
-type ThemeId = "bazen" | "basta" | "terase" | "unutra";
-
-type Theme = {
-  id: ThemeId;
-  label: string;
-  slides: Slide[];
-};
+function fineHover() {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
 
 /** Chapter two — spaces that gather people, browsed by theme. */
 export function GatherSection() {
   const { locale } = useDemo();
-  const [themeId, setThemeId] = useState<ThemeId>("bazen");
+  const [activeCategory, setActiveCategory] =
+    useState<GalleryCategory>("bazen");
+  const [activeSubCategory, setActiveSubCategory] =
+    useState<InteriorSubCategory>(DEFAULT_INTERIOR_SUB);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const unutraRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<number>(0);
 
-  const themes: Theme[] = useMemo(
-    () => [
-      {
-        id: "bazen",
-        label: t3(locale, "Bazen", "Pool", "Бассейн"),
-        slides: [
-          {
-            kind: "video",
-            src: "/videos/pool-season.mp4",
-            poster: "/images/pool-1.jpg",
-            alt: t3(locale, "Sezona kupanja", "Pool season", "Сезон купания"),
-          },
-          {
-            kind: "image",
-            src: "/images/pool-2.jpg",
-            alt: t3(
-              locale,
-              "Popodneva kraj vode",
-              "Afternoons by the water",
-              "Дни у воды"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/pool-night-1.jpg",
-            alt: t3(
-              locale,
-              "Večeri pod zvezdama kraj bazena",
-              "Evenings under the stars by the pool",
-              "Вечера под звёздами у бассейна"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/pool-night-2.jpg",
-            alt: t3(
-              locale,
-              "Osvetljen bazen noću",
-              "Illuminated pool at night",
-              "Подсвеченный бассейн ночью"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/pool-night-3.jpg",
-            alt: t3(
-              locale,
-              "Bašta i bazen u sumrak",
-              "Garden and pool at dusk",
-              "Сад и бассейн в сумерках"
-            ),
-          },
-        ],
-      },
-      {
-        id: "basta",
-        label: t3(locale, "Bašta", "Garden", "Сад"),
-        slides: [
-          {
-            kind: "image",
-            src: "/images/garden-bbq.jpg",
-            alt: t3(
-              locale,
-              "Roštilj i druženje u bašti",
-              "Barbecue and company in the garden",
-              "Гриль и компания в саду"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/bbq-1.jpg",
-            alt: t3(
-              locale,
-              "Prostor za roštilj",
-              "Barbecue area",
-              "Зона барбекю"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/garden-fountain.jpg",
-            alt: t3(
-              locale,
-              "Mirna bašta sa česmom",
-              "Quiet garden with a fountain",
-              "Тихий сад с фонтаном"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/garden-table.jpg",
-            alt: t3(
-              locale,
-              "Sto u bašti za okupljanja",
-              "Garden table for gathering",
-              "Стол в саду для встреч"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/garden-lower-1.jpg",
-            alt: t3(locale, "Donja bašta", "Lower garden", "Нижний сад"),
-          },
-        ],
-      },
-      {
-        id: "terase",
-        label: t3(locale, "Terase", "Terraces", "Террасы"),
-        slides: [
-          {
-            kind: "image",
-            src: "/images/terrace-upper.jpg",
-            alt: t3(
-              locale,
-              "Gornja terasa",
-              "Upper terrace",
-              "Верхняя терраса"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/terrace-lower-1.jpg",
-            alt: t3(
-              locale,
-              "Donja terasa",
-              "Lower terrace",
-              "Нижняя терраса"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/terrace-lower-2.jpg",
-            alt: t3(
-              locale,
-              "Donja terasa — drugi ugao",
-              "Lower terrace — another angle",
-              "Нижняя терраса — другой ракурс"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/garden-upper-bench.jpg",
-            alt: t3(
-              locale,
-              "Klupa na gornjoj terasi",
-              "Bench on the upper terrace",
-              "Скамья на верхней террасе"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/exterior-1.jpg",
-            alt: t3(
-              locale,
-              "Kuća i terase među zelenilom",
-              "House and terraces among greenery",
-              "Дом и террасы среди зелени"
-            ),
-          },
-        ],
-      },
-      {
-        id: "unutra",
-        label: t3(locale, "Unutra", "Inside", "Внутри"),
-        slides: [
-          {
-            kind: "image",
-            src: "/images/living-1.jpg",
-            alt: t3(
-              locale,
-              "Dnevni boravak",
-              "Living room",
-              "Гостиная"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/dining-1.jpg",
-            alt: t3(locale, "Trpezarija", "Dining room", "Столовая"),
-          },
-          {
-            kind: "image",
-            src: "/images/kitchen-1.jpg",
-            alt: t3(
-              locale,
-              "Kuhinja",
-              "Kitchen",
-              "Кухня"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/arch-dining.jpg",
-            alt: t3(
-              locale,
-              "Luk prema trpezariji",
-              "Arch toward the dining area",
-              "Арка в столовую"
-            ),
-          },
-          {
-            kind: "image",
-            src: "/images/library-1.jpg",
-            alt: t3(locale, "Biblioteka", "Library", "Библиотека"),
-          },
-        ],
-      },
-    ],
-    [locale]
-  );
+  const themes = useMemo(() => gatherThemes(locale), [locale]);
+  const theme = themes.find((t) => t.id === activeCategory) ?? themes[0];
+  const interiorSubs =
+    themes.find((t) => t.id === "unutra")?.subs ?? [];
+  const interiorOn = theme.id === "unutra";
+  const roomOn =
+    interiorOn && activeSubCategory !== DEFAULT_INTERIOR_SUB
+      ? interiorSubs.find((s) => s.id === activeSubCategory)
+      : undefined;
+  const slides = slidesForTheme(theme, activeSubCategory);
+  const mediaKey = interiorOn
+    ? `${theme.id}-${activeSubCategory}`
+    : theme.id;
 
-  const theme = themes.find((t) => t.id === themeId) ?? themes[0];
+  const openMenu = () => {
+    window.clearTimeout(closeTimer.current);
+    setMenuOpen(true);
+  };
+
+  const closeMenu = () => {
+    window.clearTimeout(closeTimer.current);
+    setMenuOpen(false);
+  };
+
+  const scheduleClose = () => {
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setMenuOpen(false), 140);
+  };
+
+  const selectCategory = (id: GalleryCategory) => {
+    setActiveCategory(id);
+    setActiveSubCategory(DEFAULT_INTERIOR_SUB);
+    closeMenu();
+  };
+
+  const selectUnutra = () => {
+    setActiveCategory("unutra");
+    if (fineHover()) openMenu();
+    else setMenuOpen((open) => !open);
+  };
+
+  const selectRoom = (id: InteriorNavSub) => {
+    setActiveCategory("unutra");
+    setActiveSubCategory(id);
+    closeMenu();
+  };
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onPointer = (e: PointerEvent) => {
+      if (!unutraRef.current?.contains(e.target as Node)) closeMenu();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  useEffect(() => () => window.clearTimeout(closeTimer.current), []);
 
   return (
     <StorySection
@@ -256,8 +118,8 @@ export function GatherSection() {
           "Villa Charm создана, чтобы собирать — семью на выходные, друзей на праздник или только вас и тишину."
         ),
       ]}
-      slides={theme.slides}
-      mediaKey={theme.id}
+      slides={slides}
+      mediaKey={mediaKey}
       mediaLabel={theme.label}
       mediaHeader={
         <div
@@ -271,6 +133,77 @@ export function GatherSection() {
           )}
         >
           {themes.map((item) => {
+            if (item.id === "unutra") {
+              const on = interiorOn;
+              return (
+                <div
+                  key={item.id}
+                  ref={unutraRef}
+                  className="vh-unutra"
+                  onMouseEnter={() => {
+                    if (fineHover()) openMenu();
+                  }}
+                  onMouseLeave={() => {
+                    if (fineHover()) scheduleClose();
+                  }}
+                >
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={on}
+                    aria-haspopup="menu"
+                    aria-expanded={menuOpen}
+                    className={`vh-story-theme vh-unutra-tab${on ? " is-on" : ""}${menuOpen ? " is-open" : ""}`}
+                    onClick={selectUnutra}
+                  >
+                    <span className="vh-unutra-label">{item.label}</span>
+                    {roomOn ? (
+                      <span className="vh-unutra-tag">{roomOn.label}</span>
+                    ) : null}
+                    <span className="vh-unutra-caret" aria-hidden="true" />
+                  </button>
+
+                  <AnimatePresence>
+                    {menuOpen ? (
+                      <motion.div
+                        key="unutra-pop"
+                        className="vh-unutra-pop"
+                        role="menu"
+                        aria-label={t3(
+                          locale,
+                          "Unutrašnji prostor",
+                          "Interior rooms",
+                          "Интерьер"
+                        )}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        {interiorSubs.map((room) => {
+                          const selected = room.id === activeSubCategory;
+                          return (
+                            <button
+                              key={room.id}
+                              type="button"
+                              role="menuitem"
+                              className={`vh-unutra-item${selected ? " is-on" : ""}`}
+                              onClick={() =>
+                                selectRoom(room.id as InteriorNavSub)
+                              }
+                            >
+                              <span className="vh-unutra-dot" aria-hidden="true" />
+                              {room.label}
+                            </button>
+                          );
+                        })}
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </div>
+              );
+            }
+
             const on = item.id === theme.id;
             return (
               <button
@@ -279,7 +212,7 @@ export function GatherSection() {
                 role="tab"
                 aria-selected={on}
                 className={`vh-story-theme${on ? " is-on" : ""}`}
-                onClick={() => setThemeId(item.id)}
+                onClick={() => selectCategory(item.id)}
               >
                 {item.label}
               </button>
