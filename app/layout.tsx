@@ -50,10 +50,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/favicon.png", type: "image/png", sizes: "512x512" },
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.png", type: "image/png" },
     ],
-    apple: [{ url: "/favicon.png", type: "image/png" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   robots: siteConfig.isDemo
     ? { index: false, follow: false }
