@@ -1,7 +1,8 @@
 "use client";
 
 import type { ComponentType } from "react";
-import { Suspense } from "react";
+import type { Locale } from "@/types/locale";
+import type { PackageId } from "@/types/package";
 import type { SectionId } from "@/config/experience";
 import { DemoProvider, useDemo } from "@/features/demo/DemoProvider";
 import { AmenitiesSection } from "./sections/AmenitiesSection";
@@ -82,12 +83,19 @@ function PropertyExperience() {
   );
 }
 
-export function PropertySite() {
+export function PropertySite({
+  initialLocale,
+  initialPackageId,
+}: {
+  initialLocale: Locale;
+  initialPackageId: PackageId;
+}) {
   return (
-    <Suspense fallback={null}>
-      <DemoProvider>
-        <PropertyExperience />
-      </DemoProvider>
-    </Suspense>
+    <DemoProvider
+      initialLocale={initialLocale}
+      initialPackageId={initialPackageId}
+    >
+      <PropertyExperience />
+    </DemoProvider>
   );
 }

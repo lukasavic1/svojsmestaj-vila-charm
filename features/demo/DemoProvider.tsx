@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getUi, type UiDictionary } from "@/content/ui";
 import { getExperience, type ExperienceConfig } from "@/config/experience";
 import { property } from "@/data/property";
@@ -17,8 +17,7 @@ import { siteConfig } from "@/config/site";
 import { DEFAULT_LOCALE, LOCALE_HTML, type Locale } from "@/types/locale";
 import { DEFAULT_PACKAGE, type PackageId } from "@/types/package";
 import type { Unit } from "@/types/property";
-import { parseLocaleParam, tx } from "@/lib/i18n";
-import { parsePackageParam } from "@/lib/package";
+import { tx } from "@/lib/i18n";
 
 type DemoContextValue = {
   packageId: PackageId;
@@ -44,27 +43,23 @@ type DemoContextValue = {
 
 const DemoContext = createContext<DemoContextValue | null>(null);
 
-function readInitial(search: URLSearchParams): {
-  packageId: PackageId;
-  locale: Locale;
-} {
-  return {
-    packageId: parsePackageParam(search.get("pkg")) ?? DEFAULT_PACKAGE,
-    locale: parseLocaleParam(search.get("lang")) ?? DEFAULT_LOCALE,
-  };
-}
-
-export function DemoProvider({ children }: { children: ReactNode }) {
+export function DemoProvider({
+  children,
+  initialLocale = DEFAULT_LOCALE,
+  initialPackageId = DEFAULT_PACKAGE,
+}: {
+  children: ReactNode;
+  initialLocale?: Locale;
+  initialPackageId?: PackageId;
+}) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const initial = readInitial(searchParams);
   const lockedPremium = !siteConfig.isDemo;
   const [packageId, setPackageIdState] = useState<PackageId>(
-    lockedPremium ? "premium" : initial.packageId
+    lockedPremium ? "premium" : initialPackageId
   );
-  const [locale, setLocaleState] = useState<Locale>(initial.locale);
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const [unitId, setUnitId] = useState(property.units[0].id);
   const [bookingPrefillUnitId, setBookingPrefillUnitId] = useState<string | null>(
     null
@@ -75,17 +70,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
 
   const syncUrl = useCallback(
     (nextPkg: PackageId, nextLocale: Locale) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (siteConfig.isDemo) {
-        params.set("pkg", nextPkg);
-      } else {
-        params.delete("pkg");
-      }
-      params.set("lang", nextLocale);
+      const params = new URLSearchParams();
+      if (siteConfig.isDemo) params.set("pkg", nextPkg);
+      if (nextLocale !== DEFAULT_LOCALE) params.set("lang", nextLocale);
       const qs = params.toString();
       router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
-    [pathname, router, searchParams]
+    [pathname, router]
   );
 
   const setPackageId = useCallback(
@@ -133,6 +124,15 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     },
     [openBooking]
   );
+
+  useEffect(() => {
+    setLocaleState(initialLocale);
+  }, [initialLocale]);
+
+  useEffect(() => {
+    if (lockedPremium) return;
+    setPackageIdState(initialPackageId);
+  }, [initialPackageId, lockedPremium]);
 
   useEffect(() => {
     const syncFromHash = () => {

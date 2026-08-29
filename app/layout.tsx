@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Cormorant_Garamond,
   Great_Vibes,
@@ -9,6 +9,7 @@ import { property } from "@/data/property";
 import { siteConfig } from "@/config/site";
 import { DEFAULT_LOCALE } from "@/types/locale";
 import { tx } from "@/lib/i18n";
+import { getRequestSiteOrigin } from "@/lib/seo";
 import "./globals.css";
 import "./redesign.css";
 import "./hero-variants.css";
@@ -44,47 +45,46 @@ const sans = Manrope({
 const title = tx(property.seo.title, DEFAULT_LOCALE);
 const description = tx(property.seo.description, DEFAULT_LOCALE);
 
-export const metadata: Metadata = {
-  title,
-  description,
-  metadataBase: new URL(siteConfig.url),
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "48x48" },
-      { url: "/favicon.png", type: "image/png", sizes: "512x512" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-  },
-  robots: siteConfig.isDemo
-    ? { index: false, follow: false }
-    : { index: true, follow: true },
-  openGraph: {
-    type: "website",
-    locale: "sr_Latn_RS",
-    alternateLocale: ["en_US", "ru_RU"],
-    siteName: siteConfig.name,
-    title,
-    description,
-    images: [
-      {
-        url: siteConfig.defaultOgImage,
-        width: 1200,
-        height: 630,
-        alt: tx(property.units[0].name, DEFAULT_LOCALE),
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title,
-    description,
-    images: [siteConfig.defaultOgImage],
-  },
-  alternates: {
-    canonical: "/",
-  },
+export const viewport: Viewport = {
+  themeColor: "#14262a",
+  width: "device-width",
+  initialScale: 1,
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const origin = await getRequestSiteOrigin();
+
+  return {
+    title,
+    description,
+    applicationName: siteConfig.name,
+    category: "travel",
+    metadataBase: new URL(origin),
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "48x48" },
+        { url: "/favicon.png", type: "image/png", sizes: "512x512" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
+      apple: [
+        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      ],
+    },
+    robots: siteConfig.isDemo
+      ? { index: false, follow: false }
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+          },
+        },
+  };
+}
 
 export default function RootLayout({
   children,
