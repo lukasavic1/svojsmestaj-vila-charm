@@ -60,6 +60,9 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: siteConfig.name,
     category: "travel",
     metadataBase: new URL(origin),
+    verification: {
+      google: "V_WeEQ2uy3bPPYoWtgsDawZE1X0uZjaozQX4Z4546eM",
+    },
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "48x48" },
