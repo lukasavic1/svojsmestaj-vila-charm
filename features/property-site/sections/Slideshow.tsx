@@ -92,11 +92,21 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [inView, setInView] = useState(false);
+  const [live, setLive] = useState<Record<number, boolean>>({});
   const rootRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
+  const liveRef = useRef<Record<number, boolean>>({});
+  const slidesRef = useRef(slides);
+  slidesRef.current = slides;
 
   const count = slides.length;
+
+  const markLive = useCallback((index: number) => {
+    if (liveRef.current[index]) return;
+    liveRef.current = { ...liveRef.current, [index]: true };
+    setLive((prev) => (prev[index] ? prev : { ...prev, [index]: true }));
+  }, []);
 
   const setVideoRef = useCallback((index: number, el: HTMLVideoElement | null) => {
     if (el) {
@@ -120,10 +130,17 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
 
   useEffect(() => {
     if (count < 2 || paused || !inView) return;
-    const id = window.setInterval(
-      () => setActive((i) => (i + 1) % count),
-      ADVANCE_MS
-    );
+    const id = window.setInterval(() => {
+      setActive((i) => {
+        const list = slidesRef.current;
+        for (let step = 1; step <= list.length; step++) {
+          const next = (i + step) % list.length;
+          const s = list[next];
+          if (s.kind !== "video" || liveRef.current[next]) return next;
+        }
+        return (i + 1) % list.length;
+      });
+    }, ADVANCE_MS);
     return () => window.clearInterval(id);
   }, [count, paused, inView]);
 
@@ -158,6 +175,9 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
 
     videoRefs.current.forEach((v, i) => {
       if (i === active && inView) {
+        const onPlaying = () => markLive(i);
+        v.addEventListener("playing", onPlaying);
+        cleanups.push(() => v.removeEventListener("playing", onPlaying));
         cleanups.push(playWhenReady(v, signal));
       } else {
         v.pause();
@@ -168,7 +188,7 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
       signal.cancelled = true;
       cleanups.forEach((fn) => fn());
     };
-  }, [active, inView]);
+  }, [active, inView, markLive]);
 
   const go = (i: number) => setActive((i + count) % count);
 
@@ -229,7 +249,7 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
                   />
                   <video
                     ref={(el) => setVideoRef(i, el)}
-                    className="vh-slide-video"
+                    className={`vh-slide-video${live[i] ? " is-live" : ""}`}
                     src={s.src}
                     muted
                     loop
@@ -238,9 +258,11 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
                     poster={s.poster}
                     draggable={false}
                   />
-                  <span className="vh-slide-badge" aria-hidden="true">
-                    {t3(locale, "Video", "Video", "Видео")}
-                  </span>
+                  {live[i] ? (
+                    <span className="vh-slide-badge" aria-hidden="true">
+                      {t3(locale, "Video", "Video", "Видео")}
+                    </span>
+                  ) : null}
                 </>
               )}
             </div>
