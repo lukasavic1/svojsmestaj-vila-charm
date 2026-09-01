@@ -7,6 +7,10 @@ import { heroVideo } from "@/data/heroMedia";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
 import { t3, tx } from "@/lib/i18n";
+import {
+  ensureGuestBookPreload,
+  waitForGuestBookPreload,
+} from "@/lib/preloadGuestBook";
 
 const SLIDE_MS = 2800;
 /** Last resort only — slow first loads must not lose the video. */
@@ -21,6 +25,8 @@ const FALLBACK_SLIDES = [
 ] as const;
 
 type Phase = "boot" | "video" | "stills";
+
+if (typeof window !== "undefined") void ensureGuestBookPreload();
 
 function stopVideoLoad(el: HTMLVideoElement) {
   el.pause();
@@ -39,15 +45,34 @@ export function VideoHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const phaseRef = useRef<Phase>("boot");
-  const [phase, setPhase] = useState<Phase>("boot");
+  const [media, setMedia] = useState<Phase>("boot");
+  const [photosReady, setPhotosReady] = useState(false);
   const [slide, setSlide] = useState(0);
   const [mountVideo, setMountVideo] = useState(true);
   const [inView, setInView] = useState(true);
 
+  const booting = media === "boot" || !photosReady;
+
   const setPhaseSafe = (next: Phase) => {
     phaseRef.current = next;
-    setPhase(next);
+    setMedia(next);
   };
+
+  useEffect(() => {
+    let alive = true;
+    void waitForGuestBookPreload().then(() => {
+      if (alive) setPhotosReady(true);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!booting) return;
+    document.documentElement.classList.add("vh-is-booting");
+    return () => document.documentElement.classList.remove("vh-is-booting");
+  }, [booting]);
 
   /* Pause media via IO — avoid React re-renders / CSS thrash mid-scroll */
   useEffect(() => {
@@ -89,12 +114,12 @@ export function VideoHero() {
   }, []);
 
   useEffect(() => {
-    if (phase !== "stills" || !inView) return;
+    if (media !== "stills" || !inView) return;
     const id = window.setInterval(() => {
       setSlide((i) => (i + 1) % FALLBACK_SLIDES.length);
     }, SLIDE_MS);
     return () => window.clearInterval(id);
-  }, [phase, inView]);
+  }, [media, inView]);
 
   useEffect(() => {
     if (!mountVideo) return;
@@ -164,12 +189,12 @@ export function VideoHero() {
     <section
       ref={sectionRef}
       className={`vh-hero${
-        phase === "stills" ? " vh-hero--stills" : phase === "boot" ? " vh-hero--boot" : ""
+        booting ? " vh-hero--boot" : media === "stills" ? " vh-hero--stills" : ""
       }`}
       aria-label={tx(unit.name, locale)}
     >
       <div className="vh-hero-media" aria-hidden="true">
-        {phase === "stills" ? (
+        {media === "stills" ? (
           <div className="vh-hero-slides">
             {FALLBACK_SLIDES.map((src, i) => (
               <div
@@ -193,7 +218,7 @@ export function VideoHero() {
         {mountVideo ? (
           <video
             ref={videoRef}
-            className={`vh-hero-video${phase === "video" ? " is-on" : ""}`}
+            className={`vh-hero-video${media === "video" ? " is-on" : ""}`}
             muted
             loop
             playsInline
@@ -208,14 +233,14 @@ export function VideoHero() {
         ) : null}
 
         <div className="vh-hero-veil" />
-
-        {phase === "boot" ? (
-          <div className="vh-hero-loader" aria-hidden="true">
-            <p className="vh-hero-loader-brand">Villa Charm</p>
-            <span className="vh-hero-loader-bar" />
-          </div>
-        ) : null}
       </div>
+
+      {booting ? (
+        <div className="vh-hero-loader" aria-hidden="true">
+          <p className="vh-hero-loader-brand">Villa Charm</p>
+          <span className="vh-hero-loader-bar" />
+        </div>
+      ) : null}
 
       <div className="vh-hero-content">
         <p className="vh-hero-kicker">

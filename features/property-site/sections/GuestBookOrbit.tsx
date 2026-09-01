@@ -1,17 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import { GUEST_BOOK_PHOTOS } from "@/data/guestBook";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3 } from "@/lib/i18n";
+import { ensureGuestBookPreload } from "@/lib/preloadGuestBook";
 
-const COUNT = 18;
 const SPIN_MS = 48_000;
 const DRAG_DEG_PER_PX = 0.38;
-
-export const GUEST_BOOK_PHOTOS = Array.from({ length: COUNT }, (_, i) => ({
-  src: `/images/reviews/review-${i + 1}.jpeg`,
-  n: i + 1,
-}));
 
 function wrapTime(ms: number) {
   return ((ms % SPIN_MS) + SPIN_MS) % SPIN_MS;
@@ -24,6 +20,7 @@ export function GuestBookOrbit() {
   const dragRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<Animation | null>(null);
   const reduceRef = useRef(false);
+  const readyRef = useRef(false);
   const pointerRef = useRef({
     id: -1,
     startX: 0,
@@ -34,6 +31,24 @@ export function GuestBookOrbit() {
 
   const [focus, setFocus] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [loaded, setLoaded] = useState<Record<string, boolean>>({});
+
+  const markLoaded = (src: string) => {
+    setLoaded((prev) => (prev[src] ? prev : { ...prev, [src]: true }));
+  };
+
+  useEffect(() => {
+    let alive = true;
+    void ensureGuestBookPreload().then(() => {
+      if (!alive) return;
+      readyRef.current = true;
+      setReady(true);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -41,7 +56,7 @@ export function GuestBookOrbit() {
     const onMq = () => {
       reduceRef.current = mq.matches;
       if (mq.matches) animRef.current?.pause();
-      else if (!pointerRef.current.dragging) animRef.current?.play();
+      else if (readyRef.current && !pointerRef.current.dragging) animRef.current?.play();
     };
     mq.addEventListener("change", onMq);
 
@@ -60,13 +75,29 @@ export function GuestBookOrbit() {
       }
     );
     animRef.current = anim;
-    if (mq.matches) anim.pause();
+    anim.pause();
+    if (!mq.matches && readyRef.current) anim.play();
 
     return () => {
       mq.removeEventListener("change", onMq);
       anim.cancel();
       animRef.current = null;
     };
+  }, []);
+
+  useEffect(() => {
+    if (!ready || reduceRef.current || pointerRef.current.dragging) return;
+    animRef.current?.play();
+  }, [ready]);
+
+  useEffect(() => {
+    const root = stageRef.current;
+    if (!root) return;
+    root.querySelectorAll<HTMLImageElement>(".vh-gb-face img").forEach((img) => {
+      if (!img.complete || img.naturalWidth === 0) return;
+      const src = img.getAttribute("src");
+      if (src) markLoaded(src);
+    });
   }, []);
 
   const setDragDeg = (deg: number) => {
@@ -79,7 +110,7 @@ export function GuestBookOrbit() {
     const current = Number(anim.currentTime ?? 0);
     anim.currentTime = wrapTime(current + (-extraDeg / 360) * SPIN_MS);
     setDragDeg(0);
-    if (!reduceRef.current) anim.play();
+    if (!reduceRef.current && readyRef.current) anim.play();
   };
 
   const pauseSpin = () => {
@@ -141,13 +172,13 @@ export function GuestBookOrbit() {
     const onCard = (e.target as HTMLElement | null)?.closest?.(".vh-gb-card");
     if (!onCard) {
       setFocus(null);
-      if (!reduceRef.current) animRef.current?.play();
+      if (!reduceRef.current && readyRef.current) animRef.current?.play();
     }
   };
 
   return (
     <div
-      className={`vh-gb${focus !== null ? " is-paused" : ""}${dragging ? " is-dragging" : ""}`}
+      className={`vh-gb${ready ? " is-ready" : ""}${focus !== null ? " is-paused" : ""}${dragging ? " is-dragging" : ""}`}
       aria-label={t3(locale, "Knjiga utisaka", "Guestbook", "Книга отзывов")}
     >
       <div
@@ -160,7 +191,7 @@ export function GuestBookOrbit() {
         onPointerLeave={(e) => {
           if (e.pointerType === "mouse" && pointerRef.current.id < 0) {
             setFocus(null);
-            if (!reduceRef.current) animRef.current?.play();
+            if (!reduceRef.current && readyRef.current) animRef.current?.play();
           }
         }}
       >
@@ -197,15 +228,17 @@ export function GuestBookOrbit() {
                       pauseSpin();
                     }}
                   >
-                    <span className="vh-gb-face">
+                    <span className={`vh-gb-face${loaded[photo.src] ? " is-ready" : ""}`}>
                       <img
                         src={photo.src}
                         alt=""
                         width={1200}
                         height={1600}
-                        loading="lazy"
+                        loading="eager"
                         decoding="async"
+                        fetchPriority="low"
                         draggable={false}
+                        onLoad={() => markLoaded(photo.src)}
                       />
                     </span>
                   </button>

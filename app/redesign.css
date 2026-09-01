@@ -10,6 +10,11 @@ html:has(.vh-root) {
   scroll-padding-top: 71px;
 }
 
+html.vh-is-booting,
+html.vh-is-booting body {
+  overflow: hidden;
+}
+
 body:has(.vh-root) {
   overflow-x: hidden;
 }
@@ -679,7 +684,7 @@ body:has(.vh-root) {
 .vh-hero-loader {
   position: absolute;
   inset: 0;
-  z-index: 6;
+  z-index: 20;
   display: grid;
   place-content: center;
   justify-items: center;
@@ -1068,26 +1073,54 @@ body:has(.vh-root) {
     max-width: none;
     flex-wrap: wrap;
     margin-top: 1rem;
-    padding: 0.65rem 0.15rem;
+    padding: 0.65rem 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 0.65rem;
+    column-gap: 0.5rem;
     row-gap: 0.45rem;
-    justify-items: center;
   }
 
   .vh-hero-coords li {
     margin: 0;
     padding: 0;
-    font-size: 0.64rem;
-    letter-spacing: 0.11em;
-    text-align: center;
+    font-size: 0.6rem;
+    letter-spacing: 0.09em;
     line-height: 1.25;
-    justify-content: center;
+  }
+
+  .vh-hero-coords li:nth-child(odd) {
+    justify-self: start;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .vh-hero-coords li:nth-child(even) {
+    justify-self: end;
+    justify-content: flex-end;
+    text-align: right;
   }
 
   .vh-hero-coords li::after {
     display: none;
+  }
+
+  .vh-hero-coords-guests {
+    width: max-content;
+    font-size: 0.54rem;
+    letter-spacing: 0.06em;
+    gap: 0.22rem;
+  }
+
+  .vh-hero-coords-guests .vh-hero-coords-n {
+    gap: 0.22rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .vh-hero-coords-guests {
+    font-size: 0.5rem;
+    letter-spacing: 0.05em;
+    gap: 0.16rem;
   }
 }
 
@@ -4762,6 +4795,12 @@ body:has(.vh-root) {
   object-fit: cover;
   object-position: center center;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.vh-gb-face.is-ready img {
+  opacity: 1;
 }
 
 .vh-gb-card.is-on {
