@@ -8,7 +8,9 @@ type StorySectionProps = {
   id?: string;
   title: string;
   body: string | string[];
-  slides: Slide[];
+  slides?: Slide[];
+  /** Replaces the slideshow when you need a custom media treatment. */
+  media?: ReactNode;
   /** When true, the slideshow sits on the left and the text on the right. */
   flip?: boolean;
   mediaLabel?: string;
@@ -25,6 +27,7 @@ export function StorySection({
   title,
   body,
   slides,
+  media,
   flip = false,
   mediaLabel,
   mediaKey,
@@ -46,14 +49,23 @@ export function StorySection({
           {children}
         </Reveal>
 
-        <Reveal className="vh-story-media" delay={60}>
-          {mediaHeader}
-          <Slideshow
-            key={mediaKey ?? "slides"}
-            slides={slides}
-            label={mediaLabel}
-          />
-        </Reveal>
+        {media ? (
+          <div className="vh-story-media">
+            {mediaHeader}
+            {media}
+          </div>
+        ) : (
+          <Reveal className="vh-story-media" delay={60}>
+            {mediaHeader}
+            {slides ? (
+              <Slideshow
+                key={mediaKey ?? "slides"}
+                slides={slides}
+                label={mediaLabel}
+              />
+            ) : null}
+          </Reveal>
+        )}
       </div>
     </section>
   );

@@ -4562,6 +4562,265 @@ body:has(.vh-root) {
   color: var(--muted);
 }
 
+/* Reviews: copy on top, 3D guestbook ring below */
+.vh-reviews-orbit.vh-story {
+  overflow-x: clip;
+  overflow-y: visible;
+  padding: 3rem 0 4.25rem;
+}
+
+@media (min-width: 900px) {
+  .vh-reviews-orbit.vh-story {
+    min-height: 0;
+    display: block;
+    padding: 3.25rem 0 4.75rem;
+  }
+}
+
+.vh-reviews-orbit-head {
+  max-width: 42rem;
+  margin: 0 auto 0.5rem;
+  text-align: center;
+}
+
+.vh-reviews-orbit-head .vh-story-title {
+  max-width: none;
+  margin-inline: auto;
+}
+
+.vh-reviews-orbit-head .vh-story-body {
+  margin-inline: auto;
+  max-width: 46ch;
+}
+
+.vh-reviews-orbit-head .vh-story-proof {
+  max-width: 36rem;
+  margin: 1.35rem auto 0;
+  text-align: left;
+}
+
+.vh-reviews-orbit-head .vh-story-quote-slot {
+  display: grid;
+}
+
+.vh-reviews-orbit-head .vh-story-quote-slot > .vh-story-quote {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.vh-reviews-orbit-head .vh-story-quote-slot > .vh-story-quote.is-on {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* 3D guestbook ring */
+.vh-gb {
+  --vh-gb-n: 18;
+  --vh-gb-w: 5.5rem;
+  --vh-gb-gap: 1.55rem;
+  --vh-gb-depth: 0.86;
+  --vh-gb-stage-pad: 4.5rem;
+  --vh-gb-r: calc(
+    var(--vh-gb-depth) * (var(--vh-gb-w) + var(--vh-gb-gap)) /
+      (2 * tan(180deg / var(--vh-gb-n)))
+  );
+  --vh-gb-drag: 0deg;
+  margin-top: 0.25rem;
+}
+
+.vh-gb-stage {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 28rem;
+  margin: 0 auto;
+  padding: var(--vh-gb-stage-pad) 0 4rem;
+  overflow: visible;
+  overflow-x: clip;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.vh-gb-floor {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--vh-gb-stage-pad) + var(--vh-gb-w) * 4 / 3 + 2.75rem);
+  z-index: 0;
+  width: min(34rem, 78%);
+  height: 3.4rem;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 40, 36, 0.22),
+    rgba(20, 40, 36, 0.08) 44%,
+    transparent 74%
+  );
+  pointer-events: none;
+}
+
+.vh-gb-tilt,
+.vh-gb-drag,
+.vh-gb-spin {
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.vh-gb-tilt {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: calc(var(--vh-gb-w) * 4 / 3);
+  transform: rotateX(-6deg);
+}
+
+.vh-gb-drag,
+.vh-gb-spin {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.vh-gb-drag {
+  transform: rotateY(var(--vh-gb-drag));
+}
+
+.vh-gb-ring {
+  position: relative;
+  width: var(--vh-gb-w);
+  aspect-ratio: 3 / 4;
+  overflow: visible;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.vh-gb-card {
+  /* 2× layout, always scale(0.5): hover grows the box so the GPU
+     re-rasterizes instead of stretching a small 3D texture. */
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: grab;
+  pointer-events: auto;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  transform: rotateY(calc(var(--i) * 360deg / var(--vh-gb-n)))
+    translateZ(var(--vh-gb-r))
+    scale(0.5);
+  transition:
+    top 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+}
+
+.vh-gb-card:focus-visible {
+  outline: none;
+}
+
+.vh-gb-face {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  border-radius: 1.4rem;
+  background: #efe4d4;
+  border: 6px solid #f7f1e6;
+  box-shadow:
+    0 20px 48px rgba(20, 40, 36, 0.16),
+    0 4px 12px rgba(20, 40, 36, 0.08);
+  transform-origin: center center;
+  transition: box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  backface-visibility: hidden;
+}
+
+.vh-gb-face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+}
+
+.vh-gb-card.is-on {
+  z-index: 4;
+  top: -82%;
+  left: -82%;
+  width: 264%;
+  height: 264%;
+  transform: rotateY(calc(var(--i) * 360deg / var(--vh-gb-n)))
+    translateZ(calc(var(--vh-gb-r) + 1.15rem))
+    scale(0.5);
+}
+
+.vh-gb-card.is-on .vh-gb-face {
+  box-shadow:
+    0 44px 88px rgba(20, 40, 36, 0.28),
+    0 0 0 2px rgba(255, 248, 241, 0.45);
+}
+
+.vh-gb-card.is-on:focus-visible .vh-gb-face {
+  box-shadow:
+    0 32px 64px rgba(20, 40, 36, 0.2),
+    0 0 0 6px rgba(196, 90, 42, 0.4);
+}
+
+@media (min-width: 700px) {
+  .vh-gb {
+    --vh-gb-w: 6.75rem;
+    --vh-gb-gap: 1.75rem;
+    --vh-gb-depth: 0.88;
+    --vh-gb-stage-pad: 5rem;
+  }
+
+  .vh-gb-stage {
+    min-height: 32rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .vh-gb {
+    --vh-gb-w: 7.35rem;
+    --vh-gb-gap: 1.9rem;
+    --vh-gb-depth: 0.9;
+    --vh-gb-stage-pad: 5.25rem;
+  }
+
+  .vh-gb-stage {
+    min-height: 34rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vh-gb-card,
+  .vh-gb-face,
+  .vh-gb-card.is-on .vh-gb-face {
+    transition-duration: 0.01ms;
+  }
+}
+
 /* ——— Slideshow (photos + videos) ——— */
 .vh-slideshow {
   position: relative;
