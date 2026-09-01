@@ -9,7 +9,8 @@ import { IMAGE_QUALITY } from "@/lib/images";
 import { t3, tx } from "@/lib/i18n";
 
 const SLIDE_MS = 2800;
-const STILLS_FALLBACK_MS = 380;
+/** Last resort only — slow first loads must not lose the video. */
+const STILLS_FALLBACK_MS = 10_000;
 
 const FALLBACK_SLIDES = [
   "/images/pool-1.jpg",
@@ -130,7 +131,14 @@ export function VideoHero() {
     const tryPlay = () => {
       if (settled) return;
       const p = el.play();
-      if (p !== undefined) void p.then(toVideo).catch(toStills);
+      if (p === undefined) return;
+      void p.then(toVideo).catch((err: unknown) => {
+        if (settled) return;
+        const name = err instanceof Error ? err.name : "";
+        /* Interrupted by a later play() / unmount — keep waiting. */
+        if (name === "AbortError") return;
+        toStills();
+      });
     };
 
     timer = window.setTimeout(() => {
@@ -141,11 +149,13 @@ export function VideoHero() {
 
     tryPlay();
     el.addEventListener("playing", toVideo);
+    el.addEventListener("canplay", tryPlay);
     el.addEventListener("error", toStills);
 
     return () => {
       window.clearTimeout(timer);
       el.removeEventListener("playing", toVideo);
+      el.removeEventListener("canplay", tryPlay);
       el.removeEventListener("error", toStills);
     };
   }, [mountVideo]);
