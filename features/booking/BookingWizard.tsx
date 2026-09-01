@@ -8,7 +8,7 @@ import { StepDates } from "./steps/StepDates";
 import { StepGuests } from "./steps/StepGuests";
 import { StepReview } from "./steps/StepReview";
 import { StepUnits } from "./steps/StepUnits";
-import { MailIcon, PhoneIcon, WhatsAppIcon } from "@/components/ui/icons";
+import { PhoneIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { t3 } from "@/lib/i18n";
@@ -47,7 +47,7 @@ function SuccessPopup() {
   const { locale, ui } = useDemo();
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const { phone, email, whatsapp } = property.contact;
+  const { phone, whatsapp } = property.contact;
   const telHref = `tel:${phone.replace(/\s/g, "")}`;
   const waHref = `https://wa.me/${whatsapp}?text=${encodeURIComponent(
     t3(
@@ -145,15 +145,6 @@ function SuccessPopup() {
                 <span>
                   <em>{ui.contact.phone}</em>
                   {phone}
-                </span>
-              </a>
-            </li>
-            <li>
-              <a href={`mailto:${email}`}>
-                <MailIcon />
-                <span>
-                  <em>{ui.contact.email}</em>
-                  {email}
                 </span>
               </a>
             </li>

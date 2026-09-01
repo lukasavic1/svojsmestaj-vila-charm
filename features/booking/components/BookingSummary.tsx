@@ -8,10 +8,8 @@ import { useBooking } from "../BookingProvider";
 
 export function BookingSummary({
   compact = false,
-  hideGuests = false,
 }: {
   compact?: boolean;
-  hideGuests?: boolean;
 }) {
   const { selectedUnit, draft, nights, estimatedTotal } = useBooking();
   const { locale, ui } = useDemo();
@@ -62,14 +60,6 @@ export function BookingSummary({
           <dt>{ui.booking.nights}</dt>
           <dd>{nights > 0 ? nightLabel : "—"}</dd>
         </div>
-        {hideGuests ? null : (
-          <div>
-            <dt>{ui.booking.guests}</dt>
-            <dd>
-              {draft.adults > 0 ? `${draft.adults}` : "—"}
-            </dd>
-          </div>
-        )}
       </dl>
 
       {estimatedTotal != null && (

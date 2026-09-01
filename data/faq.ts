@@ -66,9 +66,9 @@ export const faq: {
         "Могут ли дети жить без родителей?"
       ),
       a: L(
-        "Gosti mlađi od 25 godina ne mogu boraviti bez roditelja. Porodični boravci sa decom su, naravno, dobrodošli.",
-        "Guests under 25 may not stay without their parents. Family stays with children are, of course, welcome.",
-        "Гости младше 25 лет не могут проживать без родителей. Семейный отдых с детьми, разумеется, приветствуется."
+        "Gosti mlađi od 18 godina ne mogu boraviti bez roditelja. Porodični boravci sa decom su, naravno, dobrodošli.",
+        "Guests under 18 may not stay without their parents. Family stays with children are, of course, welcome.",
+        "Гости младше 18 лет не могут проживать без родителей. Семейный отдых с детьми, разумеется, приветствуется."
       ),
     },
     {
@@ -78,9 +78,9 @@ export const faq: {
         "Разрешены ли праздники и музыка?"
       ),
       a: L(
-        "Veća okupljanja i proslave su dozvoljeni uz dogovor. Glasna i živa muzika do 23:30. Pirotehnika i vatromet nisu dozvoljeni.",
-        "Larger gatherings and celebrations are allowed by arrangement. Loud and live music until 23:30. Pyrotechnics and fireworks are not allowed.",
-        "Большие встречи и праздники разрешены по договорённости. Громкая и живая музыка до 23:30. Пиротехника и фейерверки запрещены."
+        "Veća okupljanja i proslave su dozvoljeni uz prethodni dogovor. Glasna muzika je dozvoljena do 23:00, isključivo preko zvučnika. Živa muzika nije dozvoljena. Pirotehnika i vatromet nisu dozvoljeni.",
+        "Larger gatherings and celebrations are permitted by prior arrangement. Loud music is permitted until 23:00, through speakers only. Live music is not permitted. Pyrotechnics and fireworks are not allowed.",
+        "Большие встречи и праздники разрешены по предварительной договорённости. Громкая музыка разрешена до 23:00, только через колонки. Живая музыка не допускается. Пиротехника и фейерверки запрещены."
       ),
     },
     {

@@ -13,6 +13,7 @@ import {
   rangeHasBookedNight,
 } from "@/lib/calendar";
 import type { Unit } from "@/types/property";
+import { guestDetailsOk, sanitizePhoneInput } from "./lib/guestDetails";
 import { clampDayGuests, clampSleepingGuests, unitCapacity, unitDayCapacity } from "./lib/occupancy";
 import { estimateStayTotal } from "./lib/rates";
 import {
@@ -57,10 +58,6 @@ type BookingContextValue = {
 };
 
 const BookingContext = createContext<BookingContextValue | null>(null);
-
-function emailOk(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-}
 
 export function BookingProvider({
   units,
@@ -126,11 +123,7 @@ export function BookingProvider({
       )
   );
 
-  const reviewOk =
-    draft.guestName.trim().length > 1 &&
-    emailOk(draft.guestEmail) &&
-    draft.guestPhone.trim().length >= 6 &&
-    Boolean(draft.celebrationType);
+  const reviewOk = guestDetailsOk(draft);
 
   const canContinue = useMemo(() => {
     switch (step) {
@@ -248,7 +241,13 @@ export function BookingProvider({
       guestEmail?: string;
       guestPhone?: string;
     }) => {
-      setDraft((d) => ({ ...d, ...details }));
+      setDraft((d) => ({
+        ...d,
+        ...details,
+        ...(details.guestPhone !== undefined
+          ? { guestPhone: sanitizePhoneInput(details.guestPhone) }
+          : {}),
+      }));
     },
     []
   );

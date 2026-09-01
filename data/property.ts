@@ -627,9 +627,9 @@ export const property: PropertySiteData = {
       "Send an inquiry for dates, guest count, or a celebration — we’ll get back shortly.",
       "Отправьте запрос по датам, числу гостей или празднику — ответим в ближайшее время."
     ),
-    phone: "+381 60 434 6644",
-    whatsapp: "381604346644",
-    email: "rezervacije@weekendica.com",
+    phone: "+381 60 6060 081",
+    whatsapp: "381606060081",
+    email: "villa.charm@yahoo.com",
     instagram: {
       handle: "@villacharm.barajevo",
       url: "https://www.instagram.com/villacharm.barajevo/",
@@ -724,17 +724,17 @@ export const property: PropertySiteData = {
       {
         label: L("Deca", "Children", "Дети"),
         value: L(
-          "Mlađi od 25 godina ne mogu boraviti bez roditelja.",
-          "Guests under 25 may not stay without their parents.",
-          "Гости младше 25 лет не могут проживать без родителей."
+          "Mlađi od 18 godina ne mogu boraviti bez roditelja.",
+          "Guests under 18 may not stay without their parents.",
+          "Гости младше 18 лет не могут проживать без родителей."
         ),
       },
       {
         label: L("Muzika", "Music", "Музыка"),
         value: L(
-          "Glasna i živa muzika dozvoljena do 23:30.",
-          "Loud and live music allowed until 23:30.",
-          "Громкая и живая музыка разрешена до 23:30."
+          "Glasna muzika preko zvučnika do 23:00. Živa muzika nije dozvoljena.",
+          "Loud music through speakers until 23:00. Live music is not permitted.",
+          "Громкая музыка через колонки до 23:00. Живая музыка не допускается."
         ),
       },
       {

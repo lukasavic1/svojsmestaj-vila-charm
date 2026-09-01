@@ -104,7 +104,6 @@ export type UiDictionary = {
     dayWarning: string;
     moreGuestsTitle: string;
     moreGuestsBody: string;
-    moreGuestsContact: string;
     depositLabel: string;
     depositNote: string;
     celebrationType: string;
@@ -120,6 +119,12 @@ export type UiDictionary = {
     fullName: string;
     email: string;
     phone: string;
+    errorName: string;
+    errorEmailEmpty: string;
+    errorEmail: string;
+    errorPhoneEmpty: string;
+    errorPhone: string;
+    errorCelebration: string;
     reviewTitle: string;
     reviewLead: string;
     notes: string;

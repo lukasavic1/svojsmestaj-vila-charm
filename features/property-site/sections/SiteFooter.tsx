@@ -1,5 +1,6 @@
 "use client";
 
+import { InstagramIcon, MailIcon, PhoneIcon } from "@/components/ui/icons";
 import type { SectionId } from "@/config/experience";
 import { property } from "@/data/property";
 import { useDemo } from "@/features/demo/DemoProvider";
@@ -57,53 +58,48 @@ export function SiteFooter() {
         </div>
 
         <div className="vh-footer-main">
-          <nav className="vh-footer-nav" aria-label={ui.a11y.mainNav}>
+          <nav className="vh-footer-nav vh-footer-explore" aria-label={ui.a11y.mainNav}>
             <p className="vh-footer-col-label">
               {t3(locale, "Istraži", "Explore", "Обзор")}
             </p>
             {explore.map((link) => (
-              <a key={link.href} href={link.href}>
+              <a key={`${link.href}-${link.sr}`} href={link.href}>
                 {t3(locale, link.sr, link.en, link.ru)}
               </a>
             ))}
           </nav>
 
-          <nav className="vh-footer-nav" aria-label={ui.nav.contact}>
+          <nav className="vh-footer-nav vh-footer-contact" aria-label={ui.nav.contact}>
             <p className="vh-footer-col-label">{ui.nav.contact}</p>
-            <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
-            <a href={`mailto:${property.contact.email}`}>
+            <a className="vh-footer-link" href={`tel:${phone.replace(/\s/g, "")}`}>
+              <PhoneIcon />
+              {phone}
+            </a>
+            <a
+              className="vh-footer-link"
+              href={`mailto:${property.contact.email}`}
+            >
+              <MailIcon />
               {property.contact.email}
             </a>
             {instagram ? (
               <a
+                className="vh-footer-link"
                 href={instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${ui.contact.instagram}: ${instagram.handle}`}
               >
+                <InstagramIcon />
                 {instagram.handle}
               </a>
             ) : null}
           </nav>
-
-          <div className="vh-footer-aside">
-            <p className="vh-footer-col-label">
-              {t3(locale, "Direktno", "Direct", "Напрямую")}
-            </p>
-            <p className="vh-footer-aside-text">
-              {t3(
-                locale,
-                "Bez posredničkih provizija — dogovorite boravak direktno sa domaćinom.",
-                "No middleman fees — arrange your stay directly with the host.",
-                "Без комиссий посредников — договоритесь о проживании напрямую с хозяином."
-              )}
-            </p>
-          </div>
         </div>
 
         <div className="vh-footer-bottom">
           <p>© {new Date().getFullYear()} Villa Charm</p>
-          <p>{tx(brand.region, locale)}</p>
+          <p>{t3(locale, "Barajevo", "Barajevo", "Бараево")}</p>
         </div>
       </div>
     </footer>

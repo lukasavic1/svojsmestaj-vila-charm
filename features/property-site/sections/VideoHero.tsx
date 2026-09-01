@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { UsersIcon } from "@/components/ui/icons";
 import { heroVideo } from "@/data/heroMedia";
 import { useDemo } from "@/features/demo/DemoProvider";
 import { IMAGE_QUALITY } from "@/lib/images";
@@ -241,7 +242,29 @@ export function VideoHero() {
           <li>{t3(locale, "2.000 m² privatnosti", "2,000 m² of privacy", "2 000 м² уединения")}</li>
           <li>{t3(locale, "25 min od grada", "25 min from the city", "25 мин от города")}</li>
           <li>{t3(locale, "Grejani bazen", "Heated pool", "Бассейн с подогревом")}</li>
-          <li>{t3(locale, "Do 10 gostiju", "Up to 10 guests", "До 10 гостей")}</li>
+          <li
+            className="vh-hero-coords-guests"
+            aria-label={t3(
+              locale,
+              "10 gostiju na noćenju, 30 na imanju",
+              "10 overnight guests, 30 on the estate",
+              "10 гостей с ночёвкой, 30 на участке"
+            )}
+          >
+            <span className="vh-hero-coords-n">
+              10
+              <UsersIcon />
+              {t3(locale, "noćenje", "overnight", "ночёвка")}
+            </span>
+            <span className="vh-hero-coords-slash" aria-hidden="true">
+              /
+            </span>
+            <span className="vh-hero-coords-n">
+              30
+              <UsersIcon />
+              {t3(locale, "na imanju", "on estate", "на участке")}
+            </span>
+          </li>
         </ul>
       </div>
     </section>
