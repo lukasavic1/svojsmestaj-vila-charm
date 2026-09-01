@@ -4797,12 +4797,6 @@ body:has(.vh-root) {
   object-fit: cover;
   object-position: center center;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.vh-gb-face.is-ready img {
-  opacity: 1;
 }
 
 .vh-gb-card.is-on {

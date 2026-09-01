@@ -39,15 +39,21 @@ export function GuestBookOrbit() {
   };
 
   useEffect(() => {
-    let alive = true;
-    void ensureGuestBookPreload().then(() => {
-      if (!alive) return;
+    void ensureGuestBookPreload();
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(loaded).length < GUEST_BOOK_PHOTOS.length) return;
+    readyRef.current = true;
+    setReady(true);
+  }, [loaded]);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
       readyRef.current = true;
       setReady(true);
-    });
-    return () => {
-      alive = false;
-    };
+    }, 10_000);
+    return () => window.clearTimeout(id);
   }, []);
 
   useEffect(() => {
@@ -234,11 +240,11 @@ export function GuestBookOrbit() {
                         alt=""
                         width={1200}
                         height={1600}
-                        loading="lazy"
+                        loading="eager"
                         decoding="async"
-                        fetchPriority="low"
                         draggable={false}
                         onLoad={() => markLoaded(photo.src)}
+                        onError={() => markLoaded(photo.src)}
                       />
                     </span>
                   </button>
