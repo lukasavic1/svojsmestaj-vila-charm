@@ -128,8 +128,11 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
     return () => io.disconnect();
   }, []);
 
+  const waitingOnVideo =
+    slides[active]?.kind === "video" && !live[active];
+
   useEffect(() => {
-    if (count < 2 || paused || !inView) return;
+    if (count < 2 || paused || !inView || waitingOnVideo) return;
     const id = window.setInterval(() => {
       setActive((i) => {
         const list = slidesRef.current;
@@ -142,7 +145,7 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
       });
     }, ADVANCE_MS);
     return () => window.clearInterval(id);
-  }, [count, paused, inView]);
+  }, [count, paused, inView, active, waitingOnVideo]);
 
   /* Prefetch every clip in this carousel once visible — Safari won't
    * buffer opacity:0 / far slides with preload=metadata alone. */
