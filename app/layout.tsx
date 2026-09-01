@@ -6,7 +6,6 @@ import {
   Playfair_Display,
 } from "next/font/google";
 import { property } from "@/data/property";
-import { GUEST_BOOK_PHOTOS } from "@/data/guestBook";
 import { siteConfig } from "@/config/site";
 import { DEFAULT_LOCALE } from "@/types/locale";
 import { tx } from "@/lib/i18n";
@@ -100,18 +99,7 @@ export default function RootLayout({
       lang="sr-Latn"
       className={`${display.variable} ${playfair.variable} ${script.variable} ${sans.variable}`}
     >
-      <body>
-        {GUEST_BOOK_PHOTOS.map((photo) => (
-          <link
-            key={photo.src}
-            rel="preload"
-            as="image"
-            href={photo.src}
-            fetchPriority="low"
-          />
-        ))}
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -2,20 +2,22 @@ import { GUEST_BOOK_PHOTOS } from "@/data/guestBook";
 
 let inflight: Promise<void> | null = null;
 
+/**
+ * Warm the HTTP cache without a document <img> / preload link.
+ * Those delay Chrome’s tab spinner until every byte finishes;
+ * fetch() does not.
+ */
 function loadOne(src: string) {
-  return new Promise<void>((resolve) => {
-    const img = new window.Image();
-    const done = () => resolve();
-    img.onload = () => {
-      if (typeof img.decode === "function") {
-        void img.decode().then(done).catch(done);
-        return;
+  return fetch(src, { credentials: "same-origin" })
+    .then(async (res) => {
+      if (!res.ok) return;
+      const blob = await res.blob();
+      if (typeof createImageBitmap === "function") {
+        const bitmap = await createImageBitmap(blob);
+        bitmap.close();
       }
-      done();
-    };
-    img.onerror = done;
-    img.src = src;
-  });
+    })
+    .catch(() => undefined);
 }
 
 /** Decode guestbook pages into the HTTP + image cache. Safe to call often. */

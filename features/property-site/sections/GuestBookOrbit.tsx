@@ -234,7 +234,7 @@ export function GuestBookOrbit() {
                         alt=""
                         width={1200}
                         height={1600}
-                        loading="eager"
+                        loading="lazy"
                         decoding="async"
                         fetchPriority="low"
                         draggable={false}

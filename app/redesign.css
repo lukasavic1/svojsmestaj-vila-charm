@@ -4599,14 +4599,14 @@ body:has(.vh-root) {
 .vh-reviews-orbit.vh-story {
   overflow-x: clip;
   overflow-y: visible;
-  padding: 3rem 0 4.25rem;
+  padding: 3rem 0 1.65rem;
 }
 
 @media (min-width: 900px) {
   .vh-reviews-orbit.vh-story {
     min-height: 0;
     display: block;
-    padding: 3.25rem 0 4.75rem;
+    padding: 3.25rem 0 1.85rem;
   }
 }
 
@@ -4669,9 +4669,11 @@ body:has(.vh-root) {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  min-height: 28rem;
+  min-height: calc(
+    var(--vh-gb-stage-pad) + var(--vh-gb-w) * 4 / 3 + 6.5rem
+  );
   margin: 0 auto;
-  padding: var(--vh-gb-stage-pad) 0 4rem;
+  padding: var(--vh-gb-stage-pad) 0 1.25rem;
   overflow: visible;
   overflow-x: clip;
   perspective: 1200px;
@@ -4833,10 +4835,6 @@ body:has(.vh-root) {
     --vh-gb-depth: 0.88;
     --vh-gb-stage-pad: 5rem;
   }
-
-  .vh-gb-stage {
-    min-height: 32rem;
-  }
 }
 
 @media (min-width: 1100px) {
@@ -4845,10 +4843,6 @@ body:has(.vh-root) {
     --vh-gb-gap: 1.9rem;
     --vh-gb-depth: 0.9;
     --vh-gb-stage-pad: 5.25rem;
-  }
-
-  .vh-gb-stage {
-    min-height: 34rem;
   }
 }
 
@@ -5071,7 +5065,7 @@ body:has(.vh-root) {
 }
 
 .vh-map {
-  padding: clamp(2rem, 4.5vw, 3.25rem) 0;
+  padding: clamp(1.35rem, 3.2vw, 2.35rem) 0 clamp(2rem, 4.5vw, 3.25rem);
   background: var(--bg);
 }
 

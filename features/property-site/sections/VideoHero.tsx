@@ -222,7 +222,7 @@ export function VideoHero() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             disablePictureInPicture
             disableRemotePlayback
             controls={false}

@@ -91,7 +91,7 @@ export function Slideshow({ slides, label }: { slides: Slide[]; label?: string }
   const { locale } = useDemo();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [inView, setInView] = useState(true);
+  const [inView, setInView] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
